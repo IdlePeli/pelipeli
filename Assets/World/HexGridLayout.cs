@@ -6,8 +6,8 @@ using UnityEngine;
 public class HexGridLayout : MonoBehaviour
 {
     [Header("Grid Settings")] public Vector2Int gridSize;
-    
-    [Header("Tile Settings")] 
+
+    [Header("Tile Settings")]
     public float outerSize = 1f;
     public float innerSize = 0f;
     public float height = 1f;
@@ -17,14 +17,6 @@ public class HexGridLayout : MonoBehaviour
     private void OnEnable()
     {
         LayoutGrid();
-    }
-
-    private void OnValidate()
-    {
-        if (Application.isPlaying)
-        {
-            LayoutGrid();
-        } 
     }
 
     private void LayoutGrid()
@@ -43,7 +35,7 @@ public class HexGridLayout : MonoBehaviour
                 hexRenderer.height = height;
                 hexRenderer.SetMaterial(material);
                 hexRenderer.DrawMesh();
-                tile.transform.SetParent(transform);
+                tile.transform.SetParent(this.transform);
             }
         }
     }
@@ -73,14 +65,13 @@ public class HexGridLayout : MonoBehaviour
             offset = shouldOffset ? width / 2 : 0;
             xPosition = (column * (horizontalDistance)) + offset;
             yPosition = row * verticalDistance;
-            
+
         }
         else
         {
             shouldOffset = (column % 2) == 0;
             width = 2f * size;
             height = Mathf.Sqrt(3f) * size;
-
             horizontalDistance = width * (3f / 4f);
             verticalDistance = height;
             offset = (shouldOffset) ? height / 2 : 0;

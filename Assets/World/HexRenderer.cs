@@ -31,7 +31,7 @@ public class HexRenderer : MonoBehaviour
     public float outerSize;
     public float height;
     public bool isFlatTopped;
-    
+
 
     private void Awake()
     {
@@ -48,14 +48,6 @@ public class HexRenderer : MonoBehaviour
     private void OnEnable()
     {
         DrawMesh();
-    }
-
-    public void OnValidate()
-    {
-        if (Application.isPlaying)
-        {
-            DrawMesh();
-        } 
     }
 
     public void DrawMesh()
@@ -89,7 +81,6 @@ public class HexRenderer : MonoBehaviour
     {
         _faces = new List<Face>();
 
-        //TOP
         for (var point = 0; point < 6; point++)
         {
             _faces.Add(CreateFace(innerSize, outerSize, height / 2f, height /2f, point));
