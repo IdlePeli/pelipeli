@@ -42,7 +42,7 @@ public class HexRenderer : MonoBehaviour
         _mesh.name = "Hex";
 
         _meshFilter.mesh = _mesh;
-        _meshRenderer.material = material;
+        
     }
 
     private void OnEnable()
@@ -114,6 +114,6 @@ public class HexRenderer : MonoBehaviour
 
     public void SetMaterial(Material mat)
     {
-        this.material = mat;
+        _meshRenderer.material = mat;
     }
 }
