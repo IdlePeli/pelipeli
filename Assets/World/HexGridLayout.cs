@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class HexGridLayout : MonoBehaviour
 {
@@ -12,7 +13,8 @@ public class HexGridLayout : MonoBehaviour
     public float innerSize = 0f;
     public float height = 1f;
     public bool isFlatTopped;
-    public Material material;
+    public Material[] materials;
+    public List<GameObject> tiles;
 
     private void OnEnable()
     {
@@ -21,6 +23,7 @@ public class HexGridLayout : MonoBehaviour
 
     private void LayoutGrid()
     {
+        Random random = new Random();
         for (var y = 0; y < gridSize.y; y++)
         {
             for (var x = 0; x < gridSize.x; x++)
@@ -33,9 +36,11 @@ public class HexGridLayout : MonoBehaviour
                 hexRenderer.outerSize = outerSize;
                 hexRenderer.innerSize = innerSize;
                 hexRenderer.height = height;
-                hexRenderer.SetMaterial(material);
+                int matIndex = random.Next(0, materials.Length);
+                hexRenderer.SetMaterial(materials[matIndex]);
                 hexRenderer.DrawMesh();
-                tile.transform.SetParent(this.transform);
+                tile.transform.SetParent(transform);
+                tiles.Add(tile);
             }
         }
     }
