@@ -12,8 +12,9 @@ public class HexGridLayout : MonoBehaviour
     public float outerSize = 1f;
     public float innerSize = 0f;
     public float height = 1f;
-    public bool isFlatTopped;
     public Material[] materials;
+    public Material water;
+    public Material mountain;
     public List<GameObject> tiles;
 
     private void OnEnable()
@@ -23,21 +24,30 @@ public class HexGridLayout : MonoBehaviour
 
     private void LayoutGrid()
     {
-        Random random = new Random();
         for (var y = 0; y < gridSize.y; y++)
         {
             for (var x = 0; x < gridSize.x; x++)
             {
-                GameObject tile = new GameObject($"Hex {x},{y}", typeof(HexRenderer));
+                GameObject tile = new GameObject($"Hex {x.ToString()},{y.ToString()}", typeof(HexRenderer));
                 tile.transform.position = GetPositionForHexFromCoordinate(new Vector2Int(x, y));
-
                 HexRenderer hexRenderer = tile.GetComponent<HexRenderer>();
-                hexRenderer.isFlatTopped = isFlatTopped;
                 hexRenderer.outerSize = outerSize;
                 hexRenderer.innerSize = innerSize;
                 hexRenderer.height = height;
-                int matIndex = random.Next(0, materials.Length);
-                hexRenderer.SetMaterial(materials[matIndex]);
+                
+                switch (tile.transform.position.y)
+                {
+                    case 0:
+                        hexRenderer.SetMaterial(water);
+                        break;
+                    case > 1.5f:
+                        hexRenderer.SetMaterial(mountain);
+                        break;
+                    default:
+                        hexRenderer.SetMaterial(GetMaterial(x, y));
+                        break;
+                }
+                
                 hexRenderer.DrawMesh();
                 tile.transform.SetParent(transform);
                 tiles.Add(tile);
@@ -49,41 +59,31 @@ public class HexGridLayout : MonoBehaviour
     {
         int column = coordinate.x;
         int row = coordinate.y;
-        float width;
-        float height;
-        float xPosition;
-        float yPosition;
-        bool shouldOffset;
-        float horizontalDistance;
-        float verticalDistance;
-        float offset;
         float size = outerSize;
 
-        if (!isFlatTopped)
+        var shouldOffset = (column % 2) == 0;
+        var width = 2f * size;
+        var height = Mathf.Sqrt(3f) * size;
+        var horizontalDistance = width * (3f / 4f);
+        var verticalDistance = height;
+        var offset = (shouldOffset) ? height / 2 : 0;
+        var xPosition = (column * horizontalDistance);
+        var yPosition = row * verticalDistance - offset;
+
+        float noise = Mathf.PerlinNoise((float)column/4, (float)row/4) * 3 -1;
+        if (noise <= 0) noise = 0;
+        noise = Mathf.Pow(noise, 1.3f);
+        return new Vector3(xPosition, noise, -yPosition);
+    }
+
+    private Material GetMaterial(float x, float y)
+    {
+        float noise = Mathf.PerlinNoise(y / 4, x / 4);
+        return noise switch
         {
-            shouldOffset = (row % 2) == 0;
-            width = Mathf.Sqrt(3) * size;
-            height = 2f * size;
-
-            horizontalDistance = width;
-            verticalDistance = height * (3f / 4f);
-            offset = shouldOffset ? width / 2 : 0;
-            xPosition = (column * (horizontalDistance)) + offset;
-            yPosition = row * verticalDistance;
-
-        }
-        else
-        {
-            shouldOffset = (column % 2) == 0;
-            width = 2f * size;
-            height = Mathf.Sqrt(3f) * size;
-            horizontalDistance = width * (3f / 4f);
-            verticalDistance = height;
-            offset = (shouldOffset) ? height / 2 : 0;
-            xPosition = (column * horizontalDistance);
-            yPosition = row * verticalDistance - offset;
-        }
-
-        return new Vector3(xPosition, 0, -yPosition);
+            < 0.3f => materials[0],
+            < 0.7f => materials[1],
+            _ => materials[2]
+        };
     }
 }

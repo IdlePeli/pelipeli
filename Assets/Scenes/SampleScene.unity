@@ -334,14 +334,12 @@ MonoBehaviour:
   outerSize: 1
   innerSize: 0
   height: 1
-  isFlatTopped: 1
   materials:
-  - {fileID: 2100000, guid: 24bf1a8b477b72241b3430e74faa06c6, type: 2}
   - {fileID: 2100000, guid: 78aca79d2d596aa4cb5da79c5b874b38, type: 2}
-  - {fileID: 2100000, guid: 4fe0caa5190ce1c4da375d8fed756076, type: 2}
-  - {fileID: 2100000, guid: 9fd216ec90cda004392347142472e27f, type: 2}
   - {fileID: 2100000, guid: 24bf1a8b477b72241b3430e74faa06c6, type: 2}
-  - {fileID: 2100000, guid: 24bf1a8b477b72241b3430e74faa06c6, type: 2}
+  - {fileID: 2100000, guid: 7c59ddc6cf96e154bbedca70576c1ee9, type: 2}
+  water: {fileID: 2100000, guid: 9fd216ec90cda004392347142472e27f, type: 2}
+  mountain: {fileID: 2100000, guid: 4fe0caa5190ce1c4da375d8fed756076, type: 2}
   tiles: []
 --- !u!4 &1624696029
 Transform:
