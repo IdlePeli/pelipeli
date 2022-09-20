@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -330,18 +330,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70448abb6dc9a7446aded09b5b8debcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 50, y: 50}
+  gridSize: {x: 75, y: 75}
   outerSize: 1
   innerSize: 0
   height: 1
-  isFlatTopped: 1
   materials:
-  - {fileID: 2100000, guid: 24bf1a8b477b72241b3430e74faa06c6, type: 2}
   - {fileID: 2100000, guid: 78aca79d2d596aa4cb5da79c5b874b38, type: 2}
-  - {fileID: 2100000, guid: 4fe0caa5190ce1c4da375d8fed756076, type: 2}
-  - {fileID: 2100000, guid: 9fd216ec90cda004392347142472e27f, type: 2}
   - {fileID: 2100000, guid: 24bf1a8b477b72241b3430e74faa06c6, type: 2}
-  - {fileID: 2100000, guid: 24bf1a8b477b72241b3430e74faa06c6, type: 2}
+  - {fileID: 2100000, guid: 7c59ddc6cf96e154bbedca70576c1ee9, type: 2}
+  water: {fileID: 2100000, guid: 9fd216ec90cda004392347142472e27f, type: 2}
+  mountain: {fileID: 2100000, guid: 4fe0caa5190ce1c4da375d8fed756076, type: 2}
   tiles: []
 --- !u!4 &1624696029
 Transform:
