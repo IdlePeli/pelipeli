@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using UnityEngine;
 
 public class WorldTime : MonoBehaviour
@@ -8,32 +7,22 @@ public class WorldTime : MonoBehaviour
     public static Action OnDayChanged;
     public static Action OnHourChanged;
 
+    public float timeSpeed = 0.1f;
     public static int Minute { get; private set; }
     public static int Hour { get; private set; }
-    public static int Day { get; private set; }
+    public static int Day { get; private set; } = 1;
     public static int Year { get; private set; }
 
-    private float _minuteToRealTime = 0.5f;
-    private float _timer;
+    private float _timer = 0.5f;
 
-    // Start is called before the first frame update
-    void Start()
+    private void FixedUpdate()
     {
-        Minute = 50;
-        Hour = 23;
-        Day = 1;
-        Year = 0;
-    }
+        _timer += 0.02f;
 
-    // Update is called once per frame
-    void Update()
-    {
-        _timer -= Time.deltaTime;
-
-        if (!(_timer <= 0)) return;
+        if (!(_timer >= timeSpeed)) return;
         Minute++;
         OnMinuteChanged?.Invoke();
-        _timer = _minuteToRealTime;
+        _timer = 0;
         
         if (!(Minute >= 60)) return;
         Minute = 0;
