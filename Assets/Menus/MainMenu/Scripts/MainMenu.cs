@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace World
+namespace Menus.MainMenu.Scripts
 {
     public class MainMenu: MonoBehaviour {  
-    
         public void PlayGame() {
             SceneManager.LoadScene("GameScene");  
         }  
