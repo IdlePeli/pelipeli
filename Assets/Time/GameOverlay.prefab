@@ -297,8 +297,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e765c0bc2644a429d44c6d011a0eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeText: {fileID: 376655360353331754}
-  DayText: {fileID: 376655360205398020}
+  timeText: {fileID: 376655360353331754}
+  dayText: {fileID: 376655360205398020}
 --- !u!114 &376655360353331754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,3 +432,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3802ff1cfb375f14a8e7eb91a7b08319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeSpeed: 0.1
