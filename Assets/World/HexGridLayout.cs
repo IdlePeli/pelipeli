@@ -1,89 +1,92 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = System.Random;
 
-public class HexGridLayout : MonoBehaviour
+namespace World
 {
-    [Header("Grid Settings")] public Vector2Int gridSize;
-
-    [Header("Tile Settings")]
-    public float outerSize = 1f;
-    public float innerSize = 0f;
-    public float height = 1f;
-    public Material[] materials;
-    public Material water;
-    public Material mountain;
-    public List<GameObject> tiles;
-
-    private void OnEnable()
+    public class HexGridLayout : MonoBehaviour
     {
-        LayoutGrid();
-    }
+        [Header("Grid Settings")] public Vector2Int gridSize;
+        [Header("Tile Settings")] public float outerSize = 1f;
+        
+        public float innerSize;
+        public float height = 1f;
+        public Material[] materials;
+        public Material water;
+        public Material mountain;
+        public List<GameObject> tiles;
 
-    private void LayoutGrid()
-    {
-        for (var y = 0; y < gridSize.y; y++)
+        private void OnEnable()
         {
-            for (var x = 0; x < gridSize.x; x++)
+            LayoutGrid();
+        }
+
+        private void LayoutGrid()
+        {
+            for (int y = 0; y < gridSize.y; y++)
             {
-                GameObject tile = new GameObject($"Hex {x.ToString()},{y.ToString()}", typeof(HexRenderer));
-                tile.transform.position = GetPositionForHexFromCoordinate(new Vector2Int(x, y));
-                HexRenderer hexRenderer = tile.GetComponent<HexRenderer>();
-                hexRenderer.outerSize = outerSize;
-                hexRenderer.innerSize = innerSize;
-                hexRenderer.height = height;
-                
-                switch (tile.transform.position.y)
+                for (int x = 0; x < gridSize.x; x++)
                 {
-                    case 0:
-                        hexRenderer.SetMaterial(water);
-                        break;
-                    case > 1.5f:
-                        hexRenderer.SetMaterial(mountain);
-                        break;
-                    default:
-                        hexRenderer.SetMaterial(GetMaterial(x, y));
-                        break;
+                    GameObject tile = new($"Hex {x.ToString()},{y.ToString()}", typeof(HexRenderer))
+                    {
+                        transform =
+                        {
+                            position = GetPositionForHexFromCoordinate(new Vector2Int(x, y))
+                        }
+                    };
+                    HexRenderer hexRenderer = tile.GetComponent<HexRenderer>();
+                    hexRenderer.outerSize = outerSize;
+                    hexRenderer.innerSize = innerSize;
+                    hexRenderer.height = height;
+
+                    switch (tile.transform.position.y)
+                    {
+                        case 0:
+                            hexRenderer.SetMaterial(water);
+                            break;
+                        case > 1.5f:
+                            hexRenderer.SetMaterial(mountain);
+                            break;
+                        default:
+                            hexRenderer.SetMaterial(GetMaterial(x, y));
+                            break;
+                    }
+
+                    hexRenderer.DrawMesh();
+                    tile.transform.SetParent(transform);
+                    tiles.Add(tile);
                 }
-                
-                hexRenderer.DrawMesh();
-                tile.transform.SetParent(transform);
-                tiles.Add(tile);
             }
         }
-    }
 
-    public Vector3 GetPositionForHexFromCoordinate(Vector2Int coordinate)
-    {
-        int column = coordinate.x;
-        int row = coordinate.y;
-        float size = outerSize;
-
-        var shouldOffset = (column % 2) == 0;
-        var width = 2f * size;
-        var height = Mathf.Sqrt(3f) * size;
-        var horizontalDistance = width * (3f / 4f);
-        var verticalDistance = height;
-        var offset = (shouldOffset) ? height / 2 : 0;
-        var xPosition = (column * horizontalDistance);
-        var yPosition = row * verticalDistance - offset;
-
-        float noise = Mathf.PerlinNoise((float)column/4, (float)row/4) * 3 -1;
-        if (noise <= 0) noise = 0;
-        noise = Mathf.Pow(noise, 1.3f);
-        return new Vector3(xPosition, noise, -yPosition);
-    }
-
-    private Material GetMaterial(float x, float y)
-    {
-        float noise = Mathf.PerlinNoise(y / 4, x / 4);
-        return noise switch
+        private Vector3 GetPositionForHexFromCoordinate(Vector2Int coordinate)
         {
-            < 0.3f => materials[0],
-            < 0.7f => materials[1],
-            _ => materials[2]
-        };
+            int column = coordinate.x;
+            int row = coordinate.y;
+            float size = outerSize;
+
+            bool shouldOffset = (column % 2) == 0;
+            float width = 2f * size;
+            float posHeight = Mathf.Sqrt(3f) * size;
+            float horizontalDistance = width * (3f / 4f);
+            float offset = (shouldOffset) ? posHeight / 2 : 0;
+            float xPosition = (column * horizontalDistance);
+            float yPosition = row * posHeight - offset;
+
+            float noise = Mathf.PerlinNoise((float) column / 4, (float) row / 4) * 3 - 1;
+            if (noise <= 0) noise = 0;
+            noise = Mathf.Pow(noise, 1.3f);
+            return new Vector3(xPosition, noise, -yPosition);
+        }
+
+        private Material GetMaterial(float x, float y)
+        {
+            float noise = Mathf.PerlinNoise(y / 4, x / 4);
+            return noise switch
+            {
+                < 0.3f => materials[0],
+                < 0.7f => materials[1],
+                _ => materials[2]
+            };
+        }
     }
 }

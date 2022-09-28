@@ -1,15 +1,11 @@
-using System;
-using System.Net;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TimeUI : MonoBehaviour
 {
-    public TextMeshProUGUI TimeText;
+    public TextMeshProUGUI timeText;
+    public TextMeshProUGUI dayText;
 
-    public TextMeshProUGUI DayText;
-    
     private void OnEnable()
     {
         WorldTime.OnMinuteChanged += UpdateTime;
@@ -26,10 +22,11 @@ public class TimeUI : MonoBehaviour
 
     private void UpdateDay()
     {
-        DayText.text = "Day " + WorldTime.Day;
+        dayText.text = "Day " + WorldTime.Day;
     }
+
     private void UpdateTime()
     {
-        TimeText.text = WorldTime.Hour.ToString("00")  + ":" + WorldTime.Minute.ToString("00");
+        timeText.text = WorldTime.Hour.ToString("00") + ":" + WorldTime.Minute.ToString("00");
     }
 }
