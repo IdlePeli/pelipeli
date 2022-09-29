@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class HexGridLayout : MonoBehaviour
 {
-    [Header("Tile Settings")] public float outerSize = 1f;
+    [Header("Tile Settings")]
+    public float outerSize = 1f;
 
     public float innerSize;
     public float height = 1f;
@@ -11,16 +12,13 @@ public class HexGridLayout : MonoBehaviour
     public Material water;
     public Material mountain;
 
-
     public GameObject LayoutGrid(int x, int y)
     {
-        GameObject tile = new($"Hex {x.ToString()},{y.ToString()}", typeof(HexRenderer))
-        {
-            transform =
+        GameObject tile =
+            new($"Hex {x.ToString()},{y.ToString()}", typeof(HexRenderer))
             {
-                position = GetPositionForHexFromCoordinate(new Vector2Int(x, y))
-            }
-        };
+                transform = { position = GetPositionForHexFromCoordinate(new Vector2Int(x, y)) }
+            };
         HexRenderer hexRenderer = tile.GetComponent<HexRenderer>();
         hexRenderer.outerSize = outerSize;
         hexRenderer.innerSize = innerSize;
@@ -58,8 +56,9 @@ public class HexGridLayout : MonoBehaviour
         float xPosition = (column * horizontalDistance);
         float yPosition = row * posHeight - offset;
 
-        float noise = Mathf.PerlinNoise((float) column / 4, (float) row / 4) * 3 - 1;
-        if (noise <= 0) noise = 0;
+        float noise = Mathf.PerlinNoise((float)column / 4, (float)row / 4) * 3 - 1;
+        if (noise <= 0)
+            noise = 0;
         noise = Mathf.Pow(noise, 1.3f);
         return new Vector3(xPosition, noise, -yPosition);
     }

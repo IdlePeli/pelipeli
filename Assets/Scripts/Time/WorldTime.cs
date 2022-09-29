@@ -19,12 +19,14 @@ public class WorldTime : MonoBehaviour
     {
         _timer += 0.02f;
 
-        if (!(_timer >= timeSpeed)) return;
+        if (!(_timer >= timeSpeed))
+            return;
         Minute++;
         OnMinuteChanged?.Invoke();
         _timer = 0;
-        
-        if (!(Minute >= 60)) return;
+
+        if (!(Minute >= 60))
+            return;
         Minute = 0;
         Hour++;
         if (Hour == 24)
@@ -35,9 +37,9 @@ public class WorldTime : MonoBehaviour
         }
         OnHourChanged?.Invoke();
 
-        if (!(Day >= 366)) return;
+        if (!(Day >= 366))
+            return;
         Day = 1;
-        Year++; 
-        
+        Year++;
     }
 }
