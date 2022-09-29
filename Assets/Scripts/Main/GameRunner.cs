@@ -30,7 +30,7 @@ public class GameRunner : MonoBehaviour
             }
         }
 
-        GameObject startSquare = _tiles[x][y]; 
+        GameObject startSquare = _tiles[x][y];
         player.transform.position = startSquare.transform.position;
     }
 }
