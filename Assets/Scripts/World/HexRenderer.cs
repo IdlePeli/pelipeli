@@ -30,12 +30,16 @@ public class HexRenderer : MonoBehaviour
     public float outerSize;
     public float height;
 
+
     private void Awake()
     {
         _meshFilter = GetComponent<MeshFilter>();
         _meshRenderer = GetComponent<MeshRenderer>();
 
-        _mesh = new Mesh { name = "Hex" };
+        _mesh = new Mesh
+        {
+            name = "Hex"
+        };
 
         _meshFilter.mesh = _mesh;
     }
@@ -85,26 +89,18 @@ public class HexRenderer : MonoBehaviour
         }
     }
 
-    private Face CreateFace(
-        float innerRad,
-        float outerRad,
-        float heightA,
-        float heightB,
-        int point,
-        bool reverse = false
-    )
+    private Face CreateFace(float innerRad, float outerRad, float heightA, float heightB, int point,
+        bool reverse = false)
     {
         Vector3 pointA = GetPoint(innerRad, heightB, point);
         Vector3 pointB = GetPoint(innerRad, heightB, point < 5 ? point + 1 : 0);
         Vector3 pointC = GetPoint(outerRad, heightA, point < 5 ? point + 1 : 0);
         Vector3 pointD = GetPoint(outerRad, heightA, point);
 
-        List<Vector3> vertices = new() { pointA, pointB, pointC, pointD };
-        List<int> triangles = new() { 0, 1, 2, 2, 3, 0 };
-        List<Vector2> uvs =
-            new() { new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 1), new Vector2(0, 1) };
-        if (reverse)
-            vertices.Reverse();
+        List<Vector3> vertices = new() {pointA, pointB, pointC, pointD};
+        List<int> triangles = new() {0, 1, 2, 2, 3, 0};
+        List<Vector2> uvs = new() {new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 1), new Vector2(0, 1)};
+        if (reverse) vertices.Reverse();
         return new Face(vertices, triangles, uvs);
     }
 
