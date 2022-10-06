@@ -26,6 +26,8 @@ public class HexRenderer : MonoBehaviour
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
 
+    public Biome biome { get; set; }
+
     public float innerSize;
     public float outerSize;
     public float height;
