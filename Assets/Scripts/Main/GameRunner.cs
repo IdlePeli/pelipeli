@@ -28,13 +28,7 @@ public class GameRunner : MonoBehaviour
             for (int j = y - renderDistance; j < y + renderDistance; j++)
             {
                 HexRenderer hex = layout.CreateTile(i, j);
-                Vector3 pos = hex.transform.position;
-                
-                hex.biome = biomeGen.Get(i, j);
-                
-                hex.SetMaterial(hex.biome.material);
-                hex.transform.position = new Vector3(pos.x, hex.biome.yAxis, pos.z);
-                
+                hex.SetBiome(biomeGen.Get(i, j));
                 _tiles[i][j] = hex;
             }
         }

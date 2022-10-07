@@ -26,7 +26,7 @@ public class HexRenderer : MonoBehaviour
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
 
-    public Biome biome { get; set; }
+    public Biome biome;
 
     public float innerSize;
     public float outerSize;
@@ -113,8 +113,12 @@ public class HexRenderer : MonoBehaviour
         return new Vector3(size * MathF.Cos(angleRad), heightY, size * Mathf.Sin(angleRad));
     }
 
-    public void SetMaterial(Material mat)
+    public void SetBiome(Biome newBiome)
     {
-        _meshRenderer.material = mat;
+        Transform transform1 = transform;
+        Vector3 pos = transform1.position;
+        _meshRenderer.material = newBiome.material;
+        transform1.position = new Vector3(pos.x, newBiome.yAxis, pos.z);
+        biome = newBiome;
     }
 }
