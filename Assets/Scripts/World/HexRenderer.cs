@@ -115,10 +115,8 @@ public class HexRenderer : MonoBehaviour
 
     public void SetBiome(Biome newBiome)
     {
-        Transform transform1 = transform;
-        Vector3 pos = transform1.position;
         _meshRenderer.material = newBiome.material;
-        transform1.position = new Vector3(pos.x, newBiome.yAxis, pos.z);
+        transform.position += new Vector3(0, newBiome.yAxis, 0);
         biome = newBiome;
     }
 }
