@@ -16,10 +16,10 @@ public class GameRunner : MonoBehaviour
     {
         // Get random starting position
         _rnd = new System.Random();
-
+        
         int x = _rnd.Next(-200, 200);
         int y = _rnd.Next(-200, 200);
-
+        
         // Load tiles in render distance and save them
         _tiles = new Dictionary<int, Dictionary<int, HexRenderer>>();
         for (int i = x - renderDistance; i < x + renderDistance; i++)

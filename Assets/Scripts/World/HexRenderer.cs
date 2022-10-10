@@ -24,7 +24,7 @@ public class HexRenderer : MonoBehaviour
     private List<Face> _faces;
     private Mesh _mesh;
     private MeshFilter _meshFilter;
-    private MeshRenderer _meshRenderer;
+    private static MeshRenderer _meshRenderer;
 
     public Biome biome;
 
@@ -112,10 +112,13 @@ public class HexRenderer : MonoBehaviour
         float angleRad = Mathf.PI / 180f * angleDeg;
         return new Vector3(size * MathF.Cos(angleRad), heightY, size * Mathf.Sin(angleRad));
     }
-
+    
+    public static void SetMaterial(Material mat)
+    {
+        _meshRenderer.material = mat;
+    }
     public void SetBiome(Biome newBiome)
     {
-        _meshRenderer.material = newBiome.material;
         transform.position += new Vector3(0, newBiome.yAxis, 0);
         biome = newBiome;
     }
