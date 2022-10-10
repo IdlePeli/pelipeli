@@ -39,23 +39,10 @@ public class BiomeGeneration : MonoBehaviour
             < 2f => grassBiome,
             _ => mountainBiome
         };
-        
-        Debug.Log(random);
 
         biome.yAxis = random * biome.terrainModifier;
         
         HexRenderer.SetMaterial(biome.material);
         return biome;
-    }
-
-    private Material GetMaterial(float x, float y)
-    {
-        float noise = Mathf.PerlinNoise(y / 4, x / 4);
-        return noise switch
-        {
-            < 0.3f => ice,
-            < 0.7f => grass,
-            _ => sand
-        };
     }
 }
