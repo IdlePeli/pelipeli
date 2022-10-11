@@ -41,8 +41,6 @@ public class BiomeGeneration : MonoBehaviour
         };
 
         biome.yAxis = random * biome.terrainModifier;
-        
-        HexRenderer.SetMaterial(biome.material);
         return biome;
     }
 }

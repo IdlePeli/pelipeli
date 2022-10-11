@@ -113,13 +113,10 @@ public class HexRenderer : MonoBehaviour
         return new Vector3(size * MathF.Cos(angleRad), heightY, size * Mathf.Sin(angleRad));
     }
     
-    public static void SetMaterial(Material mat)
-    {
-        _meshRenderer.material = mat;
-    }
     public void SetBiome(Biome newBiome)
     {
         transform.position += new Vector3(0, newBiome.yAxis, 0);
+        _meshRenderer.material = newBiome.material;
         biome = newBiome;
     }
 }
