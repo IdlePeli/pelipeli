@@ -39,11 +39,11 @@ public class BiomeGeneration : MonoBehaviour
         };
         
         //set tile yAxis position adjusted by biome modifier
-        biome.yAxis = hexHeight * biome.terrainModifier;
+        biome.yAxis = (hexHeight - 1.5f) * biome.terrainModifier + 1.5f;
         return biome;
     }
 
-    
+
     //generate deepOcean biomes if all adjacent tiles are water
     public void generateDeepOcean(Dictionary<int, Dictionary<int, HexRenderer>> tiles)
     {

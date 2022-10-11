@@ -844,7 +844,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outerSize: 1
   innerSize: 0
-  height: 1
+  height: 2
 --- !u!4 &1624696029
 Transform:
   m_ObjectHideFlags: 0
@@ -988,7 +988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1067096306}
-  renderDistance: 25
+  renderDistance: 50
   layout: {fileID: 1624696028}
   biomeGen: {fileID: 723050787}
 --- !u!4 &1895066703
@@ -1052,6 +1052,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 4fe0caa5190ce1c4da375d8fed756076, type: 2}
   yAxis: 1
-  terrainModifier: 1
+  terrainModifier: 6
   type: 
   props: []
