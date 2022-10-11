@@ -17,25 +17,27 @@ public class GameRunner : MonoBehaviour
         // Get random starting position
         _rnd = new System.Random();
         
-        int x = _rnd.Next(-200, 200);
-        int y = _rnd.Next(-200, 200);
+        int x = _rnd.Next(-200, 200) + 2000;
+        int z = _rnd.Next(-200, 200) + 2000;
         
         // Load tiles in render distance and save them
         // Generate 2 dimensional empty dictionary to receive
         // HexRenderer for each possible x and y coordinate
         _tiles = new Dictionary<int, Dictionary<int, HexRenderer>>();
-        for (int i = x - renderDistance; i < x + renderDistance; i++)
+        for (int xIndex = x - renderDistance; xIndex < x + renderDistance; xIndex++)
         {
-            _tiles[i] = new Dictionary<int, HexRenderer>();
-            for (int j = y - renderDistance; j < y + renderDistance; j++)
+            _tiles[xIndex] = new Dictionary<int, HexRenderer>();
+            for (int zIndex = z - renderDistance; zIndex < z + renderDistance; zIndex++)
             {
-                HexRenderer hex = layout.CreateTile(i, j);
-                hex.SetBiome(biomeGen.Get(i, j));
-                _tiles[i][j] = hex;
+                HexRenderer hex = layout.CreateTile(xIndex, zIndex);
+                hex.SetBiome(biomeGen.Get(xIndex, zIndex));
+                _tiles[xIndex][zIndex] = hex;
             }
         }
-
-        HexRenderer startSquare = _tiles[x][y];
+        
+        biomeGen.generateDeepOcean(_tiles);
+        
+        HexRenderer startSquare = _tiles[x][z];
         player.transform.position = startSquare.transform.position;
     }
 }

@@ -20,7 +20,10 @@ public class HexGridLayout : MonoBehaviour
         hexRenderer.outerSize = outerSize;
         hexRenderer.innerSize = innerSize;
         hexRenderer.height = height;
-
+        hexRenderer.xAxis = x;
+        hexRenderer.yAxis = y;
+        
+        
         hexRenderer.DrawMesh();
         tile.transform.SetParent(transform);
         return hexRenderer;

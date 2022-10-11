@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public struct Face
@@ -27,6 +28,8 @@ public class HexRenderer : MonoBehaviour
     private static MeshRenderer _meshRenderer;
 
     public Biome biome;
+    public int xAxis;
+    public int yAxis;
 
     public float innerSize;
     public float outerSize;

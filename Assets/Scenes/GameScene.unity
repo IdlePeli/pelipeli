@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,6 +123,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &118623630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 118623631}
+  - component: {fileID: 118623632}
+  m_Layer: 0
+  m_Name: DeepOcean
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &118623631
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118623630}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 723050788}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &118623632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118623630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dacbc5a3405947be9967ec3f6ea38075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: 691e19c308036d34d80d12d3071631b6, type: 2}
+  yAxis: 0
+  terrainModifier: 1
+  type: ocean
+  props: []
 --- !u!1001 &180598956
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -267,6 +316,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 24bf1a8b477b72241b3430e74faa06c6, type: 2}
   yAxis: 1
   terrainModifier: 1
+  type: 
   props: []
 --- !u!1 &705507993
 GameObject:
@@ -396,6 +446,7 @@ MonoBehaviour:
   forest: {fileID: 225520865}
   mountain: {fileID: 1898228471}
   ice: {fileID: 1742378706}
+  deepOcean: {fileID: 118623632}
 --- !u!4 &723050788
 Transform:
   m_ObjectHideFlags: 0
@@ -413,6 +464,7 @@ Transform:
   - {fileID: 1898228470}
   - {fileID: 225520864}
   - {fileID: 1742378705}
+  - {fileID: 118623631}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -759,6 +811,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 78aca79d2d596aa4cb5da79c5b874b38, type: 2}
   yAxis: 1
   terrainModifier: 1
+  type: 
   props: []
 --- !u!1 &1624696027
 GameObject:
@@ -854,6 +907,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 7c59ddc6cf96e154bbedca70576c1ee9, type: 2}
   yAxis: 1
   terrainModifier: 1
+  type: 
   props: []
 --- !u!1 &1791739068
 GameObject:
@@ -902,6 +956,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 9fd216ec90cda004392347142472e27f, type: 2}
   yAxis: 1
   terrainModifier: 1
+  type: ocean
   props: []
 --- !u!1 &1895066701
 GameObject:
@@ -933,7 +988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1067096306}
-  renderDistance: 15
+  renderDistance: 25
   layout: {fileID: 1624696028}
   biomeGen: {fileID: 723050787}
 --- !u!4 &1895066703
@@ -998,4 +1053,5 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 4fe0caa5190ce1c4da375d8fed756076, type: 2}
   yAxis: 1
   terrainModifier: 1
+  type: 
   props: []
