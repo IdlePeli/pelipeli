@@ -11,19 +11,26 @@ public class BiomeGeneration : MonoBehaviour
 
     public Biome Get(int x, int y)
     {
-        float random = Mathf.PerlinNoise((float) x / 4, (float) y / 4) * 3 - 1;
-        if (random <= 0) random = 0;
-        random = Mathf.Pow(random, 1.3f);
+        float hexHeight = Mathf.PerlinNoise((float) x / 10, (float) y / 10) * 3 - 1;
+        if (hexHeight <= 0) hexHeight = 0;
+        hexHeight = Mathf.Pow(hexHeight, 1.3f);
 
-        Biome biome = random switch
+        float temperature = Mathf.PerlinNoise((float) y / 6, (float) x / 6);
+
+        Biome biome = hexHeight switch
         {
             0 => ocean,
-            < 0.5f => desert,
-            < 2f => forest,
-            _ => mountain
+            > 1.5f => mountain,
+            
+            _ => temperature switch
+            {
+                < 0.33f => ice,
+                < 0.66f => forest,
+                _ => desert
+            }
         };
 
-        biome.yAxis = random * biome.terrainModifier;
+        biome.yAxis = hexHeight * biome.terrainModifier;
         return biome;
     }
 }

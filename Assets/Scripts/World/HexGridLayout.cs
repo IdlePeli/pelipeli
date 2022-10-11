@@ -41,7 +41,7 @@ public class HexGridLayout : MonoBehaviour
         float yPosition = row * posHeight - offset;
 
 
-        return new Vector3(xPosition, 0, -yPosition);
+        return new Vector3(xPosition, 0, yPosition);
     }
 
 }
