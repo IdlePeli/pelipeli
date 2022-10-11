@@ -112,7 +112,7 @@ public class HexRenderer : MonoBehaviour
         float angleRad = Mathf.PI / 180f * angleDeg;
         return new Vector3(size * MathF.Cos(angleRad), heightY, size * Mathf.Sin(angleRad));
     }
-    
+
     public void SetBiome(Biome newBiome)
     {
         transform.position += new Vector3(0, newBiome.yAxis, 0);

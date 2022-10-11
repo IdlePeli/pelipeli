@@ -21,6 +21,8 @@ public class GameRunner : MonoBehaviour
         int y = _rnd.Next(-200, 200);
         
         // Load tiles in render distance and save them
+        // Generate 2 dimensional empty dictionary to receive
+        // HexRenderer for each possible x and y coordinate
         _tiles = new Dictionary<int, Dictionary<int, HexRenderer>>();
         for (int i = x - renderDistance; i < x + renderDistance; i++)
         {
