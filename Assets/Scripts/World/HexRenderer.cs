@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
-
+ 
 public struct Face
 {
     public List<Vector3> Vertices { get; }
@@ -19,20 +20,45 @@ public struct Face
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(MeshCollider))]
 public class HexRenderer : MonoBehaviour
 {
     private List<Face> _faces;
     private Mesh _mesh;
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
+    private MeshCollider _meshCollider;
+    public HexManager HM;
+    public MenuManager MM;
+
+    public Biome biome;
+    public int xAxis;
+    public int zAxis;
 
     public float innerSize;
     public float outerSize;
     public float height;
+    
+    void OnMouseEnter()
+    {
+        HM.HoverHex(this);
+    }
+
+    void OnMouseExit()
+    {
+        HM.LeaveHex(this);
+    }
+
+    private void OnMouseDown()
+    {
+        HM.ClickHex(this);
+        MM.SetCanvas(HM.GetBiome(this));
+    }
 
 
     private void Awake()
     {
+        _meshCollider = GetComponent<MeshCollider>();
         _meshFilter = GetComponent<MeshFilter>();
         _meshRenderer = GetComponent<MeshRenderer>();
 
@@ -42,6 +68,7 @@ public class HexRenderer : MonoBehaviour
         };
 
         _meshFilter.mesh = _mesh;
+        _meshCollider.sharedMesh = _mesh;
     }
 
     private void OnEnable()
@@ -111,8 +138,14 @@ public class HexRenderer : MonoBehaviour
         return new Vector3(size * MathF.Cos(angleRad), heightY, size * Mathf.Sin(angleRad));
     }
 
-    public void SetMaterial(Material mat)
+    public void SetBiome(Biome newBiome)
     {
-        _meshRenderer.material = mat;
+        transform.position += new Vector3(0, newBiome.yAxis, 0);
+        biome = newBiome;
+    }
+
+    public void SetMaterial()
+    {
+        _meshRenderer.material = biome.material;
     }
 }
