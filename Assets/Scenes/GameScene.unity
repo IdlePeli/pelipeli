@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -441,12 +441,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f800ac00f7ee4864b57c5adecf0143b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ocean: {fileID: 0}
-  desert: {fileID: 0}
-  forest: {fileID: 0}
-  mountain: {fileID: 0}
-  ice: {fileID: 0}
-  deepOcean: {fileID: 0}
+  ocean: {fileID: 1791739070}
+  desert: {fileID: 1502913317}
+  forest: {fileID: 225520865}
+  mountain: {fileID: 1898228471}
+  ice: {fileID: 1742378706}
+  deepOcean: {fileID: 118623632}
 --- !u!4 &723050788
 Transform:
   m_ObjectHideFlags: 0
