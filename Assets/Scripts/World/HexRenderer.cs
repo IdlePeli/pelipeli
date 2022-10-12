@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-
+ 
 public struct Face
 {
     public List<Vector3> Vertices { get; }
@@ -20,12 +20,14 @@ public struct Face
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(MeshCollider))]
 public class HexRenderer : MonoBehaviour
 {
     private List<Face> _faces;
     private Mesh _mesh;
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
+    private MeshCollider _meshCollider;
 
     public Biome biome;
     public int xAxis;
@@ -34,10 +36,15 @@ public class HexRenderer : MonoBehaviour
     public float innerSize;
     public float outerSize;
     public float height;
-
-
+    
+    void OnMouseDown()
+    {
+        Debug.Log(this.xAxis + " " + this.zAxis);
+    }
+    
     private void Awake()
     {
+        _meshCollider = GetComponent<MeshCollider>();
         _meshFilter = GetComponent<MeshFilter>();
         _meshRenderer = GetComponent<MeshRenderer>();
 
@@ -47,6 +54,7 @@ public class HexRenderer : MonoBehaviour
         };
 
         _meshFilter.mesh = _mesh;
+        _meshCollider.sharedMesh = _mesh;
     }
 
     private void OnEnable()
