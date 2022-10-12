@@ -124,7 +124,6 @@ public class HexRenderer : MonoBehaviour
 
     public void SetMaterial()
     {
-        Debug.Log(biome.material.name);
         _meshRenderer.material = biome.material;
     }
 }
