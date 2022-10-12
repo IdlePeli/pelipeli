@@ -13,11 +13,11 @@ public class HexManager
         this.HGL = HGL;
         this.BG = BG;
     }
-    
+
     public void AddHex(int x, int z)
     {
         if (!hexes.ContainsKey(x)) hexes[x] = new Dictionary<int, HexRenderer>();
-        hexes[x][z] = HGL.CreateTile(x, z);
+        hexes[x][z] = HGL.CreateTile(this, x, z);
     }
 
     public void SetBiome(int x, int z)
@@ -45,5 +45,15 @@ public class HexManager
                 hex.SetMaterial();
             }
         }
+    }
+
+    public void HoverHex(HexRenderer hex)
+    {
+        hex.transform.position -= new Vector3(0, 0.2f, 0);
+    }
+
+    public void LeaveHex(HexRenderer hex)
+    {
+        hex.transform.position += new Vector3(0, 0.2f, 0);
     }
 }

@@ -28,6 +28,7 @@ public class HexRenderer : MonoBehaviour
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
     private MeshCollider _meshCollider;
+    public HexManager HM;
 
     public Biome biome;
     public int xAxis;
@@ -37,11 +38,16 @@ public class HexRenderer : MonoBehaviour
     public float outerSize;
     public float height;
     
-    void OnMouseDown()
+    void OnMouseEnter()
     {
-        Debug.Log(this.xAxis + " " + this.zAxis);
+        HM.HoverHex(this);
     }
-    
+
+    private void OnMouseExit()
+    {
+        HM.LeaveHex(this);
+    }
+
     private void Awake()
     {
         _meshCollider = GetComponent<MeshCollider>();
