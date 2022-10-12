@@ -7,13 +7,13 @@ public class HexGridLayout : MonoBehaviour
     public float innerSize;
     public float height = 1f;
 
-    public HexRenderer CreateTile(int x, int y)
+    public HexRenderer CreateTile(int x, int z)
     {
-        GameObject tile = new($"Hex {x.ToString()},{y.ToString()}", typeof(HexRenderer))
+        GameObject tile = new($"Hex {x.ToString()},{z.ToString()}", typeof(HexRenderer))
         {
             transform =
             {
-                position = GetPositionForHexFromCoordinate(new Vector2Int(x, y))
+                position = GetPositionForHexFromCoordinate(new Vector2Int(x, z))
             }
         };
         HexRenderer hexRenderer = tile.GetComponent<HexRenderer>();
@@ -21,7 +21,7 @@ public class HexGridLayout : MonoBehaviour
         hexRenderer.innerSize = innerSize;
         hexRenderer.height = height;
         hexRenderer.xAxis = x;
-        hexRenderer.yAxis = y;
+        hexRenderer.zAxis = z;
         
         
         hexRenderer.DrawMesh();

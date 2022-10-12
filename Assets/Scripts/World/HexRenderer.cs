@@ -25,11 +25,11 @@ public class HexRenderer : MonoBehaviour
     private List<Face> _faces;
     private Mesh _mesh;
     private MeshFilter _meshFilter;
-    private static MeshRenderer _meshRenderer;
+    private MeshRenderer _meshRenderer;
 
     public Biome biome;
     public int xAxis;
-    public int yAxis;
+    public int zAxis;
 
     public float innerSize;
     public float outerSize;
@@ -119,7 +119,12 @@ public class HexRenderer : MonoBehaviour
     public void SetBiome(Biome newBiome)
     {
         transform.position += new Vector3(0, newBiome.yAxis, 0);
-        _meshRenderer.material = newBiome.material;
         biome = newBiome;
+    }
+
+    public void SetMaterial()
+    {
+        Debug.Log(biome.material.name);
+        _meshRenderer.material = biome.material;
     }
 }
