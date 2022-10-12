@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public struct Face
@@ -25,6 +26,10 @@ public class HexRenderer : MonoBehaviour
     private Mesh _mesh;
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
+
+    public Biome biome;
+    public int xAxis;
+    public int zAxis;
 
     public float innerSize;
     public float outerSize;
@@ -111,8 +116,14 @@ public class HexRenderer : MonoBehaviour
         return new Vector3(size * MathF.Cos(angleRad), heightY, size * Mathf.Sin(angleRad));
     }
 
-    public void SetMaterial(Material mat)
+    public void SetBiome(Biome newBiome)
     {
-        _meshRenderer.material = mat;
+        transform.position += new Vector3(0, newBiome.yAxis, 0);
+        biome = newBiome;
+    }
+
+    public void SetMaterial()
+    {
+        _meshRenderer.material = biome.material;
     }
 }

@@ -5,32 +5,40 @@ public class GameRunner : MonoBehaviour
 {
     public Player player;
     public int renderDistance = 5;
-    public HexGridLayout layout;
 
-    private Dictionary<int, Dictionary<int, GameObject>> _tiles;
+    public BiomeGeneration BG;
+    public HexGridLayout HGL;
+    
+    private Dictionary<int, Dictionary<int, HexRenderer>> hexes = new();
+    private HexManager HM;
     private System.Random _rnd;
 
+    
     public void Awake()
     {
+        HM = new HexManager(hexes, HGL, BG);
+        
         // Get random starting position
         _rnd = new System.Random();
-
-        int x = _rnd.Next(-200, 200);
-        int y = _rnd.Next(-200, 200);
-
+        
+        int x = _rnd.Next(-200, 200) + 2000;
+        int z = _rnd.Next(-200, 200) + 2000;
+        
         // Load tiles in render distance and save them
-        _tiles = new Dictionary<int, Dictionary<int, GameObject>>();
-        for (int i = x - renderDistance; i < x + renderDistance; i++)
+        // Generate 2 dimensional empty dictionary to receive
+        // HexRenderer for each possible x and y coordinate
+        for (int xIndex = x - renderDistance; xIndex < x + renderDistance; xIndex++)
         {
-            _tiles[i] = new Dictionary<int, GameObject>();
-            for (int j = y - renderDistance; j < y + renderDistance; j++)
+            for (int zIndex = z - renderDistance; zIndex < z + renderDistance; zIndex++)
             {
-                GameObject tile = layout.LayoutGrid(i, j);
-                _tiles[i][j] = tile;
+                HM.AddHex(xIndex, zIndex);
+                HM.SetBiome(xIndex, zIndex);
             }
         }
 
-        GameObject startSquare = _tiles[x][y]; 
+        HM.GenerateSpecialBiomes();
+        HM.SetMaterials();
+        HexRenderer startSquare = HM.GetHex(x, z);
         player.transform.position = startSquare.transform.position;
     }
 }
