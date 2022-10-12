@@ -6,9 +6,11 @@ public class HexManager
     private Dictionary<int, Dictionary<int, HexRenderer>> hexes;
     private HexGridLayout HGL;
     private BiomeGeneration BG;
+    private GameObject Player;
 
-    public HexManager(Dictionary<int, Dictionary<int, HexRenderer>> hexes, HexGridLayout HGL, BiomeGeneration BG)
+    public HexManager(Dictionary<int, Dictionary<int, HexRenderer>> hexes, HexGridLayout HGL, BiomeGeneration BG, GameObject Player)
     {
+        this.Player = Player;
         this.hexes = hexes;
         this.HGL = HGL;
         this.BG = BG;
@@ -55,5 +57,11 @@ public class HexManager
     public void LeaveHex(HexRenderer hex)
     {
         hex.transform.position += new Vector3(0, 0.2f, 0);
+    }
+
+    public void ClickHex(HexRenderer hex)
+    {
+        var position = hex.transform.position;
+        Player.transform.position = new Vector3(position.x, 4, position.z);
     }
 }

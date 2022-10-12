@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameRunner : MonoBehaviour
 {
-    public Player player;
+    public GameObject player;
     public int renderDistance = 5;
 
     public BiomeGeneration BG;
@@ -17,7 +17,7 @@ public class GameRunner : MonoBehaviour
     
     public void Awake()
     {
-        HM = new HexManager(hexes, HGL, BG);
+        HM = new HexManager(hexes, HGL, BG, player);
         
         // Get random starting position
         _rnd = new System.Random();

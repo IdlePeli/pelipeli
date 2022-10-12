@@ -43,10 +43,16 @@ public class HexRenderer : MonoBehaviour
         HM.HoverHex(this);
     }
 
-    private void OnMouseExit()
+    void OnMouseExit()
     {
         HM.LeaveHex(this);
     }
+
+    private void OnMouseDown()
+    {
+        HM.ClickHex(this);
+    }
+
 
     private void Awake()
     {
