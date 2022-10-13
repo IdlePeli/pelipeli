@@ -8,31 +8,40 @@ public class BiomeGeneration : MonoBehaviour
     public Biome desert;
     public Biome forest;
     public Biome mountain;
-    public Biome ice;
+    public Biome iceWater;
+    public Biome snow;
 
+    //Change in unity to manipulate biomegeneration default value 10 with lower values biomes will be smaller
+    public int HeightAdjuster;
+    public int TemperatureAdjuster;
+    
     public Biome deepOcean;
     //lisää biomei ja materiaalei joskus(isoi juttui tulos😎) ᓚᘏᗢ 
 
     public Biome Get(int x, int z)
     {
         //generate height for given x and y position
-        float hexHeight = Mathf.PerlinNoise((float) x / 10, (float) z / 10) * 3 - 1;
+        float hexHeight = Mathf.PerlinNoise((float) x / HeightAdjuster, (float) z / HeightAdjuster) * 3 - 1;
         if (hexHeight <= 0) hexHeight = 0;
         hexHeight = Mathf.Pow(hexHeight, 1.3f);
 
         //generate temperature for given x and y position
-        float temperature = Mathf.PerlinNoise((float) z / 10, (float) x / 10);
+        float temperature = Mathf.PerlinNoise((float) z / TemperatureAdjuster, (float) x / TemperatureAdjuster);
 
         //set biome based on height and temperature values
         Biome biome = hexHeight switch
         {
             //set world height specific biomes
-            0 => ocean,
+            0 => temperature switch
+            {
+                < 0.33f => iceWater,
+                _ => ocean
+            },
             > 1.5f => mountain,
             //set rest of the biomes based on temperature zones
             _ => temperature switch
             {
-                < 0.33f => ice,
+                < 0.33f => snow,
                 < 0.66f => forest,
                 _ => desert
             }

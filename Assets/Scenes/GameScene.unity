@@ -469,7 +469,10 @@ MonoBehaviour:
   desert: {fileID: 1502913317}
   forest: {fileID: 225520865}
   mountain: {fileID: 1898228471}
-  ice: {fileID: 1742378706}
+  iceWater: {fileID: 1742378706}
+  snow: {fileID: 863592213}
+  HeightAdjuster: 10
+  TemperatureAdjuster: 10
   deepOcean: {fileID: 118623632}
 --- !u!4 &723050788
 Transform:
@@ -489,9 +492,59 @@ Transform:
   - {fileID: 225520864}
   - {fileID: 1742378705}
   - {fileID: 118623631}
+  - {fileID: 863592212}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &863592211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 863592212}
+  - component: {fileID: 863592213}
+  m_Layer: 0
+  m_Name: Snow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &863592212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863592211}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 723050788}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &863592213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 863592211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dacbc5a3405947be9967ec3f6ea38075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: d032bce6af3a3bd48a0e465d9022a332, type: 2}
+  yAxis: 1
+  terrainModifier: 1
+  type: 
+  props: []
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,6 +745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ba76054d8beea1458b664e152f82c24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MM: {fileID: 0}
   biome: {fileID: 0}
   xAxis: 0
   zAxis: 0
@@ -869,7 +923,7 @@ GameObject:
   - component: {fileID: 1742378705}
   - component: {fileID: 1742378706}
   m_Layer: 0
-  m_Name: Ice
+  m_Name: IceWater
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -905,7 +959,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 7c59ddc6cf96e154bbedca70576c1ee9, type: 2}
   yAxis: 1
   terrainModifier: 1
-  type: ice
+  type: ocean
   props: []
 --- !u!1 &1791739068
 GameObject:
