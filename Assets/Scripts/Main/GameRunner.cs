@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameRunner : MonoBehaviour
 {
-    public Player player;
+    public GameObject player;
     public int renderDistance = 5;
 
     public BiomeGeneration BG;
@@ -12,11 +14,10 @@ public class GameRunner : MonoBehaviour
     private Dictionary<int, Dictionary<int, HexRenderer>> hexes = new();
     private HexManager HM;
     private System.Random _rnd;
-
     
     public void Awake()
     {
-        HM = new HexManager(hexes, HGL, BG);
+        HM = new HexManager(hexes, HGL, BG, player);
         
         // Get random starting position
         _rnd = new System.Random();
