@@ -116,13 +116,18 @@ public class HexManager
         Player.transform.position = new Vector3(position.x, 4, position.z);
     }
 
-    public Biome GetBiome(HexRenderer hex)
+    public void GenerateResources()
     {
-        return hex.biome;
-    }
-
-    public Material GetMaterial(HexRenderer hex)
-    {
-        return hex.biome.material;
+        foreach (HexRenderer hex in GetHexList())
+        {
+            Debug.Log("listan pituus " + GetHexList().Count);
+            Resource resource = hex.biome.GenerateResource();
+            Debug.Log("tääl");
+            if (resource == null) return;
+            Transform resTransform = resource.transform;
+            Transform hexTransform = hex.transform;
+            resTransform.SetParent(hexTransform);
+            resTransform.position = hexTransform.position;
+        }
     }
 }
