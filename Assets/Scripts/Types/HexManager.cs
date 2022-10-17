@@ -1,17 +1,22 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HexManager
 {
-    private Dictionary<int, Dictionary<int, HexRenderer>> hexes;
+    private Dictionary<int, Dictionary<int, HexRenderer>> hexes = new();
     private HexGridLayout HGL;
     private BiomeGeneration BG;
     private GameObject Player;
 
-    public HexManager(Dictionary<int, Dictionary<int, HexRenderer>> hexes, HexGridLayout HGL, BiomeGeneration BG, GameObject Player)
+    public HexManager(
+        HexGridLayout HGL,
+        BiomeGeneration BG,
+        GameObject Player)
     {
         this.Player = Player;
-        this.hexes = hexes;
         this.HGL = HGL;
         this.BG = BG;
     }
@@ -29,7 +34,7 @@ public class HexManager
 
     public void GenerateSpecialBiomes()
     {
-        BG.GenerateDeepOcean(hexes);
+        BG.GenerateDeepOcean(this);
     }
 
     public HexRenderer GetHex(int x, int z)
@@ -39,14 +44,59 @@ public class HexManager
 
     public void SetMaterials()
     {
-        foreach (var zAxis in hexes)
+        foreach (HexRenderer hex in GetHexList())
         {
-            foreach (var hexDict in zAxis.Value)
+            hex.SetMaterial();
+        }
+    }
+
+    public HexRenderer[] AdjacentHexes(HexRenderer hex)
+    {
+        int x = hex.xAxis;
+        int z = hex.zAxis;
+        try
+        {
+            if (x % 2 == 0)
             {
-                HexRenderer hex = hexDict.Value;
-                hex.SetMaterial();
+                return new[]
+                {
+                    hexes[x - 1][z - 1],
+                    hexes[x - 1][z],
+                    hexes[x][z - 1],
+                    hexes[x][z + 1],
+                    hexes[x + 1][z - 1],
+                    hexes[x + 1][z]
+                };
+            }
+
+            return new[]
+            {
+                hexes[x - 1][z],
+                hexes[x - 1][z + 1],
+                hexes[x][z - 1],
+                hexes[x][z + 1],
+                hexes[x + 1][z],
+                hexes[x + 1][z + 1]
+            };
+        }
+        catch (Exception)
+        {
+            return new HexRenderer[] { };
+        }
+    }
+
+    public List<HexRenderer> GetHexList()
+    {
+        List<HexRenderer> hexList = new();
+        foreach (KeyValuePair<int, Dictionary<int, HexRenderer>> zArray in hexes)
+        {
+            foreach (KeyValuePair<int, HexRenderer> hexDict in zArray.Value)
+            {
+                hexList.Add(hexDict.Value);
             }
         }
+
+        return hexList;
     }
 
     public void HoverHex(HexRenderer hex)
