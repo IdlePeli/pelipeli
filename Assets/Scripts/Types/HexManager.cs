@@ -120,14 +120,15 @@ public class HexManager
     {
         foreach (HexRenderer hex in GetHexList())
         {
-            Debug.Log("listan pituus " + GetHexList().Count);
-            Resource resource = hex.biome.GenerateResource();
-            Debug.Log("tääl");
-            if (resource == null) return;
+            GameObject resource = hex.biome.GenerateResource();
+            if (resource == null) continue;
+            
             Transform resTransform = resource.transform;
             Transform hexTransform = hex.transform;
+            
             resTransform.SetParent(hexTransform);
             resTransform.position = hexTransform.position;
+            resTransform.position += new Vector3(0, 1.5f, 0);
         }
     }
 }

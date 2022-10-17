@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class Biome : MonoBehaviour
@@ -14,7 +15,6 @@ public class Biome : MonoBehaviour
 
     public void Awake()
     {
-        _rnd = new System.Random();
         _resourceWeight = emptiness;
         foreach (Resource res in resources)
         {
@@ -23,14 +23,13 @@ public class Biome : MonoBehaviour
         }
     }
 
-    public Resource GenerateResource()
+    public GameObject GenerateResource()
     {
-        Debug.Log("jes täs myös" + _resourceWeight);
+        _rnd = new System.Random();
         int score = _rnd.Next(0, _resourceWeight);
-        Debug.Log(score);
-        foreach (Resource resource in resources)
+        foreach (Resource resource in resources.Reverse())
         {
-            if (resource.CalculatedRarityScore > score) return Instantiate(resource);
+            if (score > resource.CalculatedRarityScore - resource.rarity) return Instantiate(resource.model);
         }
 
         return null;
