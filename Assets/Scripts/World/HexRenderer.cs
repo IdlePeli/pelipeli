@@ -62,7 +62,7 @@ public class HexRenderer : MonoBehaviour
 
         _mesh = new Mesh
         {
-            name = "Hex"
+            name = "HexRenderer"
         };
 
         _meshFilter.mesh = _mesh;

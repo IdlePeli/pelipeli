@@ -1,4 +1,5 @@
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class Biome : MonoBehaviour
@@ -12,6 +13,8 @@ public class Biome : MonoBehaviour
     private int _resourceWeight;
     private System.Random _rnd;
 
+    public bool isPathable = true;
+    public float travelTime = 1;
 
     public void Awake()
     {

@@ -9,7 +9,7 @@ public class HexGridLayout : MonoBehaviour
 
     public HexRenderer CreateTile(HexManager HM, int x, int z)
     {
-        GameObject tile = new($"Hex {x.ToString()},{z.ToString()}", typeof(HexRenderer))
+        GameObject tile = new($"HexRenderer {x.ToString()},{z.ToString()}", typeof(HexRenderer))
         {
             transform =
             {
