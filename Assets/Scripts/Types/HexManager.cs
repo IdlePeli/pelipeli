@@ -116,13 +116,19 @@ public class HexManager
         Player.transform.position = new Vector3(position.x, 4, position.z);
     }
 
-    public Biome GetBiome(HexRenderer hex)
+    public void GenerateResources()
     {
-        return hex.biome;
-    }
-
-    public Material GetMaterial(HexRenderer hex)
-    {
-        return hex.biome.material;
+        foreach (HexRenderer hex in GetHexList())
+        {
+            GameObject resource = hex.biome.GenerateResource();
+            if (resource == null) continue;
+            
+            Transform resTransform = resource.transform;
+            Transform hexTransform = hex.transform;
+            
+            resTransform.SetParent(hexTransform);
+            resTransform.position = hexTransform.position;
+            resTransform.position += new Vector3(0, 1.5f, 0);
+        }
     }
 }

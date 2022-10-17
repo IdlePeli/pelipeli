@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class GameRunner : MonoBehaviour
@@ -38,6 +34,7 @@ public class GameRunner : MonoBehaviour
         }
 
         HM.GenerateSpecialBiomes();
+        HM.GenerateResources();
         HM.SetMaterials();
         HexRenderer startSquare = HM.GetHex(x, z);
         player.transform.position = startSquare.transform.position;
