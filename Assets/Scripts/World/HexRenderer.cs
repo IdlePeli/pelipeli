@@ -29,6 +29,7 @@ public class HexRenderer : MonoBehaviour
     private MeshRenderer _meshRenderer;
     private MeshCollider _meshCollider;
     public HexManager HM;
+    public MenuManager MM;
 
     public Biome biome;
     public int xAxis;
@@ -51,6 +52,7 @@ public class HexRenderer : MonoBehaviour
     private void OnMouseDown()
     {
         HM.ClickHex(this);
+        MM.SetCanvas(HM.GetBiome(this));
     }
 
 

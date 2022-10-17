@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class HexManager
@@ -113,5 +114,15 @@ public class HexManager
     {
         var position = hex.transform.position;
         Player.transform.position = new Vector3(position.x, 4, position.z);
+    }
+
+    public Biome GetBiome(HexRenderer hex)
+    {
+        return hex.biome;
+    }
+
+    public Material GetMaterial(HexRenderer hex)
+    {
+        return hex.biome.material;
     }
 }
