@@ -471,9 +471,10 @@ MonoBehaviour:
   mountain: {fileID: 1898228471}
   iceWater: {fileID: 1742378706}
   snow: {fileID: 863592213}
+  deepOcean: {fileID: 118623632}
   HeightAdjuster: 10
   TemperatureAdjuster: 10
-  deepOcean: {fileID: 118623632}
+  TerrainDepth: 1
 --- !u!4 &723050788
 Transform:
   m_ObjectHideFlags: 0

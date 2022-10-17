@@ -15,13 +15,13 @@ public class BiomeGeneration : MonoBehaviour
     //lisää biomei ja materiaalei joskus(isoi juttui tulos😎) ᓚᘏᗢ 
     
     //Change in unity to manipulate biomegeneration default value 10 with lower values biomes will be smaller
-    public int HeightAdjuster;
-    public int TemperatureAdjuster;
-
+    public int HeightAdjuster = 10;
+    public int TemperatureAdjuster = 10;
+    public float TerrainDepth = 1;
     public Biome Get(int x, int z)
     {
         //generate height for given x and y position
-        float hexHeight = Mathf.PerlinNoise((float) x / 10, (float) z / 10) * 3 - 1;
+        float hexHeight = Mathf.PerlinNoise((float) x / HeightAdjuster, (float) z / HeightAdjuster) * 3 - TerrainDepth;
         if (hexHeight <= 0) hexHeight = 0;
         hexHeight = Mathf.Pow(hexHeight, 1.3f);
 
