@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -171,7 +171,8 @@ MonoBehaviour:
   yAxis: 0
   terrainModifier: 1
   type: ocean
-  props: []
+  resources: []
+  emptiness: 500
 --- !u!1001 &180598956
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -321,7 +322,10 @@ Transform:
   m_LocalPosition: {x: 210.72484, y: -30.239397, z: 64.771774}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 684346457}
+  - {fileID: 1895835662}
+  - {fileID: 1064500351}
   m_Father: {fileID: 723050788}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -341,7 +345,57 @@ MonoBehaviour:
   yAxis: 1
   terrainModifier: 1
   type: forest
-  props: []
+  resources:
+  - {fileID: 684346458}
+  - {fileID: 1895835663}
+  - {fileID: 1064500350}
+  emptiness: 500
+--- !u!1 &684346456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 684346457}
+  - component: {fileID: 684346458}
+  m_Layer: 0
+  m_Name: Tree
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &684346457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684346456}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 225520864}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &684346458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684346456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc0b6686d7f4143bc81f1b15e22f641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model: {fileID: 4661435515762455780, guid: e289bf5debb17f6459818c207d781953, type: 3}
+  rarity: 15
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,7 +599,8 @@ MonoBehaviour:
   yAxis: 1
   terrainModifier: 1
   type: 
-  props: []
+  resources: []
+  emptiness: 500
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,6 +685,52 @@ Transform:
   m_Father: {fileID: 1212214730}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1 &1064500349
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1064500351}
+  - component: {fileID: 1064500350}
+  m_Layer: 0
+  m_Name: Grass
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1064500350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064500349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc0b6686d7f4143bc81f1b15e22f641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model: {fileID: 8903058273634794869, guid: f1fc5bb90ac285e4486771552d63bcb8, type: 3}
+  rarity: 100
+--- !u!4 &1064500351
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1064500349}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 225520864}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1147140496
 GameObject:
   m_ObjectHideFlags: 0
@@ -746,7 +847,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ba76054d8beea1458b664e152f82c24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MM: {fileID: 0}
   biome: {fileID: 0}
   xAxis: 0
   zAxis: 0
@@ -865,7 +965,8 @@ MonoBehaviour:
   yAxis: 1
   terrainModifier: 1
   type: desert
-  props: []
+  resources: []
+  emptiness: 500
 --- !u!1 &1624696027
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,7 +1062,8 @@ MonoBehaviour:
   yAxis: 1
   terrainModifier: 1
   type: ocean
-  props: []
+  resources: []
+  emptiness: 500
 --- !u!1 &1791739068
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,7 +1112,8 @@ MonoBehaviour:
   yAxis: 1
   terrainModifier: 1
   type: ocean
-  props: []
+  resources: []
+  emptiness: 500
 --- !u!1 &1895066701
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,6 +1162,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1895835661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1895835662}
+  - component: {fileID: 1895835663}
+  m_Layer: 0
+  m_Name: Stone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1895835662
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895835661}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 225520864}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1895835663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895835661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc0b6686d7f4143bc81f1b15e22f641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model: {fileID: 7405846476849542632, guid: c6308cb7062fac34e8e50600086b12a1, type: 3}
+  rarity: 30
 --- !u!1 &1898228469
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,4 +1256,5 @@ MonoBehaviour:
   yAxis: 1
   terrainModifier: 6
   type: mountain
-  props: []
+  resources: []
+  emptiness: 500
