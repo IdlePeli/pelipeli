@@ -12,19 +12,18 @@ public class GameRunner : MonoBehaviour
     public BiomeGeneration BG;
     public HexGridLayout HGL;
     
-    private Dictionary<int, Dictionary<int, HexRenderer>> hexes = new();
     private HexManager HM;
     private System.Random _rnd;
     
     public void Awake()
     {
-        HM = new HexManager(hexes, HGL, BG, player);
-
+        HM = new HexManager(HGL, BG, player);
+        
         // Get random starting position
         _rnd = new System.Random();
         
-        int x = _rnd.Next(-200, 200) + 2000;
-        int z = _rnd.Next(-200, 200) + 2000;
+        int x = _rnd.Next(-200, 200) + 2500;
+        int z = _rnd.Next(-200, 200) + 2500;
         
         // Load tiles in render distance and save them
         // Generate 2 dimensional empty dictionary to receive

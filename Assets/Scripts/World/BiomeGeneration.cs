@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BiomeGeneration : MonoBehaviour
@@ -10,18 +11,17 @@ public class BiomeGeneration : MonoBehaviour
     public Biome mountain;
     public Biome iceWater;
     public Biome snow;
-
+    public Biome deepOcean;
+    //lisää biomei ja materiaalei joskus(isoi juttui tulos😎) ᓚᘏᗢ 
+    
     //Change in unity to manipulate biomegeneration default value 10 with lower values biomes will be smaller
     public int HeightAdjuster;
     public int TemperatureAdjuster;
-    
-    public Biome deepOcean;
-    //lisää biomei ja materiaalei joskus(isoi juttui tulos😎) ᓚᘏᗢ 
 
     public Biome Get(int x, int z)
     {
         //generate height for given x and y position
-        float hexHeight = Mathf.PerlinNoise((float) x / HeightAdjuster, (float) z / HeightAdjuster) * 3 - 1;
+        float hexHeight = Mathf.PerlinNoise((float) x / 10, (float) z / 10) * 3 - 1;
         if (hexHeight <= 0) hexHeight = 0;
         hexHeight = Mathf.Pow(hexHeight, 1.3f);
 
@@ -54,45 +54,20 @@ public class BiomeGeneration : MonoBehaviour
 
 
     //generate deepOcean biomes if all adjacent tiles are water
-    public void GenerateDeepOcean(Dictionary<int, Dictionary<int, HexRenderer>> tiles)
+    public void GenerateDeepOcean(HexManager HM)
     {
-        foreach (var zAxis in tiles)
+        foreach (HexRenderer hex in HM.GetHexList())
         {
-            foreach (var hexDict in zAxis.Value)
+            if (!hex.biome.type.Equals("ocean")) continue;
+            if (WaterInAdjacentHexes(HM.AdjacentHexes(hex)))
             {
-                HexRenderer hex = hexDict.Value;
-                if (hex.biome.type.Equals("ocean"))
-                {
-                    if (WaterInAdjacentTiles(hex, tiles))
-                    { 
-                        hex.SetBiome(deepOcean);
-                    }
-                }
+                hex.SetBiome(deepOcean);
             }
         }
     }
-    
-    private static bool WaterInAdjacentTiles(HexRenderer hex, Dictionary<int, Dictionary<int, HexRenderer>> tiles)
+
+    private static bool WaterInAdjacentHexes(HexRenderer[] adjHexes)
     {
-        for (int x = hex.xAxis - 1; x < hex.xAxis + 2; x++)
-        {
-            for (int y = hex.zAxis - 1; y < hex.zAxis + 2; y++)
-            {
-                try
-                {
-                    if (!tiles[x][y].biome.type.Equals("ocean"))
-                    {
-                        return false;
-                    }
-                }
-                catch (Exception e)
-                {
-                    if (false) Debug.Log(e);
-                    //TODO: Exception occurs since were checking for a hex which has not yet been generated.
-                    //Generate a new hex for given coordinates and check again. (Implement proper error handling)
-                }
-            }
-        }
-        return true;
+        return adjHexes.All(adjHex => adjHex.biome.type.Equals("ocean"));
     }
 }
