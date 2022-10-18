@@ -1154,8 +1154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3761fddcf32b6484ab849b8e14fdb1f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1212214728}
-  hexPlayer: {fileID: 1212214735}
+  player: {fileID: 1212214735}
   renderDistance: 50
   BG: {fileID: 723050787}
   HGL: {fileID: 1624696028}
