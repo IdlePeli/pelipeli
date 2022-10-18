@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
- 
+
 public struct Face
 {
     public List<Vector3> Vertices { get; }
@@ -21,7 +21,7 @@ public struct Face
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshCollider))]
-public class HexRenderer : MonoBehaviour
+public class Hex : MonoBehaviour
 {
     private List<Face> _faces;
     private Mesh _mesh;
@@ -37,7 +37,7 @@ public class HexRenderer : MonoBehaviour
     public float innerSize;
     public float outerSize;
     public float height;
-    
+
     void OnMouseEnter()
     {
         HM.HoverHex(this);
@@ -62,7 +62,7 @@ public class HexRenderer : MonoBehaviour
 
         _mesh = new Mesh
         {
-            name = "HexRenderer"
+            name = "Hex"
         };
 
         _meshFilter.mesh = _mesh;
@@ -142,8 +142,15 @@ public class HexRenderer : MonoBehaviour
         biome = newBiome;
     }
 
-    public void SetMaterial()
+    public void SetMaterial(Material material = null)
     {
-        _meshRenderer.material = biome.material;
+        if (material == null) _meshRenderer.material = biome.material;
+        else _meshRenderer.material = material;
+    }
+
+    public Vector3 GetPosition()
+    {
+        Vector3 position = transform.position;
+        return new Vector3(position.x, position.y + height / 2 + 0.15f, position.z);
     }
 }

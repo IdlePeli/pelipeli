@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class GameRunner : MonoBehaviour
 {
-    public GameObject player;
+
+    public Player player;
+    
     public int renderDistance = 5;
 
     public BiomeGeneration BG;
@@ -21,6 +23,8 @@ public class GameRunner : MonoBehaviour
         int x = _rnd.Next(-200, 200) + 2500;
         int z = _rnd.Next(-200, 200) + 2500;
         
+        player.Spawn(HM);
+        
         // Load tiles in render distance and save them
         // Generate 2 dimensional empty dictionary to receive
         // HexRenderer for each possible x and y coordinate
@@ -33,10 +37,9 @@ public class GameRunner : MonoBehaviour
             }
         }
 
+        player.Move(HM.GetHex(x, z));
         HM.GenerateSpecialBiomes();
         HM.GenerateResources();
         HM.SetMaterials();
-        HexRenderer startSquare = HM.GetHex(x, z);
-        player.transform.position = startSquare.transform.position;
     }
 }

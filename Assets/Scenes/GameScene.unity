@@ -173,6 +173,8 @@ MonoBehaviour:
   type: ocean
   resources: []
   emptiness: 500
+  isPathable: 1
+  travelTime: 1
 --- !u!1001 &180598956
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -350,6 +352,8 @@ MonoBehaviour:
   - {fileID: 1895835663}
   - {fileID: 1064500350}
   emptiness: 500
+  isPathable: 1
+  travelTime: 1
 --- !u!1 &684346456
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,6 +605,8 @@ MonoBehaviour:
   type: 
   resources: []
   emptiness: 500
+  isPathable: 1
+  travelTime: 1
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -811,7 +817,7 @@ GameObject:
   - component: {fileID: 1212214734}
   - component: {fileID: 1212214733}
   - component: {fileID: 1212214732}
-  - component: {fileID: 1212214731}
+  - component: {fileID: 1212214735}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -835,24 +841,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1212214731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212214728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ba76054d8beea1458b664e152f82c24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  biome: {fileID: 0}
-  xAxis: 0
-  zAxis: 0
-  innerSize: 0.8
-  outerSize: 1
-  height: 0.1
 --- !u!64 &1212214732
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -917,6 +905,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1212214728}
   m_Mesh: {fileID: 0}
+--- !u!114 &1212214735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1212214728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79c850558791b43ed9542475be3267a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outerSize: 0.9
+  innerSize: 0.7
+  height: 0.2
+  material: {fileID: 2100000, guid: 3f220e461c99a47d1a11359f0801e099, type: 2}
+  currentHex: {fileID: 0}
 --- !u!1 &1502913315
 GameObject:
   m_ObjectHideFlags: 0
@@ -967,6 +972,8 @@ MonoBehaviour:
   type: desert
   resources: []
   emptiness: 500
+  isPathable: 1
+  travelTime: 1
 --- !u!1 &1624696027
 GameObject:
   m_ObjectHideFlags: 0
@@ -1064,6 +1071,8 @@ MonoBehaviour:
   type: ocean
   resources: []
   emptiness: 500
+  isPathable: 1
+  travelTime: 1
 --- !u!1 &1791739068
 GameObject:
   m_ObjectHideFlags: 0
@@ -1114,6 +1123,8 @@ MonoBehaviour:
   type: ocean
   resources: []
   emptiness: 500
+  isPathable: 1
+  travelTime: 1
 --- !u!1 &1895066701
 GameObject:
   m_ObjectHideFlags: 0
@@ -1144,6 +1155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1212214728}
+  hexPlayer: {fileID: 1212214735}
   renderDistance: 50
   BG: {fileID: 723050787}
   HGL: {fileID: 1624696028}
@@ -1258,3 +1270,5 @@ MonoBehaviour:
   type: mountain
   resources: []
   emptiness: 500
+  isPathable: 1
+  travelTime: 1

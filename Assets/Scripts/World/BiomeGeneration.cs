@@ -56,7 +56,7 @@ public class BiomeGeneration : MonoBehaviour
     //generate deepOcean biomes if all adjacent tiles are water
     public void GenerateDeepOcean(HexManager HM)
     {
-        foreach (HexRenderer hex in HM.GetHexList())
+        foreach (Hex hex in HM.GetHexList())
         {
             if (!hex.biome.type.Equals("ocean")) continue;
             if (WaterInAdjacentHexes(HM.AdjacentHexes(hex)))
@@ -66,7 +66,7 @@ public class BiomeGeneration : MonoBehaviour
         }
     }
 
-    private static bool WaterInAdjacentHexes(HexRenderer[] adjHexes)
+    private static bool WaterInAdjacentHexes(Hex[] adjHexes)
     {
         return adjHexes.All(adjHex => adjHex.biome.type.Equals("ocean"));
     }

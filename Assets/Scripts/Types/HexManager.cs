@@ -1,21 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class HexManager
 {
-    private Dictionary<int, Dictionary<int, HexRenderer>> hexes = new();
+    private Dictionary<int, Dictionary<int, Hex>> hexes = new();
     private HexGridLayout HGL;
     private BiomeGeneration BG;
-    private GameObject Player;
+    private Player Player;
 
     public HexManager(
         HexGridLayout HGL,
         BiomeGeneration BG,
-        GameObject Player)
+        Player Player)
     {
         this.Player = Player;
         this.HGL = HGL;
@@ -24,8 +22,8 @@ public class HexManager
 
     public void AddHex(int x, int z)
     {
-        if (!hexes.ContainsKey(x)) hexes[x] = new Dictionary<int, HexRenderer>();
-        hexes[x][z] = HGL.CreateTile(this, x, z);
+        if (!hexes.ContainsKey(x)) hexes[x] = new Dictionary<int, Hex>();
+        hexes[x][z] = HGL.CreateHex(this, x, z);
     }
 
     public void SetBiome(int x, int z)
@@ -38,23 +36,23 @@ public class HexManager
         BG.GenerateDeepOcean(this);
     }
 
-    public HexRenderer GetHex(int x, int z)
+    public Hex GetHex(int x, int z)
     {
         return hexes[x][z];
     }
 
     public void SetMaterials()
     {
-        foreach (HexRenderer hex in GetHexList())
+        foreach (Hex hex in GetHexList())
         {
             hex.SetMaterial();
         }
     }
 
-    public HexRenderer[] AdjacentHexes(HexRenderer hexRenderer)
+    public Hex[] AdjacentHexes(Hex hex)
     {
-        int x = hexRenderer.xAxis;
-        int z = hexRenderer.zAxis;
+        int x = hex.xAxis;
+        int z = hex.zAxis;
         try
         {
             if (x % 2 == 0)
@@ -82,16 +80,16 @@ public class HexManager
         }
         catch (Exception)
         {
-            return new HexRenderer[] { };
+            return new Hex[] { };
         }
     }
 
-    public List<HexRenderer> GetHexList()
+    public List<Hex> GetHexList()
     {
-        List<HexRenderer> hexList = new();
-        foreach (KeyValuePair<int, Dictionary<int, HexRenderer>> zArray in hexes)
+        List<Hex> hexList = new();
+        foreach (KeyValuePair<int, Dictionary<int, Hex>> zArray in hexes)
         {
-            foreach (KeyValuePair<int, HexRenderer> hexDict in zArray.Value)
+            foreach (KeyValuePair<int, Hex> hexDict in zArray.Value)
             {
                 hexList.Add(hexDict.Value);
             }
@@ -100,28 +98,25 @@ public class HexManager
         return hexList;
     }
 
-    public void HoverHex(HexRenderer hexRenderer)
+    public void HoverHex(Hex hex)
     {
-        hexRenderer.transform.position -= new Vector3(0, 0.2f, 0);
+        hex.transform.position -= new Vector3(0, 0.2f, 0);
     }
 
-    public void LeaveHex(HexRenderer hexRenderer)
+    public void LeaveHex(Hex hex)
     {
-        hexRenderer.transform.position += new Vector3(0, 0.2f, 0);
+        hex.transform.position += new Vector3(0, 0.2f, 0);
     }
 
-    public void ClickHex(HexRenderer hexRenderer)
+    public void ClickHex(Hex hex)
     {
-        var position = hexRenderer.transform.position;
-        HexRenderer startHexRenderer = GetHexList()[0];
-        HexRenderer testihexi = hexes[startHexRenderer.xAxis + 2][startHexRenderer.zAxis + 2];
-        FindPath(testihexi, hexRenderer);
-        Player.transform.position = new Vector3(position.x, 4, position.z);
+        FindPath(Player.currentHex, hex);
+        Player.Move(hex);
     }
 
     public void GenerateResources()
     {
-        foreach (HexRenderer hex in GetHexList())
+        foreach (Hex hex in GetHexList())
         {
             GameObject resource = hex.biome.GenerateResource();
             if (resource == null) continue;
@@ -135,45 +130,35 @@ public class HexManager
         }
     }
 
-    public List<HexRenderer> FindPath(HexRenderer startHexRenderer, HexRenderer endHexRenderer)
+    public List<Hex> FindPath(Hex startHex, Hex endHex)
     {
-        List<HexRenderer> route = new();
-        List<HexRenderer> completeRoute = new();
-        List<HexRenderer> checkedHexes = new();
-        completeRoute.Add(startHexRenderer);
-        route.Add(startHexRenderer);
-        int x = 0;
-        bool pathNotFound = true;
+        List<Hex> route = new();
+        List<Hex> completeRoute = new();
+        List<Hex> checkedHexes = new();
+        completeRoute.Add(startHex);
+        route.Add(startHex);
 
-        while (pathNotFound)
+        int iteration = 0;
+        while (iteration < 30)
         {
-            foreach (HexRenderer hex in completeRoute)
+            foreach (Hex hex in completeRoute.Where(hex => !checkedHexes.Contains(hex)))
             {
-                if (checkedHexes.Contains(hex)) continue;
+                Hex[] adjHexes = AdjacentHexes(hex);
                 checkedHexes.Add(hex);
 
-                HexRenderer[] adjHexes = AdjacentHexes(hex);
-
-                foreach (HexRenderer adjHex in adjHexes)
+                foreach (Hex adjHex in adjHexes.Where(adjHex => Player.CanMove(adjHex)))
                 {
-                    if (hex.biome.isPathable && !route.Contains(adjHex))
-                    {
-                        route.Add(adjHex);
-                    }
-                }
-
-                if (route.Contains(endHexRenderer))
-                {
-                    pathNotFound = false;
+                    if (!route.Contains(adjHex)) route.Add(adjHex);
                 }
             }
+
             completeRoute.AddRange(route);
-            x++;
-            if (x > 50) break;
+            if (completeRoute.Contains(endHex)) break;
+            iteration++;
         }
 
         Debug.Log(route);
-        Debug.Log(x);
+        Debug.Log(iteration);
         return completeRoute;
     }
 }

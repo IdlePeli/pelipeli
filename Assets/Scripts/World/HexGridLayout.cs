@@ -2,32 +2,32 @@ using UnityEngine;
 
 public class HexGridLayout : MonoBehaviour
 {
-    [Header("Tile Settings")] public float outerSize = 1f;
+    [Header("Hex Settings")] public float outerSize = 1f;
 
     public float innerSize;
     public float height = 1f;
 
-    public HexRenderer CreateTile(HexManager HM, int x, int z)
+    public Hex CreateHex(HexManager HM, int x, int z)
     {
-        GameObject tile = new($"HexRenderer {x.ToString()},{z.ToString()}", typeof(HexRenderer))
+        GameObject tile = new($"Hex {x.ToString()},{z.ToString()}", typeof(Hex))
         {
             transform =
             {
                 position = GetPositionForHexFromCoordinate(new Vector2Int(x, z))
             }
         };
-        HexRenderer hexRenderer = tile.GetComponent<HexRenderer>();
-        hexRenderer.outerSize = outerSize;
-        hexRenderer.innerSize = innerSize;
-        hexRenderer.height = height;
-        hexRenderer.xAxis = x;
-        hexRenderer.zAxis = z;
-        hexRenderer.HM = HM;
+        Hex hex = tile.GetComponent<Hex>();
+        hex.outerSize = outerSize;
+        hex.innerSize = innerSize;
+        hex.height = height;
+        hex.xAxis = x;
+        hex.zAxis = z;
+        hex.HM = HM;
         
         
-        hexRenderer.DrawMesh();
+        hex.DrawMesh();
         tile.transform.SetParent(transform);
-        return hexRenderer;
+        return hex;
     }
 
     private Vector3 GetPositionForHexFromCoordinate(Vector2Int coordinate)
