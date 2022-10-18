@@ -20,12 +20,15 @@ public struct Face
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
-public class HexRenderer : MonoBehaviour
+[RequireComponent(typeof(MeshCollider))]
+public class Hex : MonoBehaviour
 {
     private List<Face> _faces;
     private Mesh _mesh;
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
+    private MeshCollider _meshCollider;
+    public HexManager HM;
 
     public Biome biome;
     public int xAxis;
@@ -35,9 +38,25 @@ public class HexRenderer : MonoBehaviour
     public float outerSize;
     public float height;
 
+    void OnMouseEnter()
+    {
+        HM.HoverHex(this);
+    }
+
+    void OnMouseExit()
+    {
+        HM.LeaveHex(this);
+    }
+
+    private void OnMouseDown()
+    {
+        HM.ClickHex(this);
+    }
+
 
     private void Awake()
     {
+        _meshCollider = GetComponent<MeshCollider>();
         _meshFilter = GetComponent<MeshFilter>();
         _meshRenderer = GetComponent<MeshRenderer>();
 
@@ -47,6 +66,7 @@ public class HexRenderer : MonoBehaviour
         };
 
         _meshFilter.mesh = _mesh;
+        _meshCollider.sharedMesh = _mesh;
     }
 
     private void OnEnable()
@@ -122,8 +142,15 @@ public class HexRenderer : MonoBehaviour
         biome = newBiome;
     }
 
-    public void SetMaterial()
+    public void SetMaterial(Material material = null)
     {
-        _meshRenderer.material = biome.material;
+        if (material == null) _meshRenderer.material = biome.material;
+        else _meshRenderer.material = material;
+    }
+
+    public Vector3 GetPosition()
+    {
+        Vector3 position = transform.position;
+        return new Vector3(position.x, position.y + height / 2 + 0.15f, position.z);
     }
 }
