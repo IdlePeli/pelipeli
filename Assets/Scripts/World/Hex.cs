@@ -38,6 +38,10 @@ public class Hex : MonoBehaviour
     public float outerSize;
     public float height;
 
+    // Pathfinding
+    public int fCost = 10;
+    public Hex parentHex;
+    
     void OnMouseEnter()
     {
         HM.HoverHex(this);
@@ -148,9 +152,14 @@ public class Hex : MonoBehaviour
         else _meshRenderer.material = material;
     }
 
-    public Vector3 GetPosition()
+    public Vector3 GetCeilingPosition()
     {
         Vector3 position = transform.position;
         return new Vector3(position.x, position.y + height / 2 + 0.15f, position.z);
+    }
+
+    public Vector2Int GetGridCoordinate()
+    {
+        return new Vector2Int(xAxis, zAxis);
     }
 }

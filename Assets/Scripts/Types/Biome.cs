@@ -14,7 +14,7 @@ public class Biome : MonoBehaviour
     private System.Random _rnd;
 
     public bool isPathable = true;
-    public float travelTime = 1;
+    public int travelTime = 10;
 
     public void Awake()
     {

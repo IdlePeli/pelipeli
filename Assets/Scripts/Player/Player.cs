@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     public void Move(Hex hex)
     {
         currentHex = hex;
-        transform.position = hex.GetPosition();
+        transform.position = hex.GetCeilingPosition();
     }
 
     public bool CanMove(Hex hex)
