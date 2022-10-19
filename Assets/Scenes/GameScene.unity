@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 691e19c308036d34d80d12d3071631b6, type: 2}
-  yAxis: 0
+  yAxis: 1
   terrainModifier: 1
   type: ocean
   resources: []
@@ -533,6 +533,8 @@ MonoBehaviour:
   HeightAdjuster: 10
   TemperatureAdjuster: 10
   TerrainDepth: 1
+  a: 0.24
+  b: -0.47
 --- !u!4 &723050788
 Transform:
   m_ObjectHideFlags: 0
@@ -683,8 +685,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 34.64, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 30.29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1155,7 +1157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1212214735}
-  renderDistance: 15
+  renderDistance: 40
   BG: {fileID: 723050787}
   HGL: {fileID: 1624696028}
   DEBUG: 1

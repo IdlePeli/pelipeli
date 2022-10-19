@@ -158,7 +158,6 @@ public class HexManager
                          .Where(hex => Player.CanMove(hex) &&
                                        !_checkedHexes.Contains(hex)))
             {
-                Debug.Log(DistanceBetween(hex, endHex));
                 int fCost = DistanceBetween(hex, startHex) + DistanceBetween(hex, endHex);
                 if (fCost >= hex.fCost && hexesToCheck.Contains(hex)) continue;
                 hex.fCost = fCost;

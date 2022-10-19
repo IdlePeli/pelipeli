@@ -5,7 +5,7 @@ using UnityEngine;
 public class Biome : MonoBehaviour
 {
     public Material material;
-    public float yAxis = 1;
+    public float yAxis = 1f;
     public float terrainModifier = 1;
     public string type;
     public Resource[] resources;

@@ -15,3 +15,4 @@ public class MenuManager : MonoBehaviour
         Debug.Log(biome);
     }
 }
+ 
