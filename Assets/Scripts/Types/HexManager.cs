@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class HexManager
@@ -144,7 +143,8 @@ public class HexManager
         {
             // :D
             Hex hexToCheck =
-                hexesToCheck.Where(hex1 => hex1.fCost == hexesToCheck.Min(hex2 => hex2.fCost)).ToList()[0];
+                hexesToCheck.Where(hex => hex.fCost == hexesToCheck.Min(hexMin => hexMin.fCost))
+                    .OrderBy(hexSort => DistanceBetween(hexSort, endHex)).ToList().First();
 
             hexesToCheck.Remove(hexToCheck);
             _checkedHexes.Add(hexToCheck);
