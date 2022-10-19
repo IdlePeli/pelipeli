@@ -143,8 +143,12 @@ public class HexManager
         {
             // :D
             Hex hexToCheck =
-                hexesToCheck.Where(hex => hex.fCost == hexesToCheck.Min(hexMin => hexMin.fCost))
-                    .OrderBy(hexSort => DistanceBetween(hexSort, endHex)).ToList().First();
+                hexesToCheck
+                    .Where(hex =>
+                        hex.fCost == hexesToCheck.Min(hexMin => hexMin.fCost))
+                    .OrderBy(hexSort => DistanceBetween(hexSort, endHex))
+                    .ToList()
+                    .First();
 
             hexesToCheck.Remove(hexToCheck);
             _checkedHexes.Add(hexToCheck);

@@ -39,7 +39,7 @@ public class Hex : MonoBehaviour
     public float height;
 
     // Pathfinding
-    public int fCost = 10;
+    public int fCost = 0;
     public Hex parentHex;
     
     void OnMouseEnter()
