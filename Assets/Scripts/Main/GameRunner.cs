@@ -29,6 +29,8 @@ public class GameRunner : MonoBehaviour
             HM.StartAndEndHexes = StartAndEndHexes;
         }
 
+        BG.HM = HM;
+
         // Get random starting position
         _rnd = new System.Random();
 

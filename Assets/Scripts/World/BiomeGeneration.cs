@@ -18,8 +18,15 @@ public class BiomeGeneration : MonoBehaviour
     public int HeightAdjuster = 10;
     public int TemperatureAdjuster = 10;
     public float TerrainDepth = 1;
+    
+    [SerializeField]
     public float a = 0.24f;
     public float b = 0.47f;
+    public float oldA;
+    public float oldB;
+    
+    public HexManager HM;
+    public bool updateButton;
     
     public Biome Get(int xCoord, int zCoord)
     {
@@ -55,6 +62,55 @@ public class BiomeGeneration : MonoBehaviour
         //set tile yAxis
         biome.yAxis = hexHeight;
         return biome;
+    }
+
+    public Vector3 HeightPos(Hex hex)
+    {
+        float x = Mathf.PerlinNoise((float)hex.xAxis / HeightAdjuster, (float)hex.zAxis / HeightAdjuster);
+        float hexHeight = CubeRoot(x-a) - b;
+        Vector3 position = hex.transform.position;
+        
+        float temperature = Mathf.PerlinNoise((float) hex.zAxis / TemperatureAdjuster, (float) hex.xAxis / TemperatureAdjuster);
+
+        //set biome based on height and temperature values
+        Biome biome = hexHeight switch
+        {
+            //set world height specific biomes
+            < 0 => temperature switch
+            {
+                < 0.33f => iceWater,
+                _ => ocean
+            },
+            > 1.5f => mountain,
+            //set rest of the biomes based on temperature zones
+            _ => temperature switch
+            {
+                < 0.33f => snow,
+                < 0.66f => forest,
+                _ => desert
+            }
+        };
+        hex.SetMaterial(biome.material);
+        
+        return new Vector3(position.x, hexHeight, position.z);
+    }
+
+    public void Update()
+    {
+        if (oldA != a || oldB != b)
+        {
+            updateButton = false;
+            foreach (Hex hex in HM.GetHexList())
+            {
+                hex.transform.position = HeightPos(hex);
+            }
+        }
+    }
+
+    public void Awake()
+    {
+        oldA = a;
+        oldB = b;
     }
 
 
