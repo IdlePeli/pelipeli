@@ -28,7 +28,7 @@ public class HexManager
 
     public void SetBiome(int x, int z)
     {
-        hexes[x][z].SetBiome(BG.Get(x, z));
+        hexes[x][z].SetBiome(BG.Generate(x, z));
     }
 
     public void GenerateSpecialBiomes()
