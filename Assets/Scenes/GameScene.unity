@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -530,11 +530,14 @@ MonoBehaviour:
   iceWater: {fileID: 1742378706}
   snow: {fileID: 863592213}
   deepOcean: {fileID: 118623632}
-  HeightAdjuster: 10
-  TemperatureAdjuster: 10
+  HeightAdjuster: 8.34
+  TemperatureAdjuster: 24.94
   TerrainDepth: 1
-  a: 0.24
-  b: -0.47
+  waterLevel: 1
+  mountainLevel: 2.5
+  a: -3.1
+  b: 0.26
+  c: 0.22
 --- !u!4 &723050788
 Transform:
   m_ObjectHideFlags: 0
