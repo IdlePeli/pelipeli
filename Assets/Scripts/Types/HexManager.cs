@@ -30,6 +30,7 @@ public class HexManager
         SetBiome(x, z);
         GenerateResource(hexes[x][z]);
         SetMaterial(hexes[x][z]);
+        hexes[x][z].gameObject.SetActive(false);
     }
 
 
