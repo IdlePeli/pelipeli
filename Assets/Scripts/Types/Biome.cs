@@ -5,7 +5,7 @@ using UnityEngine;
 public class Biome : MonoBehaviour
 {
     public Material material;
-    public float yAxis = 1;
+    public float yAxis = 1f;
     public float terrainModifier = 1;
     public string type;
     public Resource[] resources;
@@ -14,7 +14,7 @@ public class Biome : MonoBehaviour
     private System.Random _rnd;
 
     public bool isPathable = true;
-    public float travelTime = 1;
+    public int travelTime = 10;
 
     public void Awake()
     {

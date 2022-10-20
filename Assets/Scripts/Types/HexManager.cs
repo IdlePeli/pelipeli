@@ -28,7 +28,7 @@ public class HexManager
 
     public void SetBiome(int x, int z)
     {
-        hexes[x][z].SetBiome(BG.Get(x, z));
+        hexes[x][z].SetBiome(BG.Generate(x, z));
     }
 
     public void GenerateSpecialBiomes()
@@ -101,6 +101,7 @@ public class HexManager
     public void HoverHex(Hex hex)
     {
         hex.transform.position -= new Vector3(0, 0.2f, 0);
+        if (Player.CanMove(hex)) FindPath(Player.currentHex, hex);
     }
 
     public void LeaveHex(Hex hex)
@@ -110,8 +111,10 @@ public class HexManager
 
     public void ClickHex(Hex hex)
     {
-        FindPath(Player.currentHex, hex);
-        Player.Move(hex);
+        if (Player.CanMove(hex))
+        {
+            Player.Move(hex);
+        }
     }
 
     public void GenerateResources()
@@ -122,43 +125,114 @@ public class HexManager
             if (resource == null) continue;
 
             Transform resTransform = resource.transform;
-            Transform hexTransform = hex.transform;
-
-            resTransform.SetParent(hexTransform);
-            resTransform.position = hexTransform.position;
-            resTransform.position += new Vector3(0, 1.5f, 0);
+            resTransform.SetParent(hex.transform);
+            resTransform.position = hex.GetCeilingPosition();
         }
     }
 
+    private List<Hex> _route;
+    private List<Hex> _checkedHexes = new();
+
     public List<Hex> FindPath(Hex startHex, Hex endHex)
     {
-        List<Hex> route = new();
-        List<Hex> completeRoute = new();
-        List<Hex> checkedHexes = new();
-        completeRoute.Add(startHex);
-        route.Add(startHex);
+        _checkedHexes = new List<Hex>();
+        List<Hex> hexesToCheck = new() {startHex};
 
-        int iteration = 0;
-        while (iteration < 30)
+        int iteration = 1;
+        while (true)
         {
-            foreach (Hex hex in completeRoute.Where(hex => !checkedHexes.Contains(hex)))
-            {
-                Hex[] adjHexes = AdjacentHexes(hex);
-                checkedHexes.Add(hex);
+            // :D
+            Hex hexToCheck =
+                hexesToCheck
+                    .Where(hex =>
+                        hex.fCost == hexesToCheck.Min(hexMin => hexMin.fCost))
+                    .OrderBy(hexSort => DistanceBetween(hexSort, endHex))
+                    .ToList()
+                    .First();
 
-                foreach (Hex adjHex in adjHexes.Where(adjHex => Player.CanMove(adjHex)))
-                {
-                    if (!route.Contains(adjHex)) route.Add(adjHex);
-                }
+            hexesToCheck.Remove(hexToCheck);
+            _checkedHexes.Add(hexToCheck);
+            if (hexToCheck == endHex) break;
+
+            foreach (Hex hex in AdjacentHexes(hexToCheck)
+                         .Where(hex => Player.CanMove(hex) &&
+                                       !_checkedHexes.Contains(hex)))
+            {
+                int fCost = DistanceBetween(hex, startHex) + DistanceBetween(hex, endHex);
+                if (fCost >= hex.fCost && hexesToCheck.Contains(hex)) continue;
+                hex.fCost = fCost;
+                hex.parentHex = hexToCheck;
+                if (!hexesToCheck.Contains(hex)) hexesToCheck.Add(hex);
             }
 
-            completeRoute.AddRange(route);
-            if (completeRoute.Contains(endHex)) break;
+            if (iteration > 250)
+            {
+                Debug.Log("Calculated 250 cycles and couldn't reach destination.");
+                break;
+            }
+
             iteration++;
         }
 
-        Debug.Log(route);
-        Debug.Log(iteration);
-        return completeRoute;
+        _route = RouteBuilder(endHex);
+        if (DEBUG) DebugPathFinding(startHex, endHex);
+        foreach (Hex hex in _checkedHexes) hex.parentHex = null;
+        return _route;
+    }
+
+    private static List<Hex> RouteBuilder(Hex hex)
+    {
+        List<Hex> routeRB = new();
+        Hex helperHex = hex;
+        while (helperHex.parentHex != null)
+        {
+            routeRB.Add(helperHex);
+            helperHex = helperHex.parentHex;
+        }
+
+        routeRB.Reverse();
+        return routeRB;
+    }
+
+    private int DistanceBetween(Hex hex1, Hex hex2)
+    {
+        return (int) Vector2Int.Distance(hex1.GetGridCoordinate(), hex2.GetGridCoordinate());
+    }
+
+
+    // DEBUG SECTION
+
+    public bool DEBUG;
+    public Material DebugCheckedHexes;
+    public Material DebugCheckedRoute;
+    public Material StartAndEndHexes;
+    private List<Hex> _debugColoredHexes = new();
+
+    private void DebugPathFinding(Hex hex1, Hex hex2)
+    {
+        foreach (Hex hex in _debugColoredHexes)
+        {
+            hex.SetMaterial();
+        }
+
+        _debugColoredHexes = new List<Hex>();
+
+        foreach (Hex hex in _checkedHexes)
+        {
+            hex.SetMaterial(DebugCheckedHexes);
+        }
+
+        foreach (Hex hex in _route)
+        {
+            hex.SetMaterial(DebugCheckedRoute);
+        }
+
+        hex1.SetMaterial(StartAndEndHexes);
+        hex2.SetMaterial(StartAndEndHexes);
+
+        _debugColoredHexes.Add(hex1);
+        _debugColoredHexes.Add(hex2);
+        _debugColoredHexes.AddRange(_checkedHexes);
+        _debugColoredHexes.AddRange(_route);
     }
 }
