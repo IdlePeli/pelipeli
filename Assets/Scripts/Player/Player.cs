@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -7,24 +6,24 @@ public class Player : MonoBehaviour
     public float innerSize;
     public float height;
     public Material material;
-
-    private GameObject player;
-    private Hex playerHex;
     public Hex currentHex;
 
-    public void Spawn(HexManager HM)
+    private GameObject _player;
+    private Hex _playerHex;
+
+    public void Spawn(HexManager hexManager)
     {
-        player = new GameObject($"PlayerHex", typeof(Hex));
-        playerHex = player.GetComponent<Hex>();
+        _player = new GameObject("PlayerHex", typeof(Hex));
+        _playerHex = _player.GetComponent<Hex>();
 
-        playerHex.outerSize = outerSize;
-        playerHex.innerSize = innerSize;
-        playerHex.height = height;
-        playerHex.HM = HM;
-        playerHex.SetMaterial(material);
+        _playerHex.outerSize = outerSize;
+        _playerHex.innerSize = innerSize;
+        _playerHex.height = height;
+        _playerHex.HexManager = hexManager;
+        _playerHex.SetMaterial(material);
 
-        playerHex.DrawMesh();
-        player.transform.SetParent(transform);
+        _playerHex.DrawMesh();
+        _player.transform.SetParent(transform);
     }
 
     public void Move(Hex hex)

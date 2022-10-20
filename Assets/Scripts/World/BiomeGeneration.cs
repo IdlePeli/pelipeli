@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -16,32 +14,60 @@ public class BiomeGeneration : MonoBehaviour
     //lisää biomei ja materiaalei joskus(isoi juttui tulos😎) ᓚᘏᗢ 
 
     //Change in unity to manipulate biomegeneration default value 10 with lower values biomes will be smaller
-    public float HeightAdjuster = 10f;
-    public float TemperatureAdjuster = 10f;
-    public float TerrainDepth = 1;
-    private float oldH;
-    private float oldT;
-    
-    
+    public float heightAdjuster = 10f;
+    public float temperatureAdjuster = 10f;
+    public float terrainDepth = 1;
+
+
     public float waterLevel = 1f;
     public float mountainLevel = 2.5f;
-    private float oldWLevel;
-    private float oldMLevel;
-    
+
     public float a = 5f;
     public float b = 2.2f;
     public float c = 1.2f;
-    private float oldA;
-    private float oldB;
-    private float oldC;
-    
-    
-    public HexManager HM;
+    private float _oldA;
+    private float _oldB;
+    private float _oldC;
+    private float _oldH;
+    private float _oldMLevel;
+    private float _oldT;
+    private float _oldWLevel;
 
-    public Biome Generate(int xCoord, int zCoord)
+
+    public HexManager HexManager;
+
+    public void Awake()
     {
-        float height = GetHeight(xCoord, zCoord);
-        float temperature = GetTemperature(xCoord, zCoord);
+        _oldA = a;
+        _oldB = b;
+    }
+
+    public void Update()
+    {
+        if (_oldA != a || _oldB != b || _oldC != c || _oldWLevel != waterLevel || _oldMLevel != mountainLevel ||
+            _oldH != heightAdjuster || _oldT != temperatureAdjuster)
+        {
+            _oldA = a;
+            _oldB = b;
+            _oldC = c;
+            _oldWLevel = waterLevel;
+            _oldMLevel = mountainLevel;
+            _oldH = heightAdjuster;
+            _oldT = temperatureAdjuster;
+
+            foreach (Hex hex in HexManager.GetHexList())
+            {
+                Biome biome = Generate(hex.gridCoord);
+                hex.SetMaterial(biome.material);
+                hex.transform.position += new Vector3(0, biome.yAxis - hex.transform.position.y, 0);
+            }
+        }
+    }
+
+    public Biome Generate(Vector2Int gridCoord)
+    {
+        float height = GetHeight(gridCoord);
+        float temperature = GetTemperature(gridCoord);
 
         Biome biome = GetBiome(height, temperature);
 
@@ -49,43 +75,13 @@ public class BiomeGeneration : MonoBehaviour
         return biome;
     }
 
-    public void Update()
-    {
-        if (oldA != a || oldB != b || oldC != c || oldWLevel != waterLevel || oldMLevel != mountainLevel || oldH != HeightAdjuster || oldT != TemperatureAdjuster)
-        {
-            oldA = a;
-            oldB = b;
-            oldC = c;
-            oldWLevel = waterLevel;
-            oldMLevel = mountainLevel;
-            oldH = HeightAdjuster;
-            oldT = TemperatureAdjuster;
-
-            foreach (Hex hex in HM.GetHexList())
-            {
-                Biome biome = Generate(hex.xAxis, hex.zAxis);
-                hex.SetMaterial(biome.material);
-                hex.transform.position += new Vector3(0, biome.yAxis - hex.transform.position.y, 0);
-            }
-        }
-    }
-
-    public void Awake()
-    {
-        oldA = a;
-        oldB = b;
-    }
-
     //generate deepOcean biomes if all adjacent tiles are water
-    public void GenerateDeepOcean(HexManager HM)
+    public void GenerateDeepOcean(HexManager hm)
     {
-        foreach (Hex hex in HM.GetHexList())
+        foreach (Hex hex in hm.GetHexList())
         {
             if (!hex.biome.type.Equals("ocean")) continue;
-            if (WaterInAdjacentHexes(HM.AdjacentHexes(hex)))
-            {
-                hex.SetBiome(deepOcean);
-            }
+            if (WaterInAdjacentHexes(hm.AdjacentHexes(hex))) hex.SetBiome(deepOcean);
         }
     }
 
@@ -94,38 +90,38 @@ public class BiomeGeneration : MonoBehaviour
         return adjHexes.All(adjHex => adjHex.biome.type.Equals("ocean"));
     }
 
-    private float GetTemperature(int xCoord, int zCoord)
+    private float GetTemperature(Vector2Int gridCoord)
     {
         //generate temperature for given xCoord and y position
         return Mathf.PerlinNoise(
-            zCoord / TemperatureAdjuster,
-            xCoord / TemperatureAdjuster
+            gridCoord.y / temperatureAdjuster,
+            gridCoord.x / temperatureAdjuster
         );
     }
 
-    private float GetHeight(int xCoord, int zCoord)
+    private float GetHeight(Vector2Int gridCoord)
     {
         //generate height for given x and y position
-        float x =10 * Mathf.PerlinNoise(xCoord / HeightAdjuster, zCoord / HeightAdjuster);
-        
-        float height = Mathf.Pow(x - a, 3) *  (b * 0.01f) + c;
-        
+        float x = 10 * Mathf.PerlinNoise(
+            gridCoord.x / heightAdjuster,
+            gridCoord.y / heightAdjuster
+        );
+
+        float height = Mathf.Pow(x - a, 3) * (b * 0.01f) + c;
+
         return height;
     }
 
     //set biome based on height and temperature values
     private Biome GetBiome(float height, float temperature)
     {
-
         if (height < waterLevel)
-        {
             return temperature switch
             {
                 < 0.33f => iceWater,
                 _ => ocean
             };
-        }
-        
+
         if (height >= mountainLevel) return mountain;
 
         return temperature switch
@@ -134,12 +130,5 @@ public class BiomeGeneration : MonoBehaviour
             < 0.66f => forest,
             _ => desert
         };
-    }
-
-    private static float CubeRoot(float x)
-    {
-        if (x < 0)
-            return -Mathf.Pow(-x, 1f / 3f);
-        return Mathf.Pow(x, 1f / 3f);
     }
 }

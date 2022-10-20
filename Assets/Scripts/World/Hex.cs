@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
@@ -9,39 +8,22 @@ using UnityEngine;
 [RequireComponent(typeof(MeshCollider))]
 public class Hex : MonoBehaviour
 {
-    private List<Face> _faces;
-    private Mesh _mesh;
-    private MeshFilter _meshFilter;
-    private MeshRenderer _meshRenderer;
-    private MeshCollider _meshCollider;
-    public HexManager HM;
-
     public Biome biome;
-    public int xAxis;
-    public int zAxis;
+    public Vector2Int gridCoord;
 
     public float innerSize;
     public float outerSize;
     public float height;
 
     // Pathfinding
-    public int fCost = 0;
+    public int fCost;
     public Hex parentHex;
-
-    private void OnMouseEnter()
-    {
-        HM.HoverHex(this);
-    }
-
-    private void OnMouseExit()
-    {
-        HM.LeaveHex(this);
-    }
-
-    private void OnMouseDown()
-    {
-        HM.ClickHex(this);
-    }
+    private List<Face> _faces;
+    private Mesh _mesh;
+    private MeshCollider _meshCollider;
+    private MeshFilter _meshFilter;
+    private MeshRenderer _meshRenderer;
+    public HexManager HexManager;
 
 
     private void Awake()
@@ -58,6 +40,21 @@ public class Hex : MonoBehaviour
         _meshFilter.mesh = _mesh;
         _meshCollider.sharedMesh = _mesh;
         DrawMesh();
+    }
+
+    private void OnMouseDown()
+    {
+        HexManager.ClickHex(this);
+    }
+
+    private void OnMouseEnter()
+    {
+        HexManager.HoverHex(this);
+    }
+
+    private void OnMouseExit()
+    {
+        HexManager.LeaveHex(this);
     }
 
     public void DrawMesh()
@@ -142,6 +139,6 @@ public class Hex : MonoBehaviour
 
     public Vector2Int GetGridCoordinate()
     {
-        return new Vector2Int(xAxis, zAxis);
+        return gridCoord;
     }
 }

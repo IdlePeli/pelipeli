@@ -530,9 +530,9 @@ MonoBehaviour:
   iceWater: {fileID: 1742378706}
   snow: {fileID: 863592213}
   deepOcean: {fileID: 118623632}
-  HeightAdjuster: 8.34
-  TemperatureAdjuster: 24.94
-  TerrainDepth: 1
+  heightAdjuster: 8.34
+  temperatureAdjuster: 24.94
+  terrainDepth: 1
   waterLevel: 1
   mountainLevel: 2.5
   a: -3.1
@@ -1161,9 +1161,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1212214735}
   renderDistance: 20
-  BG: {fileID: 723050787}
-  HGL: {fileID: 1624696028}
-  DEBUG: 1
+  bg: {fileID: 723050787}
+  hgl: {fileID: 1624696028}
+  debug: 1
   debugCheckedHexesMat: {fileID: 2100000, guid: 438057dfd80794967b584b03ca3e95f1, type: 2}
   debugCheckedRouteMat: {fileID: 2100000, guid: 009cf99a9ff894130b172147f33ac22b, type: 2}
   startAndEndHexes: {fileID: 2100000, guid: 0df9782dcd1524c13a497368aa07539c, type: 2}
