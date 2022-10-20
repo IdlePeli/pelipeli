@@ -30,7 +30,6 @@ public class HexManager
         SetBiome(x, z);
         GenerateResource(hexes[x][z]);
         SetMaterial(hexes[x][z]);
-        _activeHexes.Add(hexes[x][z]);
     }
 
 
@@ -125,11 +124,10 @@ public class HexManager
 
     public void RenderTilesInRenderDistance(Vector2Int coordinates = default, bool fromCoords = false)
     {
-        Vector2Int gridCoordinate = coordinates;
-        if (!fromCoords) gridCoordinate = Player.currentHex.GetGridCoordinate();
+        Vector2Int gridCoordinate = !fromCoords ? Player.currentHex.GetGridCoordinate() : coordinates;
 
         _activeHexes
-            .Where(hex => DistanceBetween(Player.currentHex, hex) > renderDistance)
+            .Where(hex => Vector2Int.Distance(gridCoordinate, hex.GetGridCoordinate()) > renderDistance + 1)
             .ToList()
             .ForEach(hex =>
             {
@@ -137,13 +135,12 @@ public class HexManager
                 _activeHexes.Remove(hex);
             });
 
-
         for (int xIndex = gridCoordinate.x - renderDistance; xIndex < gridCoordinate.x + renderDistance; xIndex++)
         {
             for (int zIndex = gridCoordinate.y - renderDistance; zIndex < gridCoordinate.y + renderDistance; zIndex++)
             {
                 Hex hex = GetOrCreate(xIndex, zIndex);
-                if (hex.gameObject.activeSelf) continue;
+                if (Vector2Int.Distance(gridCoordinate, hex.GetGridCoordinate()) > renderDistance) continue;
                 hex.gameObject.SetActive(true);
                 _activeHexes.Add(hexes[xIndex][zIndex]);
             }

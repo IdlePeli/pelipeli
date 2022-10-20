@@ -33,17 +33,15 @@ public class GameRunner : MonoBehaviour
 
         // Get random starting position
         _rnd = new System.Random();
-
         Vector2Int gridCoordinate = new(_rnd.Next(-200, 200) + 2500, _rnd.Next(-200, 200) + 2500);
 
+        // Spawn player with access to HexManager
         player.Spawn(HM);
 
-        // Load tiles in render distance and save them
-        // Generate 2 dimensional empty dictionary to receive
-        // HexRenderer for each possible x and y coordinate
+        // Render tiles in starting location
         HM.RenderTilesInRenderDistance(gridCoordinate, true);
 
-        // Spawn the player somewhere where player can move
+        // Move the player somewhere where player can move
         Hex spawnHex = HM.GetHex(gridCoordinate.x, gridCoordinate.y);
         int i = 1;
         while (!player.CanMove(spawnHex))
@@ -51,8 +49,9 @@ public class GameRunner : MonoBehaviour
             spawnHex = HM.GetHex(gridCoordinate.x + i, gridCoordinate.y + i);
             i++;
         }
-
         player.Move(spawnHex);
+        
+        // TODO: Generate special biomes
         HM.GenerateSpecialBiomes();
     }
 }
