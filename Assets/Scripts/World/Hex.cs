@@ -41,13 +41,13 @@ public class Hex : MonoBehaviour
     // Pathfinding
     public int fCost = 0;
     public Hex parentHex;
-    
-    void OnMouseEnter()
+
+    private void OnMouseEnter()
     {
         HM.HoverHex(this);
     }
 
-    void OnMouseExit()
+    private void OnMouseExit()
     {
         HM.LeaveHex(this);
     }
@@ -71,10 +71,6 @@ public class Hex : MonoBehaviour
 
         _meshFilter.mesh = _mesh;
         _meshCollider.sharedMesh = _mesh;
-    }
-
-    private void OnEnable()
-    {
         DrawMesh();
     }
 
@@ -118,7 +114,7 @@ public class Hex : MonoBehaviour
         }
     }
 
-    private Face CreateFace(float innerRad, float outerRad, float heightA, float heightB, int point,
+    private static Face CreateFace(float innerRad, float outerRad, float heightA, float heightB, int point,
         bool reverse = false)
     {
         Vector3 pointA = GetPoint(innerRad, heightB, point);
@@ -148,8 +144,8 @@ public class Hex : MonoBehaviour
 
     public void SetMaterial(Material material = null)
     {
-        if (material == null) _meshRenderer.material = biome.material;
-        else _meshRenderer.material = material;
+        // If material is null then use Hex's biomes material
+        _meshRenderer.material = material ? material : biome.material;
     }
 
     public Vector3 GetCeilingPosition()
