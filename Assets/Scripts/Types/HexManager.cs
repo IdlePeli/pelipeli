@@ -9,27 +9,30 @@ public class HexManager
     private HexGridLayout HGL;
     private BiomeGeneration BG;
     private Player Player;
+    private int renderDistance;
 
     public HexManager(
         HexGridLayout HGL,
         BiomeGeneration BG,
-        Player Player)
+        Player Player,
+        int renderDistance)
     {
         this.Player = Player;
         this.HGL = HGL;
         this.BG = BG;
+        this.renderDistance = renderDistance;
     }
 
-    public void AddHex(int x, int z)
+    public void CreateHex(int x, int z)
     {
         if (!hexes.ContainsKey(x)) hexes[x] = new Dictionary<int, Hex>();
         hexes[x][z] = HGL.CreateHex(this, x, z);
+        SetBiome(x, z);
+        GenerateResource(hexes[x][z]);
+        SetMaterial(hexes[x][z]);
+        _activeHexes.Add(hexes[x][z]);
     }
 
-    public void SetBiome(int x, int z)
-    {
-        hexes[x][z].SetBiome(BG.Generate(x, z));
-    }
 
     public void GenerateSpecialBiomes()
     {
@@ -41,12 +44,14 @@ public class HexManager
         return hexes[x][z];
     }
 
-    public void SetMaterials()
+    private void SetMaterial(Hex hex)
     {
-        foreach (Hex hex in GetHexList())
-        {
-            hex.SetMaterial();
-        }
+        hex.SetMaterial();
+    }
+
+    private void SetBiome(int x, int z)
+    {
+        hexes[x][z].SetBiome(BG.Generate(x, z));
     }
 
     public Hex[] AdjacentHexes(Hex hex)
@@ -111,23 +116,61 @@ public class HexManager
 
     public void ClickHex(Hex hex)
     {
-        if (Player.CanMove(hex))
+        if (!Player.CanMove(hex)) return;
+        Player.Move(hex);
+        RenderTilesInRenderDistance();
+    }
+
+    private readonly List<Hex> _activeHexes = new();
+
+    public void RenderTilesInRenderDistance(Vector2Int coordinates = default, bool fromCoords = false)
+    {
+        Vector2Int gridCoordinate = coordinates;
+        if (!fromCoords) gridCoordinate = Player.currentHex.GetGridCoordinate();
+
+        _activeHexes
+            .Where(hex => DistanceBetween(Player.currentHex, hex) > renderDistance)
+            .ToList()
+            .ForEach(hex =>
+            {
+                hex.gameObject.SetActive(false);
+                _activeHexes.Remove(hex);
+            });
+
+
+        for (int xIndex = gridCoordinate.x - renderDistance; xIndex < gridCoordinate.x + renderDistance; xIndex++)
         {
-            Player.Move(hex);
+            for (int zIndex = gridCoordinate.y - renderDistance; zIndex < gridCoordinate.y + renderDistance; zIndex++)
+            {
+                Hex hex = GetOrCreate(xIndex, zIndex);
+                if (hex.gameObject.activeSelf) continue;
+                hex.gameObject.SetActive(true);
+                _activeHexes.Add(hexes[xIndex][zIndex]);
+            }
         }
     }
 
-    public void GenerateResources()
+    private Hex GetOrCreate(int x, int z)
     {
-        foreach (Hex hex in GetHexList())
+        try
         {
-            GameObject resource = hex.biome.GenerateResource();
-            if (resource == null) continue;
-
-            Transform resTransform = resource.transform;
-            resTransform.SetParent(hex.transform);
-            resTransform.position = hex.GetCeilingPosition();
+            return hexes[x][z];
         }
+        catch (Exception)
+        {
+            CreateHex(x, z);
+            return hexes[x][z];
+        }
+    }
+
+    private static void GenerateResource(Hex hex)
+    {
+        GameObject resource = hex.biome.GenerateResource();
+        if (resource == null) return;
+
+        Transform resTransform = resource.transform;
+        resTransform.SetParent(hex.transform);
+        resTransform.position = hex.GetCeilingPosition();
     }
 
     private List<Hex> _route;
@@ -184,10 +227,13 @@ public class HexManager
     {
         List<Hex> routeRB = new();
         Hex helperHex = hex;
+        int iteration = 1;
         while (helperHex.parentHex != null)
         {
             routeRB.Add(helperHex);
             helperHex = helperHex.parentHex;
+            if (iteration > 250) break;
+            iteration++;
         }
 
         routeRB.Reverse();

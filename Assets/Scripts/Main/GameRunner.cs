@@ -16,17 +16,17 @@ public class GameRunner : MonoBehaviour
     public bool DEBUG;
     public Material debugCheckedHexesMat;
     public Material debugCheckedRouteMat;
-    public Material StartAndEndHexes;
+    public Material startAndEndHexes;
 
     public void Awake()
     {
-        HM = new HexManager(HGL, BG, player);
+        HM = new HexManager(HGL, BG, player, renderDistance);
         if (DEBUG)
         {
             HM.DEBUG = true;
             HM.DebugCheckedHexes = debugCheckedHexesMat;
             HM.DebugCheckedRoute = debugCheckedRouteMat;
-            HM.StartAndEndHexes = StartAndEndHexes;
+            HM.StartAndEndHexes = startAndEndHexes;
         }
 
         BG.HM = HM;
@@ -34,35 +34,25 @@ public class GameRunner : MonoBehaviour
         // Get random starting position
         _rnd = new System.Random();
 
-        int x = _rnd.Next(-200, 200) + 2500;
-        int z = _rnd.Next(-200, 200) + 2500;
+        Vector2Int gridCoordinate = new(_rnd.Next(-200, 200) + 2500, _rnd.Next(-200, 200) + 2500);
 
         player.Spawn(HM);
 
         // Load tiles in render distance and save them
         // Generate 2 dimensional empty dictionary to receive
         // HexRenderer for each possible x and y coordinate
-        for (int xIndex = x - renderDistance; xIndex < x + renderDistance; xIndex++)
-        {
-            for (int zIndex = z - renderDistance; zIndex < z + renderDistance; zIndex++)
-            {
-                HM.AddHex(xIndex, zIndex);
-                HM.SetBiome(xIndex, zIndex);
-            }
-        }
+        HM.RenderTilesInRenderDistance(gridCoordinate, true);
 
         // Spawn the player somewhere where player can move
-        Hex spawnHex = HM.GetHex(x, z);
+        Hex spawnHex = HM.GetHex(gridCoordinate.x, gridCoordinate.y);
         int i = 1;
         while (!player.CanMove(spawnHex))
         {
-            spawnHex = HM.GetHex(x + i, z + i);
+            spawnHex = HM.GetHex(gridCoordinate.x + i, gridCoordinate.y + i);
             i++;
         }
 
         player.Move(spawnHex);
         HM.GenerateSpecialBiomes();
-        HM.GenerateResources();
-        HM.SetMaterials();
     }
 }
