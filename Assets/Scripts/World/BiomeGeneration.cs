@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -11,63 +9,126 @@ public class BiomeGeneration : MonoBehaviour
     public Biome mountain;
     public Biome iceWater;
     public Biome snow;
+
     public Biome deepOcean;
     //lisää biomei ja materiaalei joskus(isoi juttui tulos😎) ᓚᘏᗢ 
-    
+
     //Change in unity to manipulate biomegeneration default value 10 with lower values biomes will be smaller
-    public int HeightAdjuster = 10;
-    public int TemperatureAdjuster = 10;
-    public float TerrainDepth = 1;
-    public Biome Get(int x, int z)
+    public float heightAdjuster = 10f;
+    public float temperatureAdjuster = 10f;
+    public float terrainDepth = 1;
+
+
+    public float waterLevel = 1f;
+    public float mountainLevel = 2.5f;
+
+    public float a = 5f;
+    public float b = 2.2f;
+    public float c = 1.2f;
+    private float _oldA;
+    private float _oldB;
+    private float _oldC;
+    private float _oldH;
+    private float _oldMLevel;
+    private float _oldT;
+    private float _oldWLevel;
+
+
+    public HexManager HexManager;
+
+    public void Awake()
     {
-        //generate height for given x and y position
-        float hexHeight = Mathf.PerlinNoise((float) x / HeightAdjuster, (float) z / HeightAdjuster) * 3 - TerrainDepth;
-        if (hexHeight <= 0) hexHeight = 0;
-        hexHeight = Mathf.Pow(hexHeight, 1.3f);
+        _oldA = a;
+        _oldB = b;
+    }
 
-        //generate temperature for given x and y position
-        float temperature = Mathf.PerlinNoise((float) z / TemperatureAdjuster, (float) x / TemperatureAdjuster);
-
-        //set biome based on height and temperature values
-        Biome biome = hexHeight switch
+    public void Update()
+    {
+        if (_oldA != a || _oldB != b || _oldC != c || _oldWLevel != waterLevel || _oldMLevel != mountainLevel ||
+            _oldH != heightAdjuster || _oldT != temperatureAdjuster)
         {
-            //set world height specific biomes
-            0 => temperature switch
+            _oldA = a;
+            _oldB = b;
+            _oldC = c;
+            _oldWLevel = waterLevel;
+            _oldMLevel = mountainLevel;
+            _oldH = heightAdjuster;
+            _oldT = temperatureAdjuster;
+
+            foreach (Hex hex in HexManager.GetHexList())
             {
-                < 0.33f => iceWater,
-                _ => ocean
-            },
-            > 1.5f => mountain,
-            //set rest of the biomes based on temperature zones
-            _ => temperature switch
-            {
-                < 0.33f => snow,
-                < 0.66f => forest,
-                _ => desert
+                Biome biome = Generate(hex.gridCoord);
+                hex.SetMaterial(biome.material);
+                hex.transform.position += new Vector3(0, biome.yAxis - hex.transform.position.y, 0);
             }
-        };
-        
-        //set tile yAxis position adjusted by biome modifier
-        biome.yAxis = (hexHeight - 1.5f) * biome.terrainModifier + 1.5f;
+        }
+    }
+
+    public Biome Generate(Vector2Int gridCoord)
+    {
+        float height = GetHeight(gridCoord);
+        float temperature = GetTemperature(gridCoord);
+
+        Biome biome = GetBiome(height, temperature);
+
+        biome.yAxis = height;
         return biome;
     }
 
-
     //generate deepOcean biomes if all adjacent tiles are water
-    public void GenerateDeepOcean(HexManager HM)
+    public void GenerateDeepOcean(HexManager hm)
     {
-        foreach (Hex hex in HM.GetHexList())
+        foreach (Hex hex in hm.GetHexList())
         {
             if (!hex.biome.type.Equals("ocean")) continue;
-            if (WaterInAdjacentHexes(HM.AdjacentHexes(hex)))
-            {
-                hex.SetBiome(deepOcean);
-            }
+            if (WaterInAdjacentHexes(hm.AdjacentHexes(hex))) hex.SetBiome(deepOcean);
         }
     }
 
     private static bool WaterInAdjacentHexes(Hex[] adjHexes)
     {
         return adjHexes.All(adjHex => adjHex.biome.type.Equals("ocean"));
+    }
+
+    private float GetTemperature(Vector2Int gridCoord)
+    {
+        //generate temperature for given xCoord and y position
+        return Mathf.PerlinNoise(
+            gridCoord.y / temperatureAdjuster,
+            gridCoord.x / temperatureAdjuster
+        );
+    }
+
+    private float GetHeight(Vector2Int gridCoord)
+    {
+        //generate height for given x and y position
+        float x = 10 * Mathf.PerlinNoise(
+            gridCoord.x / heightAdjuster,
+            gridCoord.y / heightAdjuster
+        );
+
+        float height = Mathf.Pow(x - a, 3) * (b * 0.01f) + c;
+
+        return height;
+    }
+
+    //set biome based on height and temperature values
+    private Biome GetBiome(float height, float temperature)
+    {
+        if (height < waterLevel)
+            return temperature switch
+            {
+                < 0.33f => iceWater,
+                _ => ocean
+            };
+
+        if (height >= mountainLevel) return mountain;
+
+        return temperature switch
+        {
+            < 0.33f => snow,
+            < 0.66f => forest,
+            _ => desert
+        };
     }
 }

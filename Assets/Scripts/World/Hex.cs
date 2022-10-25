@@ -1,57 +1,29 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
-
-public struct Face
-{
-    public List<Vector3> Vertices { get; }
-    public List<int> Triangles { get; }
-    public List<Vector2> Uvs { get; }
-
-    public Face(List<Vector3> vertices, List<int> triangles, List<Vector2> uvs)
-    {
-        Vertices = vertices;
-        Triangles = triangles;
-        Uvs = uvs;
-    }
-}
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshCollider))]
 public class Hex : MonoBehaviour
 {
-    private List<Face> _faces;
-    private Mesh _mesh;
-    private MeshFilter _meshFilter;
-    private MeshRenderer _meshRenderer;
-    private MeshCollider _meshCollider;
-    public HexManager HM;
-
     public Biome biome;
-    public int xAxis;
-    public int zAxis;
+    public Vector2Int gridCoord;
 
     public float innerSize;
     public float outerSize;
     public float height;
 
-    void OnMouseEnter()
-    {
-        HM.HoverHex(this);
-    }
-
-    void OnMouseExit()
-    {
-        HM.LeaveHex(this);
-    }
-
-    private void OnMouseDown()
-    {
-        HM.ClickHex(this);
-    }
+    // Pathfinding
+    public int fCost;
+    public Hex parentHex;
+    private List<Face> _faces;
+    private Mesh _mesh;
+    private MeshCollider _meshCollider;
+    private MeshFilter _meshFilter;
+    private MeshRenderer _meshRenderer;
+    public HexManager HexManager;
 
 
     private void Awake()
@@ -67,11 +39,22 @@ public class Hex : MonoBehaviour
 
         _meshFilter.mesh = _mesh;
         _meshCollider.sharedMesh = _mesh;
+        DrawMesh();
     }
 
-    private void OnEnable()
+    private void OnMouseDown()
     {
-        DrawMesh();
+        HexManager.ClickHex(this);
+    }
+
+    private void OnMouseEnter()
+    {
+        HexManager.HoverHex(this);
+    }
+
+    private void OnMouseExit()
+    {
+        HexManager.LeaveHex(this);
     }
 
     public void DrawMesh()
@@ -114,7 +97,7 @@ public class Hex : MonoBehaviour
         }
     }
 
-    private Face CreateFace(float innerRad, float outerRad, float heightA, float heightB, int point,
+    private static Face CreateFace(float innerRad, float outerRad, float heightA, float heightB, int point,
         bool reverse = false)
     {
         Vector3 pointA = GetPoint(innerRad, heightB, point);
@@ -144,13 +127,18 @@ public class Hex : MonoBehaviour
 
     public void SetMaterial(Material material = null)
     {
-        if (material == null) _meshRenderer.material = biome.material;
-        else _meshRenderer.material = material;
+        // If material is null then use Hex's biomes material
+        _meshRenderer.material = material ? material : biome.material;
     }
 
-    public Vector3 GetPosition()
+    public Vector3 GetCeilingPosition()
     {
         Vector3 position = transform.position;
         return new Vector3(position.x, position.y + height / 2 + 0.15f, position.z);
+    }
+
+    public Vector2Int GetGridCoordinate()
+    {
+        return gridCoord;
     }
 }

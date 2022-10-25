@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -168,13 +168,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 691e19c308036d34d80d12d3071631b6, type: 2}
-  yAxis: 0
+  yAxis: 1
   terrainModifier: 1
   type: ocean
   resources: []
   emptiness: 500
-  isPathable: 1
-  travelTime: 1
+  isPathable: 0
+  travelTime: 10
 --- !u!1001 &180598956
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -353,7 +353,7 @@ MonoBehaviour:
   - {fileID: 1064500350}
   emptiness: 500
   isPathable: 1
-  travelTime: 1
+  travelTime: 10
 --- !u!1 &684346456
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,9 +530,14 @@ MonoBehaviour:
   iceWater: {fileID: 1742378706}
   snow: {fileID: 863592213}
   deepOcean: {fileID: 118623632}
-  HeightAdjuster: 10
-  TemperatureAdjuster: 10
-  TerrainDepth: 1
+  heightAdjuster: 8.34
+  temperatureAdjuster: 24.94
+  terrainDepth: 1
+  waterLevel: 1
+  mountainLevel: 2.5
+  a: -3.1
+  b: 0.26
+  c: 0.22
 --- !u!4 &723050788
 Transform:
   m_ObjectHideFlags: 0
@@ -606,7 +611,7 @@ MonoBehaviour:
   resources: []
   emptiness: 500
   isPathable: 1
-  travelTime: 1
+  travelTime: 10
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,8 +688,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 15, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 30, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -973,7 +978,7 @@ MonoBehaviour:
   resources: []
   emptiness: 500
   isPathable: 1
-  travelTime: 1
+  travelTime: 10
 --- !u!1 &1624696027
 GameObject:
   m_ObjectHideFlags: 0
@@ -1072,7 +1077,7 @@ MonoBehaviour:
   resources: []
   emptiness: 500
   isPathable: 1
-  travelTime: 1
+  travelTime: 10
 --- !u!1 &1791739068
 GameObject:
   m_ObjectHideFlags: 0
@@ -1123,7 +1128,7 @@ MonoBehaviour:
   type: ocean
   resources: []
   emptiness: 500
-  isPathable: 1
+  isPathable: 0
   travelTime: 1
 --- !u!1 &1895066701
 GameObject:
@@ -1155,9 +1160,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1212214735}
-  renderDistance: 50
-  BG: {fileID: 723050787}
-  HGL: {fileID: 1624696028}
+  renderDistance: 20
+  bg: {fileID: 723050787}
+  hgl: {fileID: 1624696028}
+  debug: 1
+  debugCheckedHexesMat: {fileID: 2100000, guid: 438057dfd80794967b584b03ca3e95f1, type: 2}
+  debugCheckedRouteMat: {fileID: 2100000, guid: 009cf99a9ff894130b172147f33ac22b, type: 2}
+  startAndEndHexes: {fileID: 2100000, guid: 0df9782dcd1524c13a497368aa07539c, type: 2}
 --- !u!4 &1895066703
 Transform:
   m_ObjectHideFlags: 0
@@ -1270,4 +1279,4 @@ MonoBehaviour:
   resources: []
   emptiness: 500
   isPathable: 1
-  travelTime: 1
+  travelTime: 10
