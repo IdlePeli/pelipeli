@@ -1,4 +1,5 @@
 using UnityEngine;
+using Random = System.Random;
 
 public class GameRunner : MonoBehaviour
 {
@@ -6,63 +7,53 @@ public class GameRunner : MonoBehaviour
 
     public int renderDistance = 5;
 
-    public BiomeGeneration BG;
-    public HexGridLayout HGL;
-    private HexManager HM;
-
-    private System.Random _rnd;
-
+    public BiomeGeneration bg;
+    public HexGrid hgl;
+    private HexManager _hexManager;
+    private Random _rnd;
+    
     //DEBUG
-    public bool DEBUG;
+    public bool debug;
     public Material debugCheckedHexesMat;
     public Material debugCheckedRouteMat;
-    public Material StartAndEndHexes;
+    public Material startAndEndHexes;
+
 
     public void Awake()
     {
-        HM = new HexManager(HGL, BG, player);
-        if (DEBUG)
+        _hexManager = new HexManager(hgl, bg, player, renderDistance);
+        if (debug)
         {
-            HM.DEBUG = true;
-            HM.DebugCheckedHexes = debugCheckedHexesMat;
-            HM.DebugCheckedRoute = debugCheckedRouteMat;
-            HM.StartAndEndHexes = StartAndEndHexes;
+            _hexManager.Debug = true;
+            _hexManager.DebugCheckedHexes = debugCheckedHexesMat;
+            _hexManager.DebugCheckedRoute = debugCheckedRouteMat;
+            _hexManager.StartAndEndHexes = startAndEndHexes;
         }
 
-        BG.HM = HM;
+        bg.HexManager = _hexManager;
 
         // Get random starting position
-        _rnd = new System.Random();
+        _rnd = new Random();
+        Vector2Int gridCoordinate = new(_rnd.Next(-200, 200) + 2500, _rnd.Next(-200, 200) + 2500);
 
-        int x = _rnd.Next(-200, 200) + 2500;
-        int z = _rnd.Next(-200, 200) + 2500;
+        // Spawn player with access to HexManager
+        player.Spawn(_hexManager);
 
-        player.Spawn(HM);
+        // Render tiles in starting location
+        _hexManager.RenderTilesInRenderDistance(gridCoordinate, true);
 
-        // Load tiles in render distance and save them
-        // Generate 2 dimensional empty dictionary to receive
-        // HexRenderer for each possible x and y coordinate
-        for (int xIndex = x - renderDistance; xIndex < x + renderDistance; xIndex++)
-        {
-            for (int zIndex = z - renderDistance; zIndex < z + renderDistance; zIndex++)
-            {
-                HM.AddHex(xIndex, zIndex);
-                HM.SetBiome(xIndex, zIndex);
-            }
-        }
-
-        // Spawn the player somewhere where player can move
-        Hex spawnHex = HM.GetHex(x, z);
+        // Move the player somewhere where player can move
+        Hex spawnHex = _hexManager.GetHex(gridCoordinate);
         int i = 1;
         while (!player.CanMove(spawnHex))
         {
-            spawnHex = HM.GetHex(x + i, z + i);
+            spawnHex = _hexManager.GetHex(gridCoordinate + new Vector2Int(i, i));
             i++;
         }
 
         player.Move(spawnHex);
-        HM.GenerateSpecialBiomes();
-        HM.GenerateResources();
-        HM.SetMaterials();
+
+        // TODO: Generate special biomes
+        _hexManager.GenerateSpecialBiomes();
     }
 }

@@ -8,12 +8,12 @@ public class WorldTime : MonoBehaviour
     public static Action OnHourChanged;
 
     public float timeSpeed = 0.1f;
+
+    private float _timer = 0.5f;
     public static int Minute { get; private set; }
     public static int Hour { get; private set; }
     public static int Day { get; private set; } = 1;
     public static int Year { get; private set; }
-
-    private float _timer = 0.5f;
 
     private void FixedUpdate()
     {
@@ -23,7 +23,7 @@ public class WorldTime : MonoBehaviour
         Minute++;
         OnMinuteChanged?.Invoke();
         _timer = 0;
-        
+
         if (!(Minute >= 60)) return;
         Minute = 0;
         Hour++;
@@ -33,11 +33,11 @@ public class WorldTime : MonoBehaviour
             Day++;
             OnDayChanged?.Invoke();
         }
+
         OnHourChanged?.Invoke();
 
         if (!(Day >= 366)) return;
         Day = 1;
-        Year++; 
-        
+        Year++;
     }
 }
