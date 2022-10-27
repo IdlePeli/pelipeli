@@ -10,20 +10,16 @@ public class MenuManager : MonoBehaviour
     public void SetCanvas(Biome biome)
     {
         if (canvas != null) canvas.SetActive(false);
-        
-        switch (biome.name)
-            {
-                case "Forest":
-                    canvas = WoodCanvas;
-                    break;
-                case "Ocean":
-                    canvas = FishCanvas;
-                    break;
-                case "Mountain":
-                    canvas = StoneCanvas;
-                    break;
-            }
-        
+
+        canvas = biome.name switch
+        {
+            "Forest" => WoodCanvas,
+            "Ocean" => FishCanvas,
+            "Mountain" => StoneCanvas,
+            _ => canvas
+        };
+
         canvas.SetActive(true);
+        Debug.Log(canvas);
     }
 }

@@ -24,6 +24,8 @@ public class Hex : MonoBehaviour
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
     public HexManager HexManager;
+    
+    public MenuManager MenuManager;
 
 
     private void Awake()
@@ -45,6 +47,7 @@ public class Hex : MonoBehaviour
     private void OnMouseDown()
     {
         HexManager.ClickHex(this);
+        MenuManager.SetCanvas(biome);
     }
 
     private void OnMouseEnter()

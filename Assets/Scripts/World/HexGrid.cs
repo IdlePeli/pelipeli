@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class HexGrid : MonoBehaviour
@@ -7,7 +8,7 @@ public class HexGrid : MonoBehaviour
     public float innerSize;
     public float height = 1f;
 
-    public Hex CreateHex(HexManager hm, Vector2Int gridCoord)
+    public Hex CreateHex(HexManager hm, Vector2Int gridCoord, MenuManager menuManager)
     {
         GameObject tile = new($"Hex {gridCoord}", typeof(Hex))
         {
@@ -22,6 +23,7 @@ public class HexGrid : MonoBehaviour
         hex.height = height;
         hex.gridCoord = gridCoord;
         hex.HexManager = hm;
+        hex.MenuManager = menuManager;
 
 
         hex.DrawMesh();

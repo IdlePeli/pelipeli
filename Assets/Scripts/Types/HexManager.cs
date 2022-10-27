@@ -14,6 +14,7 @@ public class HexManager
     private List<Hex> _checkedHexes = new();
     private List<Hex> _debugColoredHexes = new();
     private List<Hex> _route;
+    private MenuManager MenuManager;
 
 
     // DEBUG SECTION
@@ -26,18 +27,20 @@ public class HexManager
         HexGrid hexGrid,
         BiomeGeneration biomeGen,
         Player player,
-        int renderDistance)
+        int renderDistance,
+        MenuManager menuManager)
     {
         _player = player;
         _hexGrid = hexGrid;
         _biomeGen = biomeGen;
         _renderDistance = renderDistance;
+        MenuManager = menuManager;
     }
 
     private void CreateHex(Vector2Int gridCoord)
     {
         if (_hexes.ContainsKey(gridCoord)) return;
-        _hexes[gridCoord] = _hexGrid.CreateHex(this, gridCoord);
+        _hexes[gridCoord] = _hexGrid.CreateHex(this, gridCoord, MenuManager);
         SetBiome(gridCoord);
         GenerateResource(_hexes[gridCoord]);
         SetMaterial(_hexes[gridCoord]);
