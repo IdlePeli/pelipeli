@@ -190,9 +190,8 @@ public class HexManager
         Transform houseTransform = house.transform;
         houseTransform.SetParent(hex.transform);
         houseTransform.position = hex.GetCeilingPosition();
-        
     }
-    
+
     private static void GenerateResource(Hex hex)
     {
         GameObject resource = hex.biome.GenerateResource();
@@ -206,7 +205,7 @@ public class HexManager
     public List<Hex> FindPath(Hex startHex, Hex endHex)
     {
         _checkedHexes = new HashSet<Hex>();
-        HashSet<Hex> hexesToCheck = new() {startHex};
+        HashSet<Hex> hexesToCheck = new() { startHex };
 
         int iteration = 1;
         while (true)
@@ -269,7 +268,7 @@ public class HexManager
 
     private int DistanceBetween(Hex hex1, Hex hex2)
     {
-        return (int) Vector2Int.Distance(hex1.GetGridCoordinate(), hex2.GetGridCoordinate());
+        return (int)Vector2Int.Distance(hex1.GetGridCoordinate(), hex2.GetGridCoordinate());
     }
 
     private void DebugPathFinding(Hex hex1, Hex hex2)
