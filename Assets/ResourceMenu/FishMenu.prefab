@@ -556,12 +556,12 @@ GameObject:
   - component: {fileID: 2343276227502933371}
   - component: {fileID: 2343276227502933370}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: FishMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2343276227502933373
 RectTransform:
   m_ObjectHideFlags: 0
