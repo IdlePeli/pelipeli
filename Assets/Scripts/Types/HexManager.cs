@@ -11,7 +11,7 @@ public class HexManager
     private readonly HexGrid _hexGrid;
     private readonly Player _player;
     private readonly int _renderDistance;
-    private List<Hex> _checkedHexes = new();
+    private HashSet<Hex> _checkedHexes = new();
     private List<Hex> _debugColoredHexes = new();
     private List<Hex> _route;
     private MenuManager MenuManager;
@@ -96,7 +96,26 @@ public class HexManager
         }
         catch (Exception)
         {
-            return new Hex[] { };
+            if (gridCoord.x % 2 == 0)
+                return new[]
+                {
+                    _hexes[GetOrCreate(gridCoord - Vector2Int.one).gridCoord],
+                    _hexes[GetOrCreate(gridCoord + Vector2Int.left).gridCoord],
+                    _hexes[GetOrCreate(gridCoord + Vector2Int.down).gridCoord],
+                    _hexes[GetOrCreate(gridCoord + Vector2Int.up).gridCoord],
+                    _hexes[GetOrCreate(gridCoord + Vector2Int.right + Vector2Int.down).gridCoord],
+                    _hexes[GetOrCreate(gridCoord + Vector2Int.right).gridCoord]
+                };
+
+            return new[]
+            {
+                _hexes[GetOrCreate(gridCoord + Vector2Int.left).gridCoord],
+                _hexes[GetOrCreate(gridCoord + Vector2Int.left + Vector2Int.up).gridCoord],
+                _hexes[GetOrCreate(gridCoord + Vector2Int.down).gridCoord],
+                _hexes[GetOrCreate(gridCoord + Vector2Int.up).gridCoord],
+                _hexes[GetOrCreate(gridCoord + Vector2Int.right).gridCoord],
+                _hexes[GetOrCreate(gridCoord + Vector2Int.one).gridCoord]
+            };
         }
     }
 
@@ -171,8 +190,8 @@ public class HexManager
 
     public List<Hex> FindPath(Hex startHex, Hex endHex)
     {
-        _checkedHexes = new List<Hex>();
-        List<Hex> hexesToCheck = new() {startHex};
+        _checkedHexes = new HashSet<Hex>();
+        HashSet<Hex> hexesToCheck = new() {startHex};
 
         int iteration = 1;
         while (true)
