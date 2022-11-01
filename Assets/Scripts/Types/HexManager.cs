@@ -15,6 +15,7 @@ public class HexManager
     private List<Hex> _debugColoredHexes = new();
     private List<Hex> _route;
     private MenuManager MenuManager;
+    private BuildableObjectManager _buildableObjectManager;
 
 
     // DEBUG SECTION
@@ -28,13 +29,15 @@ public class HexManager
         BiomeGeneration biomeGen,
         Player player,
         int renderDistance,
-        MenuManager menuManager)
+        MenuManager menuManager,
+        BuildableObjectManager buildableObjectManager)
     {
         _player = player;
         _hexGrid = hexGrid;
         _biomeGen = biomeGen;
         _renderDistance = renderDistance;
         MenuManager = menuManager;
+        _buildableObjectManager = buildableObjectManager;
     }
 
     private void CreateHex(Vector2Int gridCoord)
@@ -137,10 +140,11 @@ public class HexManager
 
     public void ClickHex(Hex hex)
     {
+        MenuManager.SetCanvas(hex.biome);
         if (!_player.CanMove(hex)) return;
         _player.Move(hex);
         RenderTilesInRenderDistance();
-        
+        GenerateHouse(hex);
     }
 
     public void RenderTilesInRenderDistance(Vector2Int coordinates = default, bool fromCoords = false)
@@ -179,9 +183,13 @@ public class HexManager
         }
     }
 
-    private static void GenerateHouse(Hex hex)
+    private void GenerateHouse(Hex hex)
     {
-        GameObject house = hex.buildableObject.model;
+        BuildableObject house = _buildableObjectManager.GetObject();
+
+        Transform houseTransform = house.transform;
+        houseTransform.SetParent(hex.transform);
+        houseTransform.position = hex.GetCeilingPosition();
         
     }
     

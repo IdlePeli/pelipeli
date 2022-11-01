@@ -23,8 +23,6 @@ public class HexGrid : MonoBehaviour
         hex.height = height;
         hex.gridCoord = gridCoord;
         hex.HexManager = hm;
-        hex.MenuManager = menuManager;
-
 
         hex.DrawMesh();
         tile.transform.SetParent(transform);

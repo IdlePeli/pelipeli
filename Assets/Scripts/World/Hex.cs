@@ -10,11 +10,13 @@ public class Hex : MonoBehaviour
 {
     public Biome biome;
     public Vector2Int gridCoord;
-    public BuildableObject buildableObject;
     
     public float innerSize;
     public float outerSize;
     public float height;
+    public List<Resource> resources;
+    public List<BuildableObject> BuildableObjects;
+
 
     // Pathfinding
     public int fCost;
@@ -25,9 +27,6 @@ public class Hex : MonoBehaviour
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
     public HexManager HexManager;
-    
-    public MenuManager MenuManager;
-
 
     private void Awake()
     {
@@ -48,7 +47,6 @@ public class Hex : MonoBehaviour
     private void OnMouseDown()
     {
         HexManager.ClickHex(this);
-        MenuManager.SetCanvas(biome);
     }
 
     private void OnMouseEnter()
