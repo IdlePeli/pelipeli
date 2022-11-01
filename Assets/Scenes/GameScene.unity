@@ -584,6 +584,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e09f91687c2084a45b665a599a28bb6a, type: 3}
+--- !u!1 &603208985 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2343276227502933369, guid: fbcc4dda33a6add4e86b08b61958d8f3, type: 3}
+  m_PrefabInstance: {fileID: 845926436}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &684346456
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,9 +847,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5324fa3c5abaee04da5ac9a6359e1ff5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WoodCanvas: {fileID: 841265518586982937, guid: 855b0d7cc519f9b45b40e2f41ee2f0c7, type: 3}
-  FishCanvas: {fileID: 2343276227502933369, guid: fbcc4dda33a6add4e86b08b61958d8f3, type: 3}
-  StoneCanvas: {fileID: 6553141374385416156, guid: e09f91687c2084a45b665a599a28bb6a, type: 3}
+  WoodCanvas: {fileID: 1733702606}
+  FishCanvas: {fileID: 603208985}
+  StoneCanvas: {fileID: 1732508116}
   canvas: {fileID: 0}
 --- !u!224 &765374499 stripped
 RectTransform:
@@ -1445,6 +1450,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1732508116 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6553141374385416156, guid: e09f91687c2084a45b665a599a28bb6a, type: 3}
+  m_PrefabInstance: {fileID: 427376897}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1733702606 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 841265518586982937, guid: 855b0d7cc519f9b45b40e2f41ee2f0c7, type: 3}
+  m_PrefabInstance: {fileID: 422878806}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1742378704
 GameObject:
   m_ObjectHideFlags: 0
