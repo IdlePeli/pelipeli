@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 841265518586982943}
   - component: {fileID: 841265518586982942}
   m_Layer: 5
-  m_Name: WoodCanvas
+  m_Name: WoodMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

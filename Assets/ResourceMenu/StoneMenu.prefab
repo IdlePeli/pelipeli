@@ -465,12 +465,12 @@ GameObject:
   - component: {fileID: 6553141374385416162}
   - component: {fileID: 6553141374385416163}
   m_Layer: 5
-  m_Name: StoneCanvas
+  m_Name: StoneMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6553141374385416160
 RectTransform:
   m_ObjectHideFlags: 0

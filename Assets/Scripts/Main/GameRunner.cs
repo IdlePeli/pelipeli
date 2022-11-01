@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using Random = System.Random;
 
@@ -11,6 +12,7 @@ public class GameRunner : MonoBehaviour
     public HexGrid hgl;
     private HexManager _hexManager;
     private Random _rnd;
+    public MenuManager MenuManager;
     
     //DEBUG
     public bool debug;
@@ -21,7 +23,7 @@ public class GameRunner : MonoBehaviour
 
     public void Awake()
     {
-        _hexManager = new HexManager(hgl, bg, player, renderDistance);
+        _hexManager = new HexManager(hgl, bg, player, renderDistance, MenuManager);
         if (debug)
         {
             _hexManager.Debug = true;
