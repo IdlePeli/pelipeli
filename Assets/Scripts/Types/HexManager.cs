@@ -43,11 +43,11 @@ public class HexManager
     private void CreateHex(Vector2Int gridCoord)
     {
         if (_hexes.ContainsKey(gridCoord)) return;
-        _hexes[gridCoord] = _hexGrid.CreateHex(this, gridCoord, MenuManager);
-        SetBiome(gridCoord);
-        GenerateResource(_hexes[gridCoord]);
-        SetMaterial(_hexes[gridCoord]);
-        _hexes[gridCoord].gameObject.SetActive(false);
+        Hex hex = _hexes[gridCoord] = _hexGrid.CreateHex(this, gridCoord);
+        SetBiome(hex);
+        GenerateResource(hex);
+        SetMaterial(hex);
+        hex.gameObject.SetActive(false);
     }
 
 
@@ -66,9 +66,10 @@ public class HexManager
         hex.SetMaterial();
     }
 
-    private void SetBiome(Vector2Int gridCoord)
+    private void SetBiome(Hex hex)
     {
-        _hexes[gridCoord].SetBiome(_biomeGen.Generate(gridCoord));
+        hex.SetBiome(_biomeGen.Generate(hex.gridCoord));
+        if (hex.biome.type.Equals("ocean"))_biomeGen.GenerateWater(hex);
     }
 
     public Hex[] AdjacentHexes(Hex hex)

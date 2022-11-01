@@ -1,34 +1,22 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Water : MonoBehaviour
+public class Water
 {
-    public Biome biome;
-    public Vector2Int gridCoord;
-    
-    public float outerSize;
-    public float innerSize;
-    public float height;
-    
-    private List<Face> _faces;
-    private Mesh _mesh;
-    private MeshCollider _meshCollider;
-    private MeshFilter _meshFilter;
-    private MeshRenderer _meshRenderer;
-    public HexManager HexManager;
-
-    private void Awake()
+    public void CreateWaterHex(Hex hex, float waterlevel,Material watermaterial)
     {
-        _meshCollider = GetComponent<MeshCollider>();
-        _meshFilter = GetComponent<MeshFilter>();
-        _meshRenderer = GetComponent<MeshRenderer>();
+        GameObject hexobject =
+            new($"WaterHex {hex.gridCoord}", typeof(Hex));
 
-        _mesh = new Mesh
-        {
-            name = "Water"
-        };
+        Hex waterHex = hexobject.GetComponent<Hex>();
+        waterHex.outerSize = hex.outerSize;
+        waterHex.innerSize = hex.innerSize;
+        waterHex.height = (waterlevel - hex.transform.position.y) * 2;
+        waterHex.gridCoord = hex.gridCoord;
+        waterHex.SetMaterial(watermaterial);
 
-        _meshFilter.mesh = _mesh;
-        _meshCollider.sharedMesh = _mesh;
+        waterHex.waterHex = true;
+        waterHex.DrawMesh();
+        hexobject.transform.SetParent(hex.transform);
+        waterHex.transform.position = hex.GetCeilingPosition();
     }
 }

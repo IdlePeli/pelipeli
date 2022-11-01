@@ -10,7 +10,7 @@ public class Hex : MonoBehaviour
 {
     public Biome biome;
     public Vector2Int gridCoord;
-    
+
     public float innerSize;
     public float outerSize;
     public float height;
@@ -65,6 +65,8 @@ public class Hex : MonoBehaviour
         CombineFaces();
     }
 
+    public bool waterHex;
+
     private void CombineFaces()
     {
         List<Vector3> vertices = new();
@@ -73,11 +75,11 @@ public class Hex : MonoBehaviour
 
         for (int i = 0; i < _faces.Count; i++)
         {
-            vertices.AddRange(_faces[i].Vertices);
-            uvs.AddRange(_faces[i].Uvs);
+                vertices.AddRange(_faces[i].Vertices);
+                uvs.AddRange(_faces[i].Uvs);
 
-            int offset = 4 * i;
-            tris.AddRange(_faces[i].Triangles.Select(triangle => triangle + offset));
+                int offset = 4 * i;
+                tris.AddRange(_faces[i].Triangles.Select(triangle => triangle + offset));
         }
 
         _mesh.vertices = vertices.ToArray();
@@ -85,6 +87,7 @@ public class Hex : MonoBehaviour
         _mesh.uv = uvs.ToArray();
         _mesh.RecalculateNormals();
     }
+
 
     private void DrawFaces()
     {
@@ -107,9 +110,9 @@ public class Hex : MonoBehaviour
         Vector3 pointC = GetPoint(outerRad, heightA, point < 5 ? point + 1 : 0);
         Vector3 pointD = GetPoint(outerRad, heightA, point);
 
-        List<Vector3> vertices = new() {pointA, pointB, pointC, pointD};
-        List<int> triangles = new() {0, 1, 2, 2, 3, 0};
-        List<Vector2> uvs = new() {new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 1), new Vector2(0, 1)};
+        List<Vector3> vertices = new() { pointA, pointB, pointC, pointD };
+        List<int> triangles = new() { 0, 1, 2, 2, 3, 0 };
+        List<Vector2> uvs = new() { new Vector2(0, 0), new Vector2(1, 0), new Vector2(1, 1), new Vector2(0, 1) };
         if (reverse) vertices.Reverse();
         return new Face(vertices, triangles, uvs);
     }
@@ -136,7 +139,7 @@ public class Hex : MonoBehaviour
     public Vector3 GetCeilingPosition()
     {
         Vector3 position = transform.position;
-        return new Vector3(position.x, position.y + height / 2 + 0.15f, position.z);
+        return new Vector3(position.x, position.y + height / 2, position.z);
     }
 
     public Vector2Int GetGridCoordinate()

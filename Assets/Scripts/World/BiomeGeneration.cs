@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class BiomeGeneration : MonoBehaviour
 {
+    public Material waterMaterial;
     public Biome ocean;
     public Biome desert;
     public Biome forest;
@@ -18,6 +19,7 @@ public class BiomeGeneration : MonoBehaviour
     public float temperatureAdjuster = 10f;
     public float terrainDepth = 1;
 
+    private Water _water;
 
     public float waterLevel = 1f;
     public float mountainLevel = 2.5f;
@@ -85,6 +87,12 @@ public class BiomeGeneration : MonoBehaviour
         }
     }
 
+    public void GenerateWater(Hex hex)
+    {
+        _water = new Water();
+        _water.CreateWaterHex(hex, waterLevel, waterMaterial);
+    }
+    
     private static bool WaterInAdjacentHexes(Hex[] adjHexes)
     {
         return adjHexes.All(adjHex => adjHex.biome.type.Equals("ocean"));
@@ -116,11 +124,13 @@ public class BiomeGeneration : MonoBehaviour
     private Biome GetBiome(float height, float temperature)
     {
         if (height < waterLevel)
+        {
             return temperature switch
             {
                 < 0.33f => iceWater,
                 _ => ocean
             };
+        }
 
         if (height >= mountainLevel) return mountain;
 
