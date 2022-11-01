@@ -10,7 +10,8 @@ public class Hex : MonoBehaviour
 {
     public Biome biome;
     public Vector2Int gridCoord;
-
+    public BuildableObject buildableObject;
+    
     public float innerSize;
     public float outerSize;
     public float height;

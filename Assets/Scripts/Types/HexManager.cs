@@ -140,6 +140,7 @@ public class HexManager
         if (!_player.CanMove(hex)) return;
         _player.Move(hex);
         RenderTilesInRenderDistance();
+        
     }
 
     public void RenderTilesInRenderDistance(Vector2Int coordinates = default, bool fromCoords = false)
@@ -178,6 +179,12 @@ public class HexManager
         }
     }
 
+    private static void GenerateHouse(Hex hex)
+    {
+        GameObject house = hex.buildableObject.model;
+        
+    }
+    
     private static void GenerateResource(Hex hex)
     {
         GameObject resource = hex.biome.GenerateResource();
