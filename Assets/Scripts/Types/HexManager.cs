@@ -142,15 +142,19 @@ public class HexManager
 
     public void ClickHex(Hex hex)
     {
-        currentHex = hex;
-        MenuManager.SetCanvas(hex.biome);
-        MenuManager.OpenMenu(hex);
+        if (!MenuManager.BuildMenu.activeSelf)
+        {
+            currentHex = hex;
+            MenuManager.SetCanvas(hex.biome);
+            MenuManager.OpenMenu(hex);
+        }
     }
 
     public void MovePlayer()
     {
-        if (!_player.CanMove(currentHex)) return;
-        _player.Move(currentHex);
+        Hex hex = currentHex;
+        if (!_player.CanMove(hex)) return;
+        _player.Move(hex);
         RenderTilesInRenderDistance();
     }
 

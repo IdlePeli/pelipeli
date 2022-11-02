@@ -27,7 +27,6 @@ public class Hex : MonoBehaviour
     private MeshFilter _meshFilter;
     private MeshRenderer _meshRenderer;
     public HexManager HexManager;
-
     private void Awake()
     {
         _meshCollider = GetComponent<MeshCollider>();
