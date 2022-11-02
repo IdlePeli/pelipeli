@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class MenuManager : MonoBehaviour
@@ -6,6 +7,9 @@ public class MenuManager : MonoBehaviour
     public GameObject FishCanvas;
     public GameObject StoneCanvas;
     public GameObject canvas = null;
+    public GameObject BuildMenu;
+    public HexManager hexMngr;
+    public Hex currentHex;
 
     public void SetCanvas(Biome biome)
     {
@@ -21,5 +25,23 @@ public class MenuManager : MonoBehaviour
 
         canvas.SetActive(true);
         Debug.Log(canvas);
+    }
+
+    public void OpenMenu(Hex hex)
+    {
+        currentHex = hex;
+        BuildMenu.SetActive(true);
+    }
+
+    public void ClickBuild()
+    {
+        hexMngr.GenerateHouse();
+        BuildMenu.SetActive(false);
+    }
+
+    public void ClickMove()
+    {
+        hexMngr.MovePlayer();
+        BuildMenu.SetActive(false);
     }
 }
