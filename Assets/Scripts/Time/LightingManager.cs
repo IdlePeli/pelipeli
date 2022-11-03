@@ -1,3 +1,5 @@
+using System;
+using System.Net.Mail;
 using UnityEngine;
 
 public class LightingManager : MonoBehaviour
@@ -8,31 +10,64 @@ public class LightingManager : MonoBehaviour
     private float lightlevel;
     private float time;
     private float intensity;
-    public float worldTime = 0; // for debugging
-    public float nightLengthAdjuster = -1.5f;
+    public float lightY;
+    
+    //Default
+    public float nightTypeAdjusterA = 8.7f;
+    public float nightLengthAdjusterB = 1.4f;
     public float brightnessCap = 1;
-    private float lightY;
+    public float nightlevel = 0.2f;
+
+    public bool Preset1;
+    public bool Preset2;
+    public bool Preset3;
+    
+    public void Awake()
+    {
+        if (Preset1)
+        {
+            // Normal/Default
+            nightTypeAdjusterA = 8.7f;
+            nightLengthAdjusterB = 1.4f;
+            brightnessCap = 1;
+            nightlevel = 0.2f;
+        } else if (Preset2)
+        {
+            //Short nights
+            nightTypeAdjusterA = 1.4f;
+            nightLengthAdjusterB = 8.2f;
+            brightnessCap = 1;
+            nightlevel = 0.2f;
+        } else if (Preset3)
+        {
+            //Short days
+            nightTypeAdjusterA = 9.5f;
+            nightLengthAdjusterB = 0.5f;
+            brightnessCap = 1;
+            nightlevel = 0f;
+        }
+    }
+    
     private void Update()
     {
         time = WorldTime.GetTime();
-        //time = worldTime;
-        if (time < 12)
+        if (time < 12 )
         {
-            intensity = 1 - (12 - time * -nightLengthAdjuster) / 12;
+            intensity = (time - 12) / nightTypeAdjusterA + nightLengthAdjusterB;
         }
         else
         {
-            intensity = 1+(12 - time * nightLengthAdjuster + (nightLengthAdjuster * 24)) 
-                / 12 * -1;
+            intensity = -((time - 12) / nightTypeAdjusterA) + nightLengthAdjusterB;
         }
-        // https://www.desmos.com/calculator/rhwsjcu1pt
-        // a = nightLengthAdjuster
-        // lower value for shorter nights 
+        // https://www.desmos.com/calculator/30hjpkahcx
 
         if (intensity > brightnessCap)
         {
             intensity = brightnessCap;
-        } 
+        } else if (intensity < nightlevel)
+        {
+            intensity = nightlevel;
+        }
 
         directionalLight.intensity = intensity;
 

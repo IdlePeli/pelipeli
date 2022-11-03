@@ -1478,7 +1478,7 @@ MonoBehaviour:
   type: ocean
   resources: []
   emptiness: 500
-  isPathable: 1
+  isPathable: 0
   travelTime: 10
 --- !u!4 &1557339270
 Transform:
@@ -1839,9 +1839,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionalLight: {fileID: 1284397736}
   lightRotator: {fileID: 888546672}
-  worldTime: 0
-  nightLengthAdjuster: -1.5
+  lightY: 0
+  nightTypeAdjusterA: 8.7
+  nightLengthAdjusterB: 1.4
   brightnessCap: 1
+  nightlevel: 0.2
 --- !u!4 &1909228984
 Transform:
   m_ObjectHideFlags: 0
