@@ -296,7 +296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1506875137925126057, guid: 4598e82edc07f5a479c23f341b0a55f5, type: 3}
       propertyPath: timeSpeed
-      value: 0.8
+      value: 900
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4598e82edc07f5a479c23f341b0a55f5, type: 3}
