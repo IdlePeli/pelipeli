@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = System.Random;
 
 public class GameRunner : MonoBehaviour
@@ -13,6 +14,7 @@ public class GameRunner : MonoBehaviour
     private HexManager _hexManager;
     private Random _rnd;
     public MenuManager MenuManager;
+    [FormerlySerializedAs("ObjectManager")] public BuildableObjectManager buildableObjectManager;
     
     //DEBUG
     public bool debug;
@@ -23,7 +25,7 @@ public class GameRunner : MonoBehaviour
 
     public void Awake()
     {
-        _hexManager = new HexManager(hgl, bg, player, renderDistance, MenuManager);
+        _hexManager = new HexManager(hgl, bg, player, renderDistance, MenuManager, buildableObjectManager);
         if (debug)
         {
             _hexManager.Debug = true;

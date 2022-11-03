@@ -15,6 +15,7 @@ public class HexManager
     private List<Hex> _debugColoredHexes = new();
     private List<Hex> _route;
     private MenuManager MenuManager;
+    private BuildableObjectManager _buildableObjectManager;
 
 
     // DEBUG SECTION
@@ -28,23 +29,25 @@ public class HexManager
         BiomeGeneration biomeGen,
         Player player,
         int renderDistance,
-        MenuManager menuManager)
+        MenuManager menuManager,
+        BuildableObjectManager buildableObjectManager)
     {
         _player = player;
         _hexGrid = hexGrid;
         _biomeGen = biomeGen;
         _renderDistance = renderDistance;
         MenuManager = menuManager;
+        _buildableObjectManager = buildableObjectManager;
     }
 
     private void CreateHex(Vector2Int gridCoord)
     {
         if (_hexes.ContainsKey(gridCoord)) return;
-        _hexes[gridCoord] = _hexGrid.CreateHex(this, gridCoord, MenuManager);
-        SetBiome(gridCoord);
-        GenerateResource(_hexes[gridCoord]);
-        SetMaterial(_hexes[gridCoord]);
-        _hexes[gridCoord].gameObject.SetActive(false);
+        Hex hex = _hexes[gridCoord] = _hexGrid.CreateHex(this, gridCoord);
+        SetBiome(hex);
+        GenerateResource(hex);
+        SetMaterial(hex);
+        hex.gameObject.SetActive(false);
     }
 
 
@@ -63,9 +66,10 @@ public class HexManager
         hex.SetMaterial();
     }
 
-    private void SetBiome(Vector2Int gridCoord)
+    private void SetBiome(Hex hex)
     {
-        _hexes[gridCoord].SetBiome(_biomeGen.Generate(gridCoord));
+        hex.SetBiome(_biomeGen.Generate(hex.gridCoord));
+        if (hex.biome.type.Equals("ocean")) _biomeGen.GenerateWater(hex);
     }
 
     public Hex[] AdjacentHexes(Hex hex)
@@ -126,20 +130,28 @@ public class HexManager
 
     public void HoverHex(Hex hex)
     {
-        hex.transform.position -= new Vector3(0, 0.2f, 0);
-        if (_player.CanMove(hex)) FindPath(_player.currentHex, hex);
+        if (_player.CanMove(hex))
+        {
+            hex.transform.position -= new Vector3(0, 0.2f, 0);
+            FindPath(_player.currentHex, hex);
+        }
     }
 
     public void LeaveHex(Hex hex)
     {
-        hex.transform.position += new Vector3(0, 0.2f, 0);
+        if (_player.CanMove(hex))
+        {
+            hex.transform.position += new Vector3(0, 0.2f, 0);
+        }
     }
 
     public void ClickHex(Hex hex)
     {
+        MenuManager.SetCanvas(hex.biome);
         if (!_player.CanMove(hex)) return;
         _player.Move(hex);
         RenderTilesInRenderDistance();
+        GenerateHouse(hex);
     }
 
     public void RenderTilesInRenderDistance(Vector2Int coordinates = default, bool fromCoords = false)
@@ -178,6 +190,15 @@ public class HexManager
         }
     }
 
+    private void GenerateHouse(Hex hex)
+    {
+        BuildableObject house = _buildableObjectManager.GetObject();
+
+        Transform houseTransform = house.transform;
+        houseTransform.SetParent(hex.transform);
+        houseTransform.position = hex.GetCeilingPosition();
+    }
+
     private static void GenerateResource(Hex hex)
     {
         GameObject resource = hex.biome.GenerateResource();
@@ -191,7 +212,7 @@ public class HexManager
     public List<Hex> FindPath(Hex startHex, Hex endHex)
     {
         _checkedHexes = new HashSet<Hex>();
-        HashSet<Hex> hexesToCheck = new() {startHex};
+        HashSet<Hex> hexesToCheck = new() { startHex };
 
         int iteration = 1;
         while (true)
@@ -254,7 +275,7 @@ public class HexManager
 
     private int DistanceBetween(Hex hex1, Hex hex2)
     {
-        return (int) Vector2Int.Distance(hex1.GetGridCoordinate(), hex2.GetGridCoordinate());
+        return (int)Vector2Int.Distance(hex1.GetGridCoordinate(), hex2.GetGridCoordinate());
     }
 
     private void DebugPathFinding(Hex hex1, Hex hex2)
