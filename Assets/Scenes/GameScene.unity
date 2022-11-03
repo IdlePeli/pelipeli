@@ -675,6 +675,7 @@ MonoBehaviour:
   mountain: {fileID: 1898228471}
   iceWater: {fileID: 1742378706}
   snow: {fileID: 863592213}
+  oceanFloor: {fileID: 1557339269}
   deepOcean: {fileID: 118623632}
   heightAdjuster: 8.34
   temperatureAdjuster: 24.94
@@ -703,6 +704,7 @@ Transform:
   - {fileID: 1742378705}
   - {fileID: 118623631}
   - {fileID: 863592212}
+  - {fileID: 1557339270}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1441,6 +1443,58 @@ MonoBehaviour:
   emptiness: 500
   isPathable: 1
   travelTime: 10
+--- !u!1 &1557339268
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1557339270}
+  - component: {fileID: 1557339269}
+  m_Layer: 0
+  m_Name: OceanFloor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1557339269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557339268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dacbc5a3405947be9967ec3f6ea38075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: 9fd216ec90cda004392347142472e27f, type: 2}
+  yAxis: 1
+  terrainModifier: 1
+  type: ocean
+  resources: []
+  emptiness: 500
+  isPathable: 1
+  travelTime: 10
+--- !u!4 &1557339270
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557339268}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 210.72484, y: -30.239397, z: 64.771774}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 723050788}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1624696027
 GameObject:
   m_ObjectHideFlags: 0
@@ -1594,7 +1648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dacbc5a3405947be9967ec3f6ea38075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material: {fileID: 2100000, guid: 9fd216ec90cda004392347142472e27f, type: 2}
+  material: {fileID: 2100000, guid: e12608765befcd043b47e19373a5b4de, type: 2}
   yAxis: 1
   terrainModifier: 1
   type: ocean

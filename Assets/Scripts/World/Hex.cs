@@ -41,7 +41,6 @@ public class Hex : MonoBehaviour
 
         _meshFilter.mesh = _mesh;
         _meshCollider.sharedMesh = _mesh;
-        DrawMesh();
     }
 
     private void OnMouseDown()
@@ -96,6 +95,7 @@ public class Hex : MonoBehaviour
         for (int point = 0; point < 6; point++)
         {
             _faces.Add(CreateFace(innerSize, outerSize, height / 2f, height / 2f, point));
+            if (waterHex) continue;
             _faces.Add(CreateFace(innerSize, outerSize, -height / 2f, -height / 2f, point, true));
             _faces.Add(CreateFace(outerSize, outerSize, height / 2f, -height / 2f, point, true));
             _faces.Add(CreateFace(innerSize, innerSize, height / 2f, -height / 2f, point));

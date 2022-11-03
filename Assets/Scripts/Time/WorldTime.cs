@@ -26,10 +26,10 @@ public class WorldTime : MonoBehaviour
         
         if (!(time >= 10)) return;
 
+        dayMinutes++;
         Minute++;
         time = 0;
         OnMinuteChanged?.Invoke();
-        dayMinutes++;
         if (!(Minute >= 60)) return;
         Minute = 0;
         Hour++;

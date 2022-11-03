@@ -10,7 +10,8 @@ public class BiomeGeneration : MonoBehaviour
     public Biome mountain;
     public Biome iceWater;
     public Biome snow;
-
+    public Biome oceanFloor;
+    
     public Biome deepOcean;
     //lisää biomei ja materiaalei joskus(isoi juttui tulos😎) ᓚᘏᗢ 
 
@@ -90,7 +91,7 @@ public class BiomeGeneration : MonoBehaviour
     public void GenerateWater(Hex hex)
     {
         _water = new Water();
-        _water.CreateWaterHex(hex, waterLevel, waterMaterial);
+        _water.CreateWaterHex(hex, waterLevel, ocean, HexManager);
     }
     
     private static bool WaterInAdjacentHexes(Hex[] adjHexes)
@@ -128,7 +129,7 @@ public class BiomeGeneration : MonoBehaviour
             return temperature switch
             {
                 < 0.33f => iceWater,
-                _ => ocean
+                _ => oceanFloor
             };
         }
 

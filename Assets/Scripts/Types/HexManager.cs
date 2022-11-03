@@ -69,7 +69,7 @@ public class HexManager
     private void SetBiome(Hex hex)
     {
         hex.SetBiome(_biomeGen.Generate(hex.gridCoord));
-        if (hex.biome.type.Equals("ocean"))_biomeGen.GenerateWater(hex);
+        if (hex.biome.type.Equals("ocean")) _biomeGen.GenerateWater(hex);
     }
 
     public Hex[] AdjacentHexes(Hex hex)
@@ -130,13 +130,19 @@ public class HexManager
 
     public void HoverHex(Hex hex)
     {
-        hex.transform.position -= new Vector3(0, 0.2f, 0);
-        if (_player.CanMove(hex)) FindPath(_player.currentHex, hex);
+        if (_player.CanMove(hex))
+        {
+            hex.transform.position -= new Vector3(0, 0.2f, 0);
+            FindPath(_player.currentHex, hex);
+        }
     }
 
     public void LeaveHex(Hex hex)
     {
-        hex.transform.position += new Vector3(0, 0.2f, 0);
+        if (_player.CanMove(hex))
+        {
+            hex.transform.position += new Vector3(0, 0.2f, 0);
+        }
     }
 
     public void ClickHex(Hex hex)
