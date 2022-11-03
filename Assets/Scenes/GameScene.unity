@@ -937,6 +937,38 @@ MonoBehaviour:
   emptiness: 500
   isPathable: 1
   travelTime: 10
+--- !u!1 &888546672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 888546673}
+  m_Layer: 0
+  m_Name: lightRotator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &888546673
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 888546672}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1284397735}
+  m_Father: {fileID: 1212214730}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &934327332 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2343276227502933373, guid: fbcc4dda33a6add4e86b08b61958d8f3, type: 3}
@@ -1178,7 +1210,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 963194228}
-  - {fileID: 1284397735}
+  - {fileID: 888546673}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1287,13 +1319,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1284397734}
-  m_LocalRotation: {x: 0.37528315, y: -0, z: -0, w: 0.92691016}
-  m_LocalPosition: {x: 0, y: 12.21, z: 0}
+  m_LocalRotation: {x: 0.37528318, y: -0, z: -0, w: 0.9269102}
+  m_LocalPosition: {x: 50, y: 30, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1212214730}
-  m_RootOrder: 1
+  m_Father: {fileID: 888546673}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 44.084, y: 0, z: 0}
 --- !u!108 &1284397736
 Light:
@@ -1313,7 +1345,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -1752,6 +1784,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   directionalLight: {fileID: 1284397736}
+  lightRotator: {fileID: 888546672}
+  worldTime: 0
+  nightLengthAdjuster: -1.5
+  brightnessCap: 1
 --- !u!4 &1909228984
 Transform:
   m_ObjectHideFlags: 0
