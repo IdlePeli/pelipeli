@@ -27,21 +27,29 @@ public class MenuManager : MonoBehaviour
         Debug.Log(canvas);
     }
 
+    public void CloseCanvas()
+    {
+        canvas.SetActive(false);
+        BuildMenu.SetActive(false);
+    }
     public void OpenMenu(Hex hex)
     {
         currentHex = hex;
         BuildMenu.SetActive(true);
+        
     }
 
     public void ClickBuild()
     {
         hexMngr.GenerateHouse();
         BuildMenu.SetActive(false);
+        canvas.SetActive(false);
     }
 
     public void ClickMove()
     {
         hexMngr.MovePlayer();
         BuildMenu.SetActive(false);
+        canvas.SetActive(false);
     }
 }

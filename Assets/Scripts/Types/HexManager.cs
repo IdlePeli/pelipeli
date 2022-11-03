@@ -147,6 +147,7 @@ public class HexManager
             currentHex = hex;
             MenuManager.SetCanvas(hex.biome);
             MenuManager.OpenMenu(hex);
+            
         }
     }
 
