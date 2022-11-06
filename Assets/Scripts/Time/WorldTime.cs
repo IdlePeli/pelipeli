@@ -19,6 +19,8 @@ public class WorldTime : MonoBehaviour
     public static int Year { get; private set; }
 
     public static float dayMinutes;
+    
+    
 
     private void Update()
     {

@@ -1844,6 +1844,9 @@ MonoBehaviour:
   nightLengthAdjusterB: 1.4
   brightnessCap: 1
   nightlevel: 0.2
+  Preset1: 0
+  Preset2: 0
+  Preset3: 1
 --- !u!4 &1909228984
 Transform:
   m_ObjectHideFlags: 0

@@ -1,5 +1,7 @@
 using System;
 using System.Net.Mail;
+using Unity.VisualScripting.Dependencies.NCalc;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class LightingManager : MonoBehaviour
@@ -10,8 +12,9 @@ public class LightingManager : MonoBehaviour
     private float lightlevel;
     private float time;
     private float intensity;
+    private float previousIntensity;
     public float lightY;
-    
+
     //Default
     public float nightTypeAdjusterA = 8.7f;
     public float nightLengthAdjusterB = 1.4f;
@@ -21,24 +24,35 @@ public class LightingManager : MonoBehaviour
     public bool Preset1;
     public bool Preset2;
     public bool Preset3;
-    
+
+    public Material skyboxDay;
+    public Material skyboxSunSet;
+    public Material skyboxNight;
+
+    private void Start()
+    {
+        RenderSettings.skybox = skyboxNight;
+    }
+
     public void Awake()
     {
         if (Preset1)
         {
-            // Normal/Default
-            nightTypeAdjusterA = 8.7f;
-            nightLengthAdjusterB = 1.4f;
+            // Normal  Day
+            nightTypeAdjusterA = 7.1f;
+            nightLengthAdjusterB = 1f;
             brightnessCap = 1;
             nightlevel = 0.2f;
-        } else if (Preset2)
+        }
+        else if (Preset2)
         {
             //Short nights
             nightTypeAdjusterA = 1.4f;
             nightLengthAdjusterB = 8.2f;
             brightnessCap = 1;
             nightlevel = 0.2f;
-        } else if (Preset3)
+        }
+        else if (Preset3)
         {
             //Short days
             nightTypeAdjusterA = 9.5f;
@@ -47,11 +61,11 @@ public class LightingManager : MonoBehaviour
             nightlevel = 0f;
         }
     }
-    
+
     private void Update()
     {
         time = WorldTime.GetTime();
-        if (time < 12 )
+        if (time < 12)
         {
             intensity = (time - 12) / nightTypeAdjusterA + nightLengthAdjusterB;
         }
@@ -61,20 +75,35 @@ public class LightingManager : MonoBehaviour
         }
         // https://www.desmos.com/calculator/30hjpkahcx
 
+        lightY = intensity * 60;
+        
+        if (intensity < 0 && RenderSettings.skybox != skyboxNight)
+        {
+            RenderSettings.skybox = skyboxNight;
+        }
+        else if (intensity > nightlevel && RenderSettings.skybox != skyboxDay)
+        {
+            RenderSettings.skybox = skyboxDay;
+        }
+        else if (intensity < nightlevel && intensity > 0 && RenderSettings.skybox != skyboxSunSet)
+        {
+            RenderSettings.skybox = skyboxSunSet;
+        }
+
         if (intensity > brightnessCap)
         {
             intensity = brightnessCap;
-        } else if (intensity < nightlevel)
+        }
+        else if (intensity < nightlevel)
         {
             intensity = nightlevel;
         }
-
+        
         directionalLight.intensity = intensity;
 
-        lightY = 50 * intensity + 10;
-        
-        lightRotator.transform.rotation = Quaternion.Euler(0, time*15, 0);
+        lightRotator.transform.rotation = Quaternion.Euler(0, time * 15, 0);
         directionalLight.transform.localPosition = (new Vector3(60, lightY, 0));
         directionalLight.transform.LookAt(lightRotator.transform.position);
+        previousIntensity = intensity;
     }
 }
