@@ -20,8 +20,6 @@ public class WorldTime : MonoBehaviour
 
     public static float dayMinutes;
     
-    
-
     private void Update()
     {
         time += Time.deltaTime * timeSpeed;

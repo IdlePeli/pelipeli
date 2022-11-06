@@ -12,7 +12,6 @@ public class LightingManager : MonoBehaviour
     private float lightlevel;
     private float time;
     private float intensity;
-    private float previousIntensity;
     public float lightY;
 
     //Default
@@ -104,6 +103,5 @@ public class LightingManager : MonoBehaviour
         lightRotator.transform.rotation = Quaternion.Euler(0, time * 15, 0);
         directionalLight.transform.localPosition = (new Vector3(60, lightY, 0));
         directionalLight.transform.LookAt(lightRotator.transform.position);
-        previousIntensity = intensity;
     }
 }
