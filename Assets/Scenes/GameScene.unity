@@ -787,7 +787,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2343276227502933369, guid: fbcc4dda33a6add4e86b08b61958d8f3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2343276227502933373, guid: fbcc4dda33a6add4e86b08b61958d8f3, type: 3}
       propertyPath: m_Pivot.x
@@ -1212,7 +1212,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 888546673}
-  - {fileID: 2049231455}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1914,6 +1913,8 @@ MonoBehaviour:
   rotationSpeed: 5
   distance: 1
   cameraRotation: 1
+  followObject: {fileID: 1212214728}
+  followSpeed: 1
 --- !u!1 &2049231454
 GameObject:
   m_ObjectHideFlags: 0
@@ -1937,13 +1938,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2049231454}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 963194228}
   - {fileID: 2003075741}
-  m_Father: {fileID: 1212214730}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
