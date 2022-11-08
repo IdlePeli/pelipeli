@@ -211,13 +211,15 @@ public class HexManager
 
     public List<Hex> FindPath(Hex startHex, Hex endHex)
     {
+        // A* Pathfinding implementation (https://www.youtube.com/watch?v=-L-WgKMFuhE)
         _checkedHexes = new HashSet<Hex>();
         HashSet<Hex> hexesToCheck = new() { startHex };
 
         int iteration = 1;
         while (true)
         {
-            // :D
+            // fCost is distance between startHex and endHex
+            // Choose hex with lowest fCost
             Hex hexToCheck =
                 hexesToCheck
                     .Where(hex =>
@@ -230,10 +232,13 @@ public class HexManager
             _checkedHexes.Add(hexToCheck);
             if (hexToCheck == endHex) break;
 
+            // Loop through hexes where player can move and hex isnt already checked
             foreach (Hex hex in AdjacentHexes(hexToCheck)
                          .Where(hex => _player.CanMove(hex) &&
                                        !_checkedHexes.Contains(hex)))
             {
+                // Calculate fCost for hex and if new fCost is larger than last checked fCost
+                // for given hex and hex is to be checked continue with the loop
                 int fCost = DistanceBetween(hex, startHex) + DistanceBetween(hex, endHex);
                 if (fCost >= hex.fCost && hexesToCheck.Contains(hex)) continue;
                 hex.fCost = fCost;
