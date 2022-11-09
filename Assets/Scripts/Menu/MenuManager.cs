@@ -36,6 +36,10 @@ public class MenuManager : MonoBehaviour
     {
         currentHex = hex;
         BuildMenu.SetActive(true);
+        if (hex.transform.childCount < 1)
+        {
+            canvas.SetActive(false);
+        }
         
     }
 

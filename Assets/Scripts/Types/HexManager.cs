@@ -161,10 +161,23 @@ public class HexManager
     public void MovePlayer()
     {
         Hex hex = currentHex;
+        UnityEngine.Debug.Log(hex);
+        if (hex.transform.Find("Tree_02(Clone)"))
+        {
+            GameResources.AddWoodAmount(5);
+            UnityEngine.Debug.Log("Wood amount: " + GameResources.GetWoodAmount());
+        } else if (hex.transform.Find("Rock_01(Clone)"))
+        {
+            GameResources.AddStoneAmount(5);
+            UnityEngine.Debug.Log("Stone amount: " + GameResources.GetStoneAmount());
+        }
+        
         if (!_player.CanMove(hex)) return;
         _player.Move(hex);
         RenderTilesInRenderDistance();
+        
     }
+    
 
     public void RenderTilesInRenderDistance(Vector2Int coordinates = default, bool fromCoords = false)
     {
