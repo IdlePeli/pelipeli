@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class navbar : MonoBehaviour
+public class navbar : MonoBehaviour
 {
-    
+    public GameObject resourceCanvas;
     [SerializeField] GameObject[] panels;
    
     public void navbarclick(GameObject activePanel)
@@ -15,5 +15,11 @@ public partial class navbar : MonoBehaviour
         }
         activePanel.SetActive(true);
     }
+
+    public void OpenResourceMenu()
+    {
+        resourceCanvas.SetActive(!resourceCanvas.activeSelf);
+    }
+        
 }
 

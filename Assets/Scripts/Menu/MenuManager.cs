@@ -6,6 +6,7 @@ public class MenuManager : MonoBehaviour
     public GameObject WoodCanvas;
     public GameObject FishCanvas;
     public GameObject StoneCanvas;
+    public GameObject SandCanvas;
     public GameObject canvas = null;
     public GameObject BuildMenu;
     public HexManager hexMngr;
@@ -20,6 +21,7 @@ public class MenuManager : MonoBehaviour
             "Forest" => WoodCanvas,
             "Ocean" => FishCanvas,
             "Mountain" => StoneCanvas,
+            "Desert" => SandCanvas,
             _ => canvas
         };
 
@@ -42,14 +44,13 @@ public class MenuManager : MonoBehaviour
     public void ClickBuild()
     {
         hexMngr.GenerateHouse();
-        BuildMenu.SetActive(false);
-        canvas.SetActive(false);
+        CloseCanvas();
     }
 
     public void ClickMove()
     {
         hexMngr.MovePlayer();
-        BuildMenu.SetActive(false);
-        canvas.SetActive(false);
+        CloseCanvas();
     }
+    
 }
