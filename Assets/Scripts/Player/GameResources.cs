@@ -11,20 +11,20 @@ public static class GameResources
     public static void AddWoodAmount(int amount)
     {
         _woodAmount += amount;
-        if (OnWoodAmountChanged != null) OnWoodAmountChanged(null, EventArgs.Empty);
+        OnWoodAmountChanged?.Invoke(null, EventArgs.Empty);
     }
 
     public static void AddStoneAmount(int amount)
     {
         _stoneAmount += amount;
-        if (OnStoneAmountChanged != null) OnStoneAmountChanged(null, EventArgs.Empty);
+        OnStoneAmountChanged?.Invoke(null, EventArgs.Empty);
     }
 
     public static int GetWoodAmount()
     {
         return _woodAmount;
     }
-    
+
     public static int GetStoneAmount()
     {
         return _stoneAmount;

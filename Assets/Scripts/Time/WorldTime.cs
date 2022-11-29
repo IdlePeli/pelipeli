@@ -8,7 +8,7 @@ public class WorldTime : MonoBehaviour
     public static Action OnDayChanged;
     public static Action OnHourChanged;
     public float time;
-    
+
     public LightingManager LightingManager;
     public float timeSpeed = 0.1f;
 
@@ -19,11 +19,11 @@ public class WorldTime : MonoBehaviour
     public static int Year { get; private set; }
 
     public static float dayMinutes;
-    
+
     private void Update()
     {
         time += Time.deltaTime * timeSpeed;
-        
+
         if (!(time >= 10)) return;
 
         dayMinutes++;
@@ -53,4 +53,5 @@ public class WorldTime : MonoBehaviour
     {
         return dayMinutes / 60f;
     }
+
 }

@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 
     private GameObject _player;
     private Hex _playerHex;
-    
+
 
 
     public void Spawn(HexManager hexManager)

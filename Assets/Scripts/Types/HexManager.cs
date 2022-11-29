@@ -164,12 +164,12 @@ public class HexManager
         if (!_player.CanMove(hex)) return;
         if (hex.transform.Find("Tree_02(Clone)"))
         {
+            GameRunner.addWoodToCollect(100);
             GameResources.AddWoodAmount(5);
-            UnityEngine.Debug.Log("Wood amount: " + GameResources.GetWoodAmount());
         } else if (hex.transform.Find("Rock_01(Clone)"))
         {
+            GameRunner.addStonesToCollect(100);
             GameResources.AddStoneAmount(5);
-            UnityEngine.Debug.Log("Stone amount: " + GameResources.GetStoneAmount());
         }
         
         _player.Move(hex);
