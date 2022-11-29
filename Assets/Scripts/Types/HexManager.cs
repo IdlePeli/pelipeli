@@ -161,7 +161,7 @@ public class HexManager
     public void MovePlayer()
     {
         Hex hex = currentHex;
-        UnityEngine.Debug.Log(hex);
+        if (!_player.CanMove(hex)) return;
         if (hex.transform.Find("Tree_02(Clone)"))
         {
             GameResources.AddWoodAmount(5);
@@ -172,7 +172,6 @@ public class HexManager
             UnityEngine.Debug.Log("Stone amount: " + GameResources.GetStoneAmount());
         }
         
-        if (!_player.CanMove(hex)) return;
         _player.Move(hex);
         RenderTilesInRenderDistance();
         
