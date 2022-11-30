@@ -6,6 +6,7 @@ public partial class navbar : MonoBehaviour
 {
     
     [SerializeField] GameObject[] panels;
+    public GameObject resourceCanvas;
    
     public void navbarclick(GameObject activePanel)
     {
@@ -14,6 +15,10 @@ public partial class navbar : MonoBehaviour
             panels[i].SetActive(false);
         }
         activePanel.SetActive(true);
+    }
+    public void OpenResourceMenu()
+    {
+        resourceCanvas.SetActive(!resourceCanvas.activeSelf);
     }
 }
 
