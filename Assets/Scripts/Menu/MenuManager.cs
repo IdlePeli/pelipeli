@@ -1,4 +1,4 @@
-using UnityEditor;
+using TMPro;
 using UnityEngine;
 
 public class MenuManager : MonoBehaviour
@@ -10,6 +10,27 @@ public class MenuManager : MonoBehaviour
     public GameObject BuildMenu;
     public HexManager hexMngr;
     public Hex currentHex;
+    public int HouseCostStone;
+    public int HouseCostWood;
+    public Player Player;
+    
+    public TextMeshProUGUI stoneText;
+    public TextMeshProUGUI woodText;
+
+    
+    public GameObject ResourceMenu;
+    
+    public void AddWoodAmount(int amount)
+    {
+        Player.WoodAmount += amount;
+        woodText.text = "" + Player.WoodAmount;
+    }
+
+    public void AddStoneAmount(int amount)
+    {
+        Player.StoneAmount += amount;
+        stoneText.text = ""+Player.StoneAmount;
+    }
 
     public void SetCanvas(Biome biome)
     {
@@ -45,7 +66,17 @@ public class MenuManager : MonoBehaviour
 
     public void ClickBuild()
     {
-        hexMngr.GenerateHouse();
+        if (Player.WoodAmount >= HouseCostWood && Player.StoneAmount >= HouseCostStone)
+        {
+            hexMngr.GenerateHouse();
+            AddWoodAmount(-HouseCostWood);
+            AddStoneAmount(-HouseCostStone);
+            
+        }
+        else
+        {
+            Debug.Log("not enough resources");
+        }
         BuildMenu.SetActive(false);
         canvas.SetActive(false);
     }

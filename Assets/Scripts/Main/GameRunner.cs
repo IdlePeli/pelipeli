@@ -43,6 +43,7 @@ public class GameRunner : MonoBehaviour
             _hexManager.StartAndEndHexes = startAndEndHexes;
         }
 
+        MenuManager.Player = player;
         bg.HexManager = _hexManager;
 
         // Get random starting position
@@ -51,7 +52,7 @@ public class GameRunner : MonoBehaviour
 
         // Spawn player with access to HexManager
         player.Spawn(_hexManager);
-
+        
         // Render tiles in starting location
         _hexManager.RenderTilesInRenderDistance(gridCoordinate, true);
 
@@ -88,7 +89,7 @@ public class GameRunner : MonoBehaviour
         for (int i = 0; i < stoner.Count; i++)
         {
             stoner[i]--;
-            GameResources.AddStoneAmount(1);
+            MenuManager.AddStoneAmount(1);
         }
 
         stoner = stoner.FindAll(stone => stone > 0);
@@ -96,7 +97,7 @@ public class GameRunner : MonoBehaviour
         for (int i = 0; i < wooder.Count; i++)
         {
             wooder[i]--;
-            GameResources.AddWoodAmount(1);
+            MenuManager.AddWoodAmount(1);
         }
         
         wooder = wooder.FindAll(stone => stone > 0);
