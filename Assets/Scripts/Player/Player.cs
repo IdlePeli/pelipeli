@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     private GameObject _player;
     private Hex _playerHex;
 
+
+
     public void Spawn(HexManager hexManager)
     {
         _player = new GameObject("PlayerHex", typeof(Hex));
@@ -29,7 +31,7 @@ public class Player : MonoBehaviour
     public void Move(Hex hex)
     {
         currentHex = hex;
-        transform.position = hex.GetCeilingPosition();
+        transform.position = hex.GetCeilingPosition() + new Vector3(0, 0.15f, 0);
     }
 
     public bool CanMove(Hex hex)

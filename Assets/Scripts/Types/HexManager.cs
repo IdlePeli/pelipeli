@@ -11,10 +11,12 @@ public class HexManager
     private readonly HexGrid _hexGrid;
     private readonly Player _player;
     private readonly int _renderDistance;
-    private List<Hex> _checkedHexes = new();
+    private HashSet<Hex> _checkedHexes = new();
     private List<Hex> _debugColoredHexes = new();
     private List<Hex> _route;
     private MenuManager MenuManager;
+    private BuildableObjectManager _buildableObjectManager;
+    private Hex currentHex;
 
 
     // DEBUG SECTION
@@ -28,23 +30,26 @@ public class HexManager
         BiomeGeneration biomeGen,
         Player player,
         int renderDistance,
-        MenuManager menuManager)
+        MenuManager menuManager,
+        BuildableObjectManager buildableObjectManager)
     {
         _player = player;
         _hexGrid = hexGrid;
         _biomeGen = biomeGen;
         _renderDistance = renderDistance;
         MenuManager = menuManager;
+        _buildableObjectManager = buildableObjectManager;
+        MenuManager.hexMngr = this;
     }
 
     private void CreateHex(Vector2Int gridCoord)
     {
         if (_hexes.ContainsKey(gridCoord)) return;
-        _hexes[gridCoord] = _hexGrid.CreateHex(this, gridCoord, MenuManager);
-        SetBiome(gridCoord);
-        GenerateResource(_hexes[gridCoord]);
-        SetMaterial(_hexes[gridCoord]);
-        _hexes[gridCoord].gameObject.SetActive(false);
+        Hex hex = _hexes[gridCoord] = _hexGrid.CreateHex(this, gridCoord);
+        SetBiome(hex);
+        GenerateResource(hex);
+        SetMaterial(hex);
+        hex.gameObject.SetActive(false);
     }
 
 
@@ -63,9 +68,10 @@ public class HexManager
         hex.SetMaterial();
     }
 
-    private void SetBiome(Vector2Int gridCoord)
+    private void SetBiome(Hex hex)
     {
-        _hexes[gridCoord].SetBiome(_biomeGen.Generate(gridCoord));
+        hex.SetBiome(_biomeGen.Generate(hex.gridCoord));
+        if (hex.biome.type.Equals("ocean")) _biomeGen.GenerateWater(hex);
     }
 
     public Hex[] AdjacentHexes(Hex hex)
@@ -96,7 +102,26 @@ public class HexManager
         }
         catch (Exception)
         {
-            return new Hex[] { };
+            if (gridCoord.x % 2 == 0)
+                return new[]
+                {
+                    _hexes[GetOrCreate(gridCoord - Vector2Int.one).gridCoord],
+                    _hexes[GetOrCreate(gridCoord + Vector2Int.left).gridCoord],
+                    _hexes[GetOrCreate(gridCoord + Vector2Int.down).gridCoord],
+                    _hexes[GetOrCreate(gridCoord + Vector2Int.up).gridCoord],
+                    _hexes[GetOrCreate(gridCoord + Vector2Int.right + Vector2Int.down).gridCoord],
+                    _hexes[GetOrCreate(gridCoord + Vector2Int.right).gridCoord]
+                };
+
+            return new[]
+            {
+                _hexes[GetOrCreate(gridCoord + Vector2Int.left).gridCoord],
+                _hexes[GetOrCreate(gridCoord + Vector2Int.left + Vector2Int.up).gridCoord],
+                _hexes[GetOrCreate(gridCoord + Vector2Int.down).gridCoord],
+                _hexes[GetOrCreate(gridCoord + Vector2Int.up).gridCoord],
+                _hexes[GetOrCreate(gridCoord + Vector2Int.right).gridCoord],
+                _hexes[GetOrCreate(gridCoord + Vector2Int.one).gridCoord]
+            };
         }
     }
 
@@ -107,21 +132,51 @@ public class HexManager
 
     public void HoverHex(Hex hex)
     {
-        hex.transform.position -= new Vector3(0, 0.2f, 0);
-        if (_player.CanMove(hex)) FindPath(_player.currentHex, hex);
+        if (_player.CanMove(hex))
+        {
+            hex.transform.position -= new Vector3(0, 0.2f, 0);
+            FindPath(_player.currentHex, hex);
+        }
     }
 
     public void LeaveHex(Hex hex)
     {
-        hex.transform.position += new Vector3(0, 0.2f, 0);
+        if (_player.CanMove(hex))
+        {
+            hex.transform.position += new Vector3(0, 0.2f, 0);
+        }
     }
 
     public void ClickHex(Hex hex)
     {
+        if (!MenuManager.BuildMenu.activeSelf)
+        {
+            currentHex = hex;
+            MenuManager.SetCanvas(hex.biome);
+            MenuManager.OpenMenu(hex);
+            
+        }
+    }
+
+    public void MovePlayer()
+    {
+        Hex hex = currentHex;
         if (!_player.CanMove(hex)) return;
+        if (hex.transform.Find("Tree_02(Clone)"))
+        {
+            GameRunner.addWoodToCollect(100);
+            GameResources.AddWoodAmount(5);
+        } else if (hex.transform.Find("Rock_01(Clone)"))
+        {
+            GameRunner.addStonesToCollect(100);
+            GameResources.AddStoneAmount(5);
+        }
+        
         _player.Move(hex);
         RenderTilesInRenderDistance();
+        
     }
+    
 
     public void RenderTilesInRenderDistance(Vector2Int coordinates = default, bool fromCoords = false)
     {
@@ -159,6 +214,16 @@ public class HexManager
         }
     }
 
+    public void GenerateHouse()
+    {
+        Hex hex = currentHex;
+        BuildableObject house = _buildableObjectManager.GetObject();
+
+        Transform houseTransform = house.transform;
+        houseTransform.SetParent(hex.transform);
+        houseTransform.position = hex.GetCeilingPosition();
+    }
+
     private static void GenerateResource(Hex hex)
     {
         GameObject resource = hex.biome.GenerateResource();
@@ -171,13 +236,15 @@ public class HexManager
 
     public List<Hex> FindPath(Hex startHex, Hex endHex)
     {
-        _checkedHexes = new List<Hex>();
-        List<Hex> hexesToCheck = new() {startHex};
+        // A* Pathfinding implementation (https://www.youtube.com/watch?v=-L-WgKMFuhE)
+        _checkedHexes = new HashSet<Hex>();
+        HashSet<Hex> hexesToCheck = new() { startHex };
 
         int iteration = 1;
         while (true)
         {
-            // :D
+            // fCost is distance between startHex and endHex
+            // Choose hex with lowest fCost
             Hex hexToCheck =
                 hexesToCheck
                     .Where(hex =>
@@ -190,10 +257,13 @@ public class HexManager
             _checkedHexes.Add(hexToCheck);
             if (hexToCheck == endHex) break;
 
+            // Loop through hexes where player can move and hex isnt already checked
             foreach (Hex hex in AdjacentHexes(hexToCheck)
                          .Where(hex => _player.CanMove(hex) &&
                                        !_checkedHexes.Contains(hex)))
             {
+                // Calculate fCost for hex and if new fCost is larger than last checked fCost
+                // for given hex and hex is to be checked continue with the loop
                 int fCost = DistanceBetween(hex, startHex) + DistanceBetween(hex, endHex);
                 if (fCost >= hex.fCost && hexesToCheck.Contains(hex)) continue;
                 hex.fCost = fCost;
@@ -235,7 +305,7 @@ public class HexManager
 
     private int DistanceBetween(Hex hex1, Hex hex2)
     {
-        return (int) Vector2Int.Distance(hex1.GetGridCoordinate(), hex2.GetGridCoordinate());
+        return (int)Vector2Int.Distance(hex1.GetGridCoordinate(), hex2.GetGridCoordinate());
     }
 
     private void DebugPathFinding(Hex hex1, Hex hex2)

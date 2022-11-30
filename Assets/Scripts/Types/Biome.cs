@@ -31,7 +31,7 @@ public class Biome : MonoBehaviour
         _rnd = new Random();
         int score = _rnd.Next(0, _resourceWeight);
         foreach (Resource resource in resources.Reverse())
-            if (score > resource.CalculatedRarityScore - resource.rarity)
+            if (score > emptiness - resource.rarity)
                 return Instantiate(resource.model);
 
         return null;

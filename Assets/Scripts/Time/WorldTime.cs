@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
 public class WorldTime : MonoBehaviour
@@ -6,7 +7,9 @@ public class WorldTime : MonoBehaviour
     public static Action OnMinuteChanged;
     public static Action OnDayChanged;
     public static Action OnHourChanged;
+    public float time;
 
+    public LightingManager LightingManager;
     public float timeSpeed = 0.1f;
 
     private float _timer = 0.5f;
@@ -15,15 +18,18 @@ public class WorldTime : MonoBehaviour
     public static int Day { get; private set; } = 1;
     public static int Year { get; private set; }
 
-    private void FixedUpdate()
+    public static float dayMinutes;
+
+    private void Update()
     {
-        _timer += 0.02f;
+        time += Time.deltaTime * timeSpeed;
 
-        if (!(_timer >= timeSpeed)) return;
+        if (!(time >= 10)) return;
+
+        dayMinutes++;
         Minute++;
+        time = 0;
         OnMinuteChanged?.Invoke();
-        _timer = 0;
-
         if (!(Minute >= 60)) return;
         Minute = 0;
         Hour++;
@@ -31,6 +37,7 @@ public class WorldTime : MonoBehaviour
         {
             Hour = 0;
             Day++;
+            dayMinutes = 0;
             OnDayChanged?.Invoke();
         }
 
@@ -40,4 +47,11 @@ public class WorldTime : MonoBehaviour
         Day = 1;
         Year++;
     }
+
+    // return time of day float
+    public static float GetTime()
+    {
+        return dayMinutes / 60f;
+    }
+
 }
