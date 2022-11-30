@@ -1,4 +1,4 @@
-using UnityEditor;
+using TMPro;
 using UnityEngine;
 
 public class MenuManager : MonoBehaviour
@@ -11,6 +11,26 @@ public class MenuManager : MonoBehaviour
     public HexManager hexMngr;
     public Hex currentHex;
 
+    public Player Player;
+    
+    public TextMeshProUGUI stoneText;
+    public TextMeshProUGUI woodText;
+
+    
+    public GameObject ResourceMenu;
+    
+    public void AddWoodAmount(int amount)
+    {
+        Player.WoodAmount += amount;
+        woodText.text = "" + Player.WoodAmount;
+    }
+
+    public void AddStoneAmount(int amount)
+    {
+        Player.StoneAmount += amount;
+        stoneText.text = ""+Player.StoneAmount;
+    }
+    
     public void SetCanvas(Biome biome)
     {
         if (canvas != null) canvas.SetActive(false);
