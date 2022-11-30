@@ -10,7 +10,8 @@ public class MenuManager : MonoBehaviour
     public GameObject BuildMenu;
     public HexManager hexMngr;
     public Hex currentHex;
-
+    public int HouseCostStone;
+    public int HouseCostWood;
     public Player Player;
     
     public TextMeshProUGUI stoneText;
@@ -30,7 +31,7 @@ public class MenuManager : MonoBehaviour
         Player.StoneAmount += amount;
         stoneText.text = ""+Player.StoneAmount;
     }
-    
+
     public void SetCanvas(Biome biome)
     {
         if (canvas != null) canvas.SetActive(false);
@@ -65,7 +66,17 @@ public class MenuManager : MonoBehaviour
 
     public void ClickBuild()
     {
-        hexMngr.GenerateHouse();
+        if (Player.WoodAmount >= HouseCostWood && Player.StoneAmount >= HouseCostStone)
+        {
+            hexMngr.GenerateHouse();
+            AddWoodAmount(-HouseCostWood);
+            AddStoneAmount(-HouseCostStone);
+            
+        }
+        else
+        {
+            Debug.Log("not enough resources");
+        }
         BuildMenu.SetActive(false);
         canvas.SetActive(false);
     }
