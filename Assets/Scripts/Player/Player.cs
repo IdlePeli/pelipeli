@@ -8,9 +8,6 @@ public class Player : MonoBehaviour
     public Material material;
     public Hex currentHex;
 
-    public int WoodAmount;
-    public int StoneAmount;
-
     private GameObject _player;
     private Hex _playerHex;
 

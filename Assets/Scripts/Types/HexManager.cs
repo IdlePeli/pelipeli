@@ -165,11 +165,11 @@ public class HexManager
         if (hex.transform.Find("Tree_02(Clone)"))
         {
             GameRunner.addWoodToCollect(100);
-            MenuManager.AddWoodAmount(5);
+            GameResources.AddWoodAmount(5);
         } else if (hex.transform.Find("Rock_01(Clone)"))
         {
             GameRunner.addStonesToCollect(100);
-            MenuManager.AddStoneAmount(5);
+            GameResources.AddStoneAmount(5);
         }
         
         _player.Move(hex);

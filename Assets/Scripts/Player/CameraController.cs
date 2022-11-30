@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -12,22 +11,9 @@ public class CameraController : MonoBehaviour
 
     public GameObject followObject;
     public float followSpeed;
-
-    private void Awake()
-    {
-        CameraRotator.transform.position = followObject.transform.position;
-    }
-
+    
     private void Update()
     {
-        if (Input.GetKeyDown("a"))
-        {
-            cameraRotation += 1;
-        }else if (Input.GetKeyDown("d"))
-        {
-            cameraRotation -= 1;
-        }
-        
         float interpolation = followSpeed * Time.deltaTime;
 
         Vector3 position = CameraRotator.transform.position;
